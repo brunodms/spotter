@@ -8,7 +8,7 @@ Sistema para conectar alunos com personal trainers sem depender de academia.
 - **Django REST Framework 3.17.1** - API REST
 - **Django CORS Headers 4.9.0** - CORS support
 - **Pillow 12.2.0** - Processamento de imagens
-- **PostgreSQL** (opcional, psycopg2-binary incluído)
+- **SQLite** - Banco de dados (padrão)
 - **python-decouple 3.8** - Variáveis de ambiente
 
 ## 📋 Modelos
@@ -113,7 +113,6 @@ Django==6.0.5
 djangorestframework==3.17.1
 django-cors-headers==4.9.0
 Pillow==12.2.0
-psycopg2-binary==2.9.12
 python-decouple==3.8
 ```
 
@@ -129,11 +128,7 @@ python-decouple==3.8
 
 ### Database
 
-Por padrão usa SQLite (`db.sqlite3`). Para PostgreSQL, adicione em `.env`:
-
-```
-DATABASE_URL=postgresql://user:password@localhost:5432/spotter
-```
+Usa **SQLite** por padrão (`db.sqlite3`). Ideal para desenvolvimento e pequenos projetos.
 
 ## 📚 Admin
 
