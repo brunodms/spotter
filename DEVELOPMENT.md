@@ -224,19 +224,19 @@ python manage.py shell -i ipython
 
 ## Variáveis de Ambiente Úteis
 
-```bash
+Editável direto em `spotter/settings.py` para desenvolvimento:
+
+```python
 # Development
-DEBUG=True
-SECRET_KEY=seu-secret-key-longo-aleatorio
+DEBUG = True
+SECRET_KEY = 'sua-chave-aqui'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-# Database (PostgreSQL)
-DATABASE_URL=postgresql://user:pass@localhost:5432/spotter
-
-# CORS
-CORS_ALLOWED_ORIGINS=http://localhost:3000
-
-# Email (para notificações)
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+# CORS para frontend em outra porta
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:8000',
+]
 ```
 
 ## Problemas Comuns

@@ -6,10 +6,8 @@ Sistema para conectar alunos com personal trainers sem depender de academia.
 
 - **Django 6.0.5** - Framework web
 - **Django REST Framework 3.17.1** - API REST
-- **Django CORS Headers 4.9.0** - CORS support
-- **Pillow 12.2.0** - Processamento de imagens
+- **Django CORS Headers 4.9.0** - CORS support (frontend separado)
 - **SQLite** - Banco de dados (padrão)
-- **python-decouple 3.8** - Variáveis de ambiente
 
 ## 📋 Modelos
 
@@ -112,8 +110,6 @@ Ver `requirements.txt` para a versão exata de cada pacote.
 Django==6.0.5
 djangorestframework==3.17.1
 django-cors-headers==4.9.0
-Pillow==12.2.0
-python-decouple==3.8
 ```
 
 ## 🔧 Configuração
