@@ -1,0 +1,530 @@
+[
+{
+  "model": "core.exerciciopadrao",
+  "pk": 1,
+  "fields": {
+    "nome": "Supino Reto",
+    "grupo_muscular": "peito",
+    "series_padrao": 4,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.151Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 2,
+  "fields": {
+    "nome": "Supino Inclinado",
+    "grupo_muscular": "peito",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.163Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 3,
+  "fields": {
+    "nome": "Supino Declinado",
+    "grupo_muscular": "peito",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.165Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 4,
+  "fields": {
+    "nome": "Crucifixo Máquina",
+    "grupo_muscular": "peito",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.168Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 5,
+  "fields": {
+    "nome": "Flexão de Braço",
+    "grupo_muscular": "peito",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.172Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 6,
+  "fields": {
+    "nome": "Peck Deck",
+    "grupo_muscular": "peito",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.175Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 7,
+  "fields": {
+    "nome": "Puxada Frontal",
+    "grupo_muscular": "costas",
+    "series_padrao": 4,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.177Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 8,
+  "fields": {
+    "nome": "Puxada Costas",
+    "grupo_muscular": "costas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.180Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 9,
+  "fields": {
+    "nome": "Remada Curvada",
+    "grupo_muscular": "costas",
+    "series_padrao": 4,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.184Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 10,
+  "fields": {
+    "nome": "Remada Máquina",
+    "grupo_muscular": "costas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.188Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 11,
+  "fields": {
+    "nome": "Rosca Direta",
+    "grupo_muscular": "costas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.192Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 12,
+  "fields": {
+    "nome": "Geada",
+    "grupo_muscular": "costas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.195Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 13,
+  "fields": {
+    "nome": "Leg Press",
+    "grupo_muscular": "pernas",
+    "series_padrao": 4,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.198Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 14,
+  "fields": {
+    "nome": "Agachamento Livre",
+    "grupo_muscular": "pernas",
+    "series_padrao": 4,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.201Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 15,
+  "fields": {
+    "nome": "Leg Curl",
+    "grupo_muscular": "pernas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.205Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 16,
+  "fields": {
+    "nome": "Leg Extension",
+    "grupo_muscular": "pernas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.208Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 17,
+  "fields": {
+    "nome": "Cadeira Abdutora",
+    "grupo_muscular": "pernas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.210Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 18,
+  "fields": {
+    "nome": "Cadeira Adutora",
+    "grupo_muscular": "pernas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.213Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 19,
+  "fields": {
+    "nome": "Stiff",
+    "grupo_muscular": "pernas",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.215Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 20,
+  "fields": {
+    "nome": "Corrida na Esteira",
+    "grupo_muscular": "pernas",
+    "series_padrao": 1,
+    "repeticoes_padrao": 20,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.218Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 21,
+  "fields": {
+    "nome": "Desenvolvimento Haltere",
+    "grupo_muscular": "ombros",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.220Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 22,
+  "fields": {
+    "nome": "Desenvolvimento Barra",
+    "grupo_muscular": "ombros",
+    "series_padrao": 3,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.222Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 23,
+  "fields": {
+    "nome": "Elevação Lateral",
+    "grupo_muscular": "ombros",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.224Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 24,
+  "fields": {
+    "nome": "Máquina de Ombro",
+    "grupo_muscular": "ombros",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.227Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 25,
+  "fields": {
+    "nome": "Rosca Direta com Barra",
+    "grupo_muscular": "biceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.229Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 26,
+  "fields": {
+    "nome": "Rosca Haltere",
+    "grupo_muscular": "biceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.231Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 27,
+  "fields": {
+    "nome": "Rosca Scott",
+    "grupo_muscular": "biceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.234Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 28,
+  "fields": {
+    "nome": "Rosca Máquina",
+    "grupo_muscular": "biceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.236Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 29,
+  "fields": {
+    "nome": "Tríceps Corda",
+    "grupo_muscular": "triceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.239Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 30,
+  "fields": {
+    "nome": "Tríceps Francês",
+    "grupo_muscular": "triceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.241Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 31,
+  "fields": {
+    "nome": "Tríceps Máquina",
+    "grupo_muscular": "triceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.244Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 32,
+  "fields": {
+    "nome": "Mergulho",
+    "grupo_muscular": "triceps",
+    "series_padrao": 3,
+    "repeticoes_padrao": 8,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.247Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 33,
+  "fields": {
+    "nome": "Rosca Pronada",
+    "grupo_muscular": "antebraco",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.250Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 34,
+  "fields": {
+    "nome": "Flexão de Punho",
+    "grupo_muscular": "antebraco",
+    "series_padrao": 2,
+    "repeticoes_padrao": 15,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.253Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 35,
+  "fields": {
+    "nome": "Extensão de Punho",
+    "grupo_muscular": "antebraco",
+    "series_padrao": 2,
+    "repeticoes_padrao": 15,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.256Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 36,
+  "fields": {
+    "nome": "Abdominal Máquina",
+    "grupo_muscular": "abdomen",
+    "series_padrao": 3,
+    "repeticoes_padrao": 15,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.259Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 37,
+  "fields": {
+    "nome": "Rosca Abdominal",
+    "grupo_muscular": "abdomen",
+    "series_padrao": 3,
+    "repeticoes_padrao": 15,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.262Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 38,
+  "fields": {
+    "nome": "Prancha Frontal",
+    "grupo_muscular": "abdomen",
+    "series_padrao": 3,
+    "repeticoes_padrao": 1,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.266Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 39,
+  "fields": {
+    "nome": "Bicicleta Ergométrica",
+    "grupo_muscular": "cardio",
+    "series_padrao": 1,
+    "repeticoes_padrao": 30,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.270Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 40,
+  "fields": {
+    "nome": "Elíptico",
+    "grupo_muscular": "cardio",
+    "series_padrao": 1,
+    "repeticoes_padrao": 30,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.274Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 41,
+  "fields": {
+    "nome": "Esteira",
+    "grupo_muscular": "cardio",
+    "series_padrao": 1,
+    "repeticoes_padrao": 30,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.277Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 42,
+  "fields": {
+    "nome": "Burpee",
+    "grupo_muscular": "funcional",
+    "series_padrao": 3,
+    "repeticoes_padrao": 10,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.281Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 43,
+  "fields": {
+    "nome": "Mountain Climber",
+    "grupo_muscular": "funcional",
+    "series_padrao": 3,
+    "repeticoes_padrao": 15,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.283Z"
+  }
+},
+{
+  "model": "core.exerciciopadrao",
+  "pk": 44,
+  "fields": {
+    "nome": "TRX Suspensão",
+    "grupo_muscular": "funcional",
+    "series_padrao": 3,
+    "repeticoes_padrao": 12,
+    "descricao": "",
+    "criado_em": "2026-05-22T00:23:32.286Z"
+  }
+}
+]

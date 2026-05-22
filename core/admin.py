@@ -7,6 +7,7 @@ from .models import (
     PlanoTreino,
     SessaoTreino,
     Exercicio,
+    ExercicioPadrao,
     HistoricoTreino,
     Avaliacao,
 )
@@ -61,6 +62,13 @@ class SessaoTreinoAdmin(admin.ModelAdmin):
 class ExercicioAdmin(admin.ModelAdmin):
     list_display = ['nome', 'sessao', 'series', 'repeticoes', 'carga']
     search_fields = ['nome', 'sessao__nome']
+
+
+@admin.register(ExercicioPadrao)
+class ExercicioPadraoAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'grupo_muscular', 'series_padrao', 'repeticoes_padrao']
+    list_filter = ['grupo_muscular']
+    search_fields = ['nome']
 
 
 @admin.register(HistoricoTreino)

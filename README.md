@@ -9,7 +9,7 @@ Sistema para conectar alunos com personal trainers sem depender de academia.
 - **Django CORS Headers 4.9.0** - CORS support (frontend separado)
 - **SQLite** - Banco de dados (padrão)
 
-## 📋 Modelos
+## 📚 Modelos
 
 ### Autenticação
 - **Usuario** - Usuário customizado (Aluno, Personal, Admin)
@@ -47,6 +47,12 @@ Sistema para conectar alunos com personal trainers sem depender de academia.
   - Duração (para cardio/isométricos)
   - Observações
 
+### Biblioteca de Exercícios
+- **ExercicioPadrao** - 44 exercícios padrão de academia
+  - Grupo muscular (peito, costas, pernas, etc)
+  - Series e repetições padrão (3x12, 4x8, etc)
+  - Descrição opcional
+
 ### Histórico & Avaliações
 - **HistoricoTreino** - Registro de treino realizado
   - Aluno, plano, data/hora
@@ -57,50 +63,36 @@ Sistema para conectar alunos com personal trainers sem depender de academia.
   - Comentário
   - Atualiza média do personal
 
-## 🚀 Setup
-
-### 1. Criar Virtual Environment
+## 🚀 Setup Rápido
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# ou
-venv\Scripts\activate  # Windows
-```
+# 1. Ativar venv
+source venv/bin/activate  # ou venv\Scripts\activate no Windows
 
-### 2. Instalar Dependências
+# 2. Rodar setup (migrações + exercícios padrão)
+bash setup.sh
 
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configurar Variáveis de Ambiente
-
-```bash
-cp .env.example .env
-# Editar .env com suas variáveis
-```
-
-### 4. Executar Migrações
-
-```bash
-python manage.py migrate
-```
-
-### 5. Criar Superuser (Admin)
-
-```bash
-python manage.py createsuperuser
-```
-
-### 6. Executar Servidor
-
-```bash
+# 3. Iniciar servidor
 python manage.py runserver
 ```
 
-O servidor estará em `http://localhost:8000`
-Admin em `http://localhost:8000/admin`
+Acesse `http://localhost:8000/admin` e faça login.
+
+### Setup Manual
+
+```bash
+# Aplicar migrações
+python manage.py migrate
+
+# Criar exercícios padrão (44 exercícios de academia)
+python manage.py criar_exercicios_padrao
+
+# Criar superuser
+python manage.py createsuperuser
+
+# Iniciar servidor
+python manage.py runserver
+```
 
 ## 📦 Dependências
 
