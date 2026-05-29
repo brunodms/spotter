@@ -1,0 +1,35 @@
+{% extends "core/base.html" %}
+
+{% block title %}Planos de Treino{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="h3 mb-4">Planos de treino criados</h1>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Aluno</th>
+                    <th>Ativo</th>
+                    <th>Criado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in planos %}
+                <tr>
+                    <td>{{ p.nome }}</td>
+                    <td>{{ p.contrato.aluno.nome }}</td>
+                    <td>{% if p.ativo %}<span class="badge bg-success">Sim</span>{% else %}<span class="badge bg-secondary">Não</span>{% endif %}</td>
+                    <td>{{ p.criado_em|date:"d/m/Y" }}</td>
+                    <td><a href="{% url 'core:personal_plano_detail' p.pk %}">Detalhes</a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-muted">Nenhum plano cadastrado.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

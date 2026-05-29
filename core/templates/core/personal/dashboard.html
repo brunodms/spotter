@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+
+{% block title %}Painel do Personal{% endblock %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="container">
+    <div class="page-header mb-4">
+        <h1 class="h3 mb-1">Olá, {{ user.nome }}!</h1>
+        <p class="text-muted-theme mb-0">Gerencie alunos, contratos e planos de treino.</p>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card stat-card-warn">
+                <div class="stat-value">{{ pendentes.count }}</div>
+                <div class="stat-label">Solicitações pendentes</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ ativos.count }}</div>
+                <div class="stat-label">Alunos ativos</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ planos_recentes|length }}</div>
+                <div class="stat-label">Planos recentes</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <a href="{% url 'core:personal_contratos' %}" class="btn btn-spotter">Ver contratos</a>
+        <a href="{% url 'core:personal_alunos' %}" class="btn btn-ghost-light">Meus alunos</a>
+        <a href="{% url 'core:personal_planos' %}" class="btn btn-ghost-light">Planos</a>
+    </div>
+
+    {% if pendentes %}
+    <div class="alert alert-warning">
+        <strong>{{ pendentes.count }} solicitação(ões) aguardando aceite.</strong>
+        <a href="{% url 'core:personal_contratos' %}" class="alert-link">Ver agora</a>
+    </div>
+    {% endif %}
+
+    <h2 class="h5">Planos recentes</h2>
+    {% if planos_recentes %}
+    <ul class="list-group mb-4">
+        {% for p in planos_recentes %}
+        <li class="list-group-item d-flex justify-content-between">
+            <span>
+                <a href="{% url 'core:personal_plano_detail' p.pk %}">{{ p.nome }}</a>
+                <small class="text-muted d-block">{{ p.contrato.aluno.nome }}</small>
+            </span>
+            <span class="text-muted small">{{ p.criado_em|date:"d/m/Y" }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted-theme">Nenhum plano criado ainda.</p>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

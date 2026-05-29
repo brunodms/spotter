@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+
+{% block title %}Meus Alunos{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="h3 mb-4">Alunos com contrato ativo</h1>
+    <div class="row g-4">
+        {% for c in contratos %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ c.aluno.nome }}</h5>
+                    <p class="small text-muted mb-2">{{ c.aluno.email }}</p>
+                    {% if c.aluno.perfil_aluno %}
+                    <p class="small mb-0">
+                        Nível: {{ c.aluno.perfil_aluno.get_nivel_condicionamento_display }}
+                    </p>
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-white border-0 d-grid gap-2">
+                    <span class="text-muted small">Contrato ativo</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Nenhum aluno ativo no momento.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

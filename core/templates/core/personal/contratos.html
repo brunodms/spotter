@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+
+{% block title %}Contratos{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="h3 mb-4">Contratos</h1>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Status</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contratos %}
+                <tr>
+                    <td>{{ c.aluno.nome }}</td>
+                    <td>{% include "core/partials/status_badge.html" with status=c.status %}</td>
+                    <td>{{ c.criado_em|date:"d/m/Y" }}</td>
+                    <td class="d-flex flex-wrap gap-1">
+                        {% if c.status == "pendente" %}
+                        <form method="post" action="{% url 'core:personal_aceitar_contrato' c.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-success">Aceitar</button>
+                        </form>
+                        <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Recusar</button>
+                        </form>
+                        {% elif c.status == "ativo" %}
+                            —
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-muted">Nenhum contrato.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

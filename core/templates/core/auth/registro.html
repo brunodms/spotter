@@ -1,0 +1,87 @@
+{% extends "core/base.html" %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="auth-card">
+                    <h2 class="h4 mb-1">Criar conta</h2>
+                    <p class="text-muted-theme small mb-4">Junte-se ao Spotter como aluno ou personal trainer.</p>
+                    <form method="post" novalidate id="form-registro">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nome completo</label>
+                                {{ form.nome }}
+                                {{ form.nome.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">E-mail</label>
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de conta</label>
+                                {{ form.tipo }}
+                                {{ form.tipo.errors }}
+                            </div>
+                            <div class="col-md-6" id="campo-cref">
+                                <label class="form-label">CREF</label>
+                                {{ form.cref }}
+                                <div class="form-text text-muted-theme">{{ form.cref.help_text }}</div>
+                                {{ form.cref.errors }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Cidade</label>
+                                {{ form.cidade }}
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">UF</label>
+                                {{ form.estado }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">CEP</label>
+                                {{ form.cep }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Senha</label>
+                                {{ form.password1 }}
+                                {{ form.password1.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Confirmar senha</label>
+                                {{ form.password2 }}
+                                {{ form.password2.errors }}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-spotter w-100 mt-4">Cadastrar</button>
+                    </form>
+                    <p class="text-center text-muted-theme small mt-4 mb-0">
+                        Já tem conta? <a href="{% url 'core:login' %}">Entrar</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tipo = document.getElementById('id_tipo');
+    const cref = document.getElementById('campo-cref');
+    function toggle() {
+        cref.style.display = tipo.value === 'personal' ? '' : 'none';
+    }
+    tipo.addEventListener('change', toggle);
+    toggle();
+});
+</script>
+{% endblock %}

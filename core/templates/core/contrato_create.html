@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{% block title %}Criar Contrato{% endblock %}
+
+{% block content %}
+<div class="page-inner py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h1 class="h3 mb-3">Criar Contrato</h1>
+                        <p class="text-muted mb-4">
+                            Selecione um personal trainer e envie uma solicitação de contrato.
+                        </p>
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                            {% endif %}
+                            {% if blocked_personals %}
+                                <div class="alert alert-warning">
+                                    Você já tem um contrato ativo ou pendente com estes personals:
+                                    <ul class="mb-0 mt-2">
+                                        {% for personal in blocked_personals %}
+                                        <li>{{ personal.usuario.nome }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            <div class="mb-3">
+                                <label class="form-label" for="id_personal">Personal</label>
+                                {{ form.personal }}
+                                {% if form.personal.errors %}
+                                    <div class="text-danger small mt-1">{{ form.personal.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary" {% if not can_request %}disabled{% endif %}>Solicitar contrato</button>
+                            <a href="{% url 'core:dashboard' %}" class="btn btn-link">Voltar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

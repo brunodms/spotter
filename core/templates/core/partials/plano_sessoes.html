@@ -1,0 +1,40 @@
+{% if plano.sessoes.all %}
+    {% for sessao in plano.sessoes.all %}
+    <div class="card mb-3 border-0 shadow-sm">
+        <div class="card-header bg-white">
+            <strong>{{ sessao.nome }}</strong>
+            {% if sessao.dia_semana %}
+            <span class="text-muted small ms-2">{{ sessao.get_dia_semana_display }}</span>
+            {% endif %}
+        </div>
+        {% if sessao.exercicios.all %}
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th>Exercício</th>
+                        <th>Séries</th>
+                        <th>Reps</th>
+                        <th>Carga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ex in sessao.exercicios.all %}
+                    <tr>
+                        <td>{{ ex.nome }}</td>
+                        <td>{{ ex.series }}</td>
+                        <td>{{ ex.repeticoes }}</td>
+                        <td>{{ ex.carga|default:"—" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="card-body text-muted small">Nenhum exercício cadastrado nesta sessão.</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% else %}
+<p class="text-muted">Este plano ainda não possui sessões de treino. O personal pode adicioná-las pelo painel administrativo.</p>
+{% endif %}

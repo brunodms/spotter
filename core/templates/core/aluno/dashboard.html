@@ -1,0 +1,74 @@
+{% extends "core/base.html" %}
+
+{% block title %}Painel do Aluno{% endblock %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="container">
+        <div class="page-header mb-4">
+            <h1 class="h3 mb-1">Olá, {{ user.nome }}!</h1>
+            <p class="text-muted-theme mb-0">Acompanhe seus contratos e treinos.</p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-value">{{ contratos_ativos.count }}</div>
+                    <div class="stat-label">Contratos ativos</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card stat-card-warn">
+                    <div class="stat-value">{{ contratos_pendentes.count }}</div>
+                    <div class="stat-label">Aguardando aceite</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-value">{{ planos|length }}</div>
+                    <div class="stat-label">Planos de treino</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <a href="{% url 'core:aluno_buscar_personal' %}" class="btn btn-spotter">Buscar personal</a>
+            <a href="{% url 'core:aluno_planos' %}" class="btn btn-ghost-light">Meus treinos</a>
+            <a href="{% url 'core:aluno_contratos' %}" class="btn btn-ghost-light">Contratos</a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h2 class="h5 mb-3">Contratos pendentes</h2>
+                {% if contratos_pendentes %}
+                <ul class="list-group list-group-flush">
+                    {% for c in contratos_pendentes %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ c.personal.usuario.nome }}
+                        {% include "core/partials/status_badge.html" with status=c.status %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted-theme">Nenhuma solicitação pendente.</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h5 mb-3">Treinos recentes</h2>
+                {% if planos %}
+                <ul class="list-group list-group-flush">
+                    {% for p in planos %}
+                    <li class="list-group-item">
+                        <a href="{% url 'core:aluno_plano_detail' p.pk %}">{{ p.nome }}</a>
+                        <span class="text-muted-theme small d-block">{{ p.personal.usuario.nome }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted-theme">Nenhum plano disponível. Solicite um contrato a um personal.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

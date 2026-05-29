@@ -1,0 +1,34 @@
+{% extends "core/base.html" %}
+
+{% block title %}Novo Plano{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="h3 mb-2">Novo plano de treino</h1>
+    <p class="text-muted mb-4">Aluno: <strong>{{ contrato.aluno.nome }}</strong></p>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-spotter">Criar plano</button>
+                        <a href="{% url 'core:personal_alunos' %}" class="btn btn-link">Cancelar</a>
+                    </form>
+                    <p class="small text-muted mt-3 mb-0">
+                        Após criar o plano, adicione sessões e exercícios pelo
+                        <a href="/admin/">painel administrativo</a> (em breve: edição na interface).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

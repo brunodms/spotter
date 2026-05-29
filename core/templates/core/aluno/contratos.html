@@ -1,0 +1,63 @@
+{% extends "core/base.html" %}
+
+{% block title %}Meus Contratos{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="h3 mb-2">Meus contratos</h1>
+            <p class="text-muted mb-0">Aqui estão todos os personals com quem você tem um contrato.</p>
+        </div>
+        <div class="text-end">
+            <a href="{% url 'core:aluno_buscar_personal' %}" class="btn btn-spotter">Buscar personal</a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ contratos.count }}</div>
+                <div class="stat-label">Contratos totais</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card stat-card-warn">
+                <div class="stat-value">{{ contratos|length|add:0 }}</div>
+                <div class="stat-label">Personals com contrato</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Personal</th>
+                    <th>Status</th>
+                    <th>Solicitado em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contratos %}
+                <tr>
+                    <td>{{ c.personal.usuario.nome }}</td>
+                    <td>{% include "core/partials/status_badge.html" with status=c.status %}</td>
+                    <td>{{ c.criado_em|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if c.status == "encerrado" and not c.avaliacao %}
+                        <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn btn-sm btn-outline-warning">Avaliar</a>
+                        {% elif c.avaliacao %}
+                        <span class="small text-muted">Avaliado ({{ c.avaliacao.nota }}★)</span>
+                        {% else %}—{% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-muted">Você ainda não possui contratos.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

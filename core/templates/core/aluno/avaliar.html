@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+
+{% block title %}Avaliar Personal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="h3 mb-2">Avaliar {{ contrato.personal.usuario.nome }}</h1>
+    <p class="text-muted mb-4">Contrato encerrado ou ativo — sua opinião ajuda outros alunos.</p>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-spotter">Enviar avaliação</button>
+                        <a href="{% url 'core:aluno_contratos' %}" class="btn btn-link">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -66,13 +66,19 @@ Sistema para conectar alunos com personal trainers sem depender de academia.
 ## 🚀 Setup Rápido
 
 ```bash
-# 1. Ativar venv
-source venv/bin/activate  # ou venv\Scripts\activate no Windows
+# 1. Criar e ativar o ambiente virtual
+python -m venv venv
+source venv/bin/activate      # macOS/Linux
+venv\Scripts\activate       # Windows PowerShell
 
-# 2. Rodar setup (migrações + exercícios padrão)
-bash setup.sh
+# 2. Instalar dependências
+pip install -r requirements.txt
 
-# 3. Iniciar servidor
+# 3. Rodar setup (migrações + exercícios padrão)
+bash setup.sh                 # macOS/Linux
+./setup.ps1                   # Windows PowerShell
+
+# 4. Iniciar servidor
 python manage.py runserver
 ```
 
@@ -81,16 +87,24 @@ Acesse `http://localhost:8000/admin` e faça login.
 ### Setup Manual
 
 ```bash
-# Aplicar migrações
+# 1. Criar e ativar o ambiente virtual
+python -m venv venv
+source venv/bin/activate      # macOS/Linux
+venv\Scripts\activate       # Windows PowerShell
+
+# 2. Instalar dependências
+pip install -r requirements.txt
+
+# 3. Aplicar migrações
 python manage.py migrate
 
-# Criar exercícios padrão (44 exercícios de academia)
+# 4. Criar exercícios padrão (44 exercícios de academia)
 python manage.py criar_exercicios_padrao
 
-# Criar superuser
+# 5. Criar superuser
 python manage.py createsuperuser
 
-# Iniciar servidor
+# 6. Iniciar servidor
 python manage.py runserver
 ```
 

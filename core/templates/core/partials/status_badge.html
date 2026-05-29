@@ -1,0 +1,11 @@
+{% if status == "pendente" %}
+<span class="badge bg-warning text-dark">Pendente</span>
+{% elif status == "ativo" %}
+<span class="badge bg-success">Ativo</span>
+{% elif status == "encerrado" %}
+<span class="badge bg-secondary">Encerrado</span>
+{% elif status == "recusado" %}
+<span class="badge bg-danger">Recusado</span>
+{% else %}
+<span class="badge bg-light text-dark">{{ status }}</span>
+{% endif %}

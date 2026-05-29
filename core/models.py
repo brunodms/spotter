@@ -175,10 +175,12 @@ class Contrato(models.Model):
     STATUS_PENDENTE = "pendente"
     STATUS_ATIVO = "ativo"
     STATUS_ENCERRADO = "encerrado"
+    STATUS_RECUSADO = "recusado"
     STATUS_CHOICES = [
         (STATUS_PENDENTE, "Pendente"),
         (STATUS_ATIVO, "Ativo"),
         (STATUS_ENCERRADO, "Encerrado"),
+        (STATUS_RECUSADO, "Recusado"),
     ]
 
     aluno = models.ForeignKey(
@@ -231,6 +233,14 @@ class Contrato(models.Model):
     def encerrar(self):
         from django.utils import timezone
         self.status = self.STATUS_ENCERRADO
+        self.encerrado_em = timezone.now()
+        self.save(update_fields=["status", "encerrado_em"])
+
+    def recusar(self):
+        from django.utils import timezone
+        if self.status != self.STATUS_PENDENTE:
+            raise ValueError("Apenas contratos pendentes podem ser recusados.")
+        self.status = self.STATUS_RECUSADO
         self.encerrado_em = timezone.now()
         self.save(update_fields=["status", "encerrado_em"])
 

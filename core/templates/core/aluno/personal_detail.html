@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ personal.usuario.nome }}{% endblock %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="container">
+        <a href="{% url 'core:aluno_buscar_personal' %}" class="text-muted-theme small">&larr; Voltar à busca</a>
+        <div class="auth-card mt-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+                <div>
+                    <h1 class="h3 mb-2">{{ personal.usuario.nome }}</h1>
+                    <p class="text-muted-theme mb-1">CREF: {{ personal.cref }}</p>
+                    <p class="text-warning fw-semibold mb-2">★ {{ personal.avaliacao_media }} / 5</p>
+                    <p class="small text-muted-theme">
+                        {% if personal.usuario.cidade %}
+                        {{ personal.usuario.cidade }}{% if personal.usuario.estado %}, {{ personal.usuario.estado }}{% endif %}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="text-end">
+                    {% if contrato %}
+                        {% include "core/partials/status_badge.html" with status=contrato.status %}
+                        {% if contrato.status == "encerrado" and not contrato.avaliacao %}
+                        <a href="{% url 'core:aluno_avaliar' contrato.pk %}" class="btn btn-outline-spotter btn-sm mt-2">Avaliar</a>
+                        {% elif contrato.status == "ativo" and not contrato.avaliacao %}
+                        <span class="small text-muted-theme d-block mt-2">Avalie após encerrar o contrato</span>
+                        {% endif %}
+                    {% else %}
+                    <form method="post" action="{% url 'core:aluno_solicitar_contrato' personal.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-spotter">Solicitar contrato</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <h2 class="h6">Especialidades</h2>
+            <p class="text-muted-theme">{{ personal.especialidades|linebreaksbr|default:"Não informado." }}</p>
+            <h2 class="h6 mt-3">Sobre</h2>
+            <p class="text-muted-theme mb-0">{{ personal.bio|linebreaksbr|default:"Sem descrição." }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+<div class="search-dock">
+    <div class="search-dock__tabs" role="tablist">
+        <button type="button" class="search-dock__tab {% if not request.GET.especialidade or request.GET.especialidade == 'musculação' %}is-active{% endif %}" data-value="musculação">Musculação</button>
+        <button type="button" class="search-dock__tab {% if request.GET.especialidade == 'funcional' %}is-active{% endif %}" data-value="funcional">Funcional</button>
+        <button type="button" class="search-dock__tab {% if request.GET.especialidade == 'cardio' %}is-active{% endif %}" data-value="cardio">Cardio</button>
+        <button type="button" class="search-dock__tab {% if request.GET.especialidade == 'pilates' %}is-active{% endif %}" data-value="pilates">Pilates</button>
+    </div>
+    <form method="get" action="{{ action_url }}" class="search-dock__form">
+        <div class="search-dock__fields">
+            <label class="search-dock__field">
+                <span class="search-dock__icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                </span>
+                <span class="search-dock__field-text">
+                    <span class="search-dock__label">Localização</span>
+                    {% if form %}{{ form.cidade }}{% else %}
+                    <input type="text" name="cidade" class="search-dock__input" placeholder="Cidade ou região" value="{{ request.GET.cidade }}">
+                    {% endif %}
+                </span>
+            </label>
+            <label class="search-dock__field">
+                <span class="search-dock__icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                </span>
+                <span class="search-dock__field-text">
+                    <span class="search-dock__label">Estado</span>
+                    {% if form %}{{ form.estado }}{% else %}
+                    <input type="text" name="estado" class="search-dock__input" placeholder="UF" maxlength="2" value="{{ request.GET.estado }}">
+                    {% endif %}
+                </span>
+            </label>
+            <label class="search-dock__field">
+                <span class="search-dock__icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 17l-6.5 3.5 2-7L2 9h7z"/></svg>
+                </span>
+                <span class="search-dock__field-text">
+                    <span class="search-dock__label">Avaliação mín.</span>
+                    {% if form %}{{ form.nota_min }}{% else %}
+                    <select name="nota_min" class="search-dock__input">
+                        <option value="">Qualquer</option>
+                        <option value="3" {% if request.GET.nota_min == "3" %}selected{% endif %}>3+ estrelas</option>
+                        <option value="4" {% if request.GET.nota_min == "4" %}selected{% endif %}>4+ estrelas</option>
+                        <option value="5" {% if request.GET.nota_min == "5" %}selected{% endif %}>5 estrelas</option>
+                    </select>
+                    {% endif %}
+                </span>
+            </label>
+            <label class="search-dock__field">
+                <span class="search-dock__icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+                </span>
+                <span class="search-dock__field-text">
+                    <span class="search-dock__label">Especialidade</span>
+                    {% if form %}{{ form.especialidade }}{% else %}
+                    <input type="text" name="especialidade" id="search-especialidade" class="search-dock__input"
+                           placeholder="Ex: musculação, yoga" value="{{ request.GET.especialidade|default:'musculação' }}">
+                    {% endif %}
+                </span>
+            </label>
+        </div>
+        <button type="submit" class="search-dock__submit" aria-label="Buscar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+        </button>
+    </form>
+</div>

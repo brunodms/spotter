@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+
+{% block title %}Buscar Personal{% endblock %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="container">
+        <div class="page-header mb-4">
+            <h1 class="h3">Buscar personal trainers</h1>
+            <p class="text-muted-theme mb-0">Filtre por localização, especialidade e avaliação.</p>
+        </div>
+
+        <div class="search-page-dock">
+            {% include "core/partials/search_dock.html" with action_url=request.path form=form_busca %}
+        </div>
+
+        <div class="row g-4">
+            {% for personal in personals %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card personal-card h-100 p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="mb-0">{{ personal.usuario.nome }}</h5>
+                        <span class="text-warning fw-semibold small">★ {{ personal.avaliacao_media }}</span>
+                    </div>
+                    <p class="small text-muted-theme mb-2">
+                        {% if personal.usuario.cidade %}
+                        {{ personal.usuario.cidade }}{% if personal.usuario.estado %}, {{ personal.usuario.estado }}{% endif %}
+                        {% else %}
+                        Localização não informada
+                        {% endif %}
+                    </p>
+                    <p class="small mb-3">{{ personal.especialidades|truncatewords:18|default:"Sem especialidades cadastradas." }}</p>
+                    <a href="{% url 'core:aluno_personal_detail' personal.pk %}" class="btn btn-outline-spotter btn-sm w-100">Ver perfil</a>
+                </article>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="auth-card text-center py-5">
+                    <p class="text-muted-theme mb-0">Nenhum personal encontrado. Tente outros filtros.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_other_pages %}
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">Anterior</a></li>
+                {% endif %}
+                <li class="page-item disabled"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">Próxima</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
