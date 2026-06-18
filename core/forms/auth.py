@@ -1,22 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Avaliacao, Contrato, PerfilAluno, PerfilPersonal, Usuario
-
-
-class AvaliacaoForm(forms.ModelForm):
-    class Meta:
-        model = Avaliacao
-        fields = ["nota", "comentario"]
-        widgets = {
-            "nota": forms.Select(
-                attrs={"class": "form-select"},
-                choices=[(i, f"{i} estrelas") for i in range(1, 6)],
-            ),
-            "comentario": forms.Textarea(
-                attrs={"class": "form-control", "rows": 4}
-            ),
-        }
+from ..models import PerfilAluno, PerfilPersonal, Usuario
 
 
 class LoginForm(AuthenticationForm):
@@ -102,46 +87,3 @@ class RegistroForm(forms.ModelForm):
                     cref=self.cleaned_data["cref"].strip(),
                 )
         return user
-
-
-class ContratoForm(forms.ModelForm):
-    personal = forms.ModelChoiceField(
-        queryset=PerfilPersonal.objects.select_related('usuario').filter(usuario__is_active=True).order_by('usuario__nome'),
-        label='Personal',
-        widget=forms.Select(attrs={'class': 'form-select'}),
-        empty_label='Selecione um personal',
-    )
-
-    class Meta:
-        model = Contrato
-        fields = ['personal']
-
-    def __init__(self, *args, aluno=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.aluno = aluno
-        self.blocked_personals = PerfilPersonal.objects.none()
-        if aluno is not None:
-            blocked_personal_ids = Contrato.objects.filter(
-                aluno=aluno,
-            ).exclude(status=Contrato.STATUS_ENCERRADO).values_list('personal_id', flat=True)
-
-            self.blocked_personals = PerfilPersonal.objects.filter(
-                pk__in=blocked_personal_ids
-            ).select_related('usuario')
-
-            self.fields['personal'].queryset = self.fields['personal'].queryset.exclude(
-                pk__in=blocked_personal_ids
-            )
-
-    def clean_personal(self):
-        personal = self.cleaned_data.get('personal')
-        if self.aluno is None or personal is None:
-            return personal
-        if Contrato.objects.filter(
-            aluno=self.aluno,
-            personal=personal,
-        ).exclude(status=Contrato.STATUS_ENCERRADO).exists():
-            raise forms.ValidationError(
-                'Você já tem um contrato ativo ou pendente com esse personal.'
-            )
-        return personal

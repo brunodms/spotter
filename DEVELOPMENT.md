@@ -5,15 +5,43 @@
 ```
 spotter/
 ├── core/                 # App principal do projeto
-│   ├── models.py         # Modelos (Usuario, Contrato, etc)
-│   ├── views.py          # Views (vazio, para views baseadas em classe)
-│   ├── serializers.py    # Serializers DRF (criar)
-│   ├── viewsets.py       # ViewSets DRF (criar)
-│   ├── urls.py           # URLs da app (criar)
-│   ├── admin.py          # Admin Django
+│   ├── admin/            # Pacote admin do Django
+│   │   ├── __init__.py
+│   │   ├── accounts.py
+│   │   └── contrato.py
+│   ├── forms/            # Pacote de formulários do app
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── contrato.py
+│   │   └── avaliacao.py
+│   ├── models/           # Pacote de modelos do app
+│   │   ├── __init__.py
+│   │   ├── usuario.py
+│   │   ├── perfil_personal.py
+│   │   ├── perfil_aluno.py
+│   │   ├── contrato.py
+│   │   ├── plano_treino.py
+│   │   ├── sessao_treino.py
+│   │   ├── exercicio.py
+│   │   ├── exercicio_padrao.py
+│   │   ├── historico_treino.py
+│   │   └── avaliacao.py
+│   ├── views/            # Pacote de views do app
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── aluno.py
+│   │   ├── personal.py
+│   │   └── contrato.py
 │   ├── apps.py           # Configuração da app
+│   ├── mixins.py         # Mixins de autorização e acesso
+│   ├── signals.py        # Sinais do app
 │   ├── tests.py          # Testes
-│   └── migrations/       # Migrações automáticas
+│   ├── urls.py           # URLs da app
+│   ├── fixtures/         # Dados de exemplo
+│   ├── management/       # Comandos customizados
+│   ├── migrations/       # Migrações automáticas
+│   ├── static/           # Arquivos estáticos do app
+│   └── templates/        # Templates do app
 │
 ├── spotter/              # Configuração do projeto
 │   ├── settings.py       # Configurações gerais
