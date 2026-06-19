@@ -1,8 +1,8 @@
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView
 
 from ..forms import ContratoForm
-from ..models import Contrato
+from ..models import Contrato, PerfilAluno, PerfilPersonal
 
 
 class ContratoCreateView(TemplateView):
@@ -28,8 +28,9 @@ class ContratoCreateView(TemplateView):
         form = ContratoForm(request.POST, aluno=request.user)
         if form.is_valid():
             personal = form.cleaned_data["personal"]
+            perfil_aluno = get_object_or_404(PerfilAluno, usuario=request.user)
             Contrato.objects.create(
-                aluno=request.user,
+                aluno=perfil_aluno,
                 personal=personal,
                 status=Contrato.STATUS_PENDENTE,
             )
@@ -39,3 +40,40 @@ class ContratoCreateView(TemplateView):
             "blocked_personals": form.blocked_personals,
             "can_request": form.fields["personal"].queryset.exists(),
         })
+
+
+def redirecionar_ativo(request, personal_id, aluno_id):
+    """Redireciona para o contrato ativo entre personal e aluno."""
+    personal = get_object_or_404(PerfilPersonal, id=personal_id)
+    aluno = get_object_or_404(PerfilAluno, id=aluno_id)
+    contrato = get_object_or_404(
+        Contrato,
+        personal=personal,
+        aluno=aluno,
+        status=Contrato.STATUS_ATIVO,
+    )
+    return redirect(
+        "core:contrato_detalhe",
+        personal_id=personal_id,
+        aluno_id=aluno_id,
+        contrato_cod=contrato.codigo,
+    )
+
+
+def detalhe(request, personal_id, aluno_id, contrato_cod):
+    """Detalhe de um contrato específico pelo código composto."""
+    personal = get_object_or_404(PerfilPersonal, id=personal_id)
+    aluno = get_object_or_404(PerfilAluno, id=aluno_id)
+    contrato = get_object_or_404(
+        Contrato,
+        personal=personal,
+        aluno=aluno,
+        codigo=contrato_cod,
+    )
+    planos = contrato.planos.order_by("-criado_em")
+    return render(request, "core/contrato_detalhe.html", {
+        "personal": personal,
+        "aluno": aluno,
+        "contrato": contrato,
+        "planos": planos,
+    })

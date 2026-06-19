@@ -5,7 +5,7 @@ from django.views.generic import CreateView, DetailView, ListView, TemplateView,
 
 from ..forms import AvaliacaoForm, ContratoForm
 from ..mixins import AlunoRequiredMixin
-from ..models import Avaliacao, Contrato, PerfilPersonal, PlanoTreino
+from ..models import Avaliacao, Contrato, PerfilAluno, PerfilPersonal, PlanoTreino
 
 
 class AlunoContratoListView(AlunoRequiredMixin, ListView):
@@ -58,8 +58,9 @@ class AlunoSolicitarContratoView(AlunoRequiredMixin, View):
             messages.warning(request, "Você já tem um contrato ativo ou pendente com esse personal.")
             return redirect("core:aluno_personal_detail", pk=pk)
 
+        perfil_aluno = get_object_or_404(PerfilAluno, usuario=request.user)
         Contrato.objects.create(
-            aluno=request.user,
+            aluno=perfil_aluno,
             personal=personal,
             status=Contrato.STATUS_PENDENTE,
         )
@@ -90,7 +91,11 @@ class AlunoAvaliacaoView(AlunoRequiredMixin, CreateView):
     template_name = "core/aluno/avaliar.html"
 
     def dispatch(self, request, *args, **kwargs):
-        self.contrato = get_object_or_404(Contrato, pk=self.kwargs["pk"], aluno=request.user)
+        self.contrato = get_object_or_404(
+            Contrato,
+            pk=self.kwargs["pk"],
+            aluno__usuario=request.user,
+        )
         if self.contrato.status == Contrato.STATUS_PENDENTE:
             messages.warning(request, "Não é possível avaliar um contrato pendente.")
             return redirect("core:aluno_contratos")
@@ -107,8 +112,8 @@ class AlunoAvaliacaoView(AlunoRequiredMixin, CreateView):
     def form_valid(self, form):
         avaliacao = form.save(commit=False)
         avaliacao.contrato = self.contrato
-        avaliacao.aluno = self.request.user
-        avaliacao.personal = self.contrato.personal
+        avaliacao.aluno = self.contrato.aluno          # PerfilAluno
+        avaliacao.personal = self.contrato.personal    # PerfilPersonal
         avaliacao.save()
         messages.success(self.request, "Avaliação enviada com sucesso.")
         return redirect("core:aluno_contratos")

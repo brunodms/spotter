@@ -17,15 +17,15 @@ class ContratoForm(forms.ModelForm):
 
     def __init__(self, *args, aluno=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.aluno = aluno
+        self.aluno = aluno  # PerfilAluno ou Usuario
         self.blocked_personals = PerfilPersonal.objects.none()
         if aluno is not None:
-            blocked_personal_ids = Contrato.objects.bloqueados_por_aluno(aluno).values_list("personal_id", flat=True)
-
+            blocked_personal_ids = Contrato.objects.bloqueados_por_aluno(aluno).values_list(
+                "personal_id", flat=True
+            )
             self.blocked_personals = PerfilPersonal.objects.filter(
                 pk__in=blocked_personal_ids
             ).select_related("usuario")
-
             self.fields["personal"].queryset = self.fields["personal"].queryset.exclude(
                 pk__in=blocked_personal_ids
             )

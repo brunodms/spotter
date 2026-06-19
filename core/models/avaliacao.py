@@ -2,8 +2,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from .contrato import Contrato
+from .perfil_aluno import PerfilAluno
 from .perfil_personal import PerfilPersonal
-from .usuario import Usuario
 
 
 class Avaliacao(models.Model):
@@ -13,10 +13,9 @@ class Avaliacao(models.Model):
         related_name="avaliacao",
     )
     aluno = models.ForeignKey(
-        Usuario,
+        PerfilAluno,
         on_delete=models.CASCADE,
         related_name="avaliacoes_feitas",
-        limit_choices_to={"tipo": Usuario.ALUNO},
     )
     personal = models.ForeignKey(
         PerfilPersonal,
@@ -33,9 +32,10 @@ class Avaliacao(models.Model):
     class Meta:
         verbose_name = "Avaliação"
         verbose_name_plural = "Avaliações"
+        app_label = "core"
 
     def __str__(self):
-        return f"Avaliação {self.nota}★ – {self.aluno.nome} → {self.personal.usuario.nome}"
+        return f"Avaliação {self.nota}★ – {self.aluno.usuario.nome} → {self.personal.usuario.nome}"
 
     def save(self, *args, **kwargs):
         if self.contrato.status == Contrato.STATUS_PENDENTE:

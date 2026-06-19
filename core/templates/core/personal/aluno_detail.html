@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+
+{% block title %}Aluno: {{ aluno.nome }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <a href="{% url 'core:personal_alunos' %}" class="text-muted small">&larr; Meus alunos</a>
+    <div class="mt-3">
+        <h1 class="h3">{{ aluno.nome }}</h1>
+        <p class="text-muted">{{ aluno.email }}</p>
+    </div>
+
+    <h2 class="h5 mt-4 mb-3">Planos do aluno</h2>
+    {% if planos %}
+    <div class="list-group">
+        {% for p in planos %}
+        <a href="{% url 'core:plano_detalhe' p.contrato.personal_id p.contrato.aluno_id p.contrato.codigo p.codigo %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ p.nome }}</h5>
+                <small class="text-muted">{{ p.criado_em|date:"d/m/Y" }}</small>
+            </div>
+            {% if p.descricao %}<p class="mb-1 text-muted">{{ p.descricao|truncatewords:20 }}</p>{% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">Nenhum plano criado para este aluno.</p>
+    {% endif %}
+</div>
+{% endblock %}

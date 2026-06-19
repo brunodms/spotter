@@ -1,12 +1,23 @@
 from django.db import models
 
 from .contrato import Contrato
-from .perfil_personal import PerfilPersonal
 
 
 class PlanoTreinoQuerySet(models.QuerySet):
     def por_aluno(self, aluno):
-        return self.filter(contrato__aluno=aluno).select_related("personal__usuario", "contrato").order_by("-criado_em")
+        """aluno pode ser PerfilAluno ou Usuario."""
+        from .usuario import Usuario
+        if isinstance(aluno, Usuario):
+            return (
+                self.filter(contrato__aluno__usuario=aluno)
+                .select_related("contrato__personal__usuario", "contrato__aluno__usuario")
+                .order_by("-criado_em")
+            )
+        return (
+            self.filter(contrato__aluno=aluno)
+            .select_related("contrato__personal__usuario", "contrato__aluno__usuario")
+            .order_by("-criado_em")
+        )
 
 
 class PlanoTreinoManager(models.Manager):
@@ -23,11 +34,7 @@ class PlanoTreino(models.Model):
         on_delete=models.CASCADE,
         related_name="planos",
     )
-    personal = models.ForeignKey(
-        PerfilPersonal,
-        on_delete=models.CASCADE,
-        related_name="planos_criados",
-    )
+    codigo = models.PositiveIntegerField(editable=False, default=0)
     nome = models.CharField(max_length=150)
     descricao = models.TextField(blank=True)
     ativo = models.BooleanField(default=True)
@@ -40,6 +47,16 @@ class PlanoTreino(models.Model):
         verbose_name = "Plano de Treino"
         verbose_name_plural = "Planos de Treino"
         ordering = ["-criado_em"]
+        unique_together = ("contrato", "codigo")
+        app_label = "core"
 
     def __str__(self):
-        return f"{self.nome} (contrato #{self.contrato_id})"
+        return f"{self.nome} (contrato #{self.contrato.codigo})"
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            ultimo = PlanoTreino.objects.filter(
+                contrato=self.contrato,
+            ).aggregate(m=models.Max("codigo"))["m"] or 0
+            self.codigo = ultimo + 1
+        super().save(*args, **kwargs)

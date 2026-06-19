@@ -1,0 +1,72 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ sessao.nome }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:personal_alunos' %}">Meus Alunos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:personal_aluno_detail' aluno.pk %}">{{ aluno.usuario.nome }}</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:contrato_detalhe' contrato.personal_id aluno.pk contrato.codigo %}">
+                    Contrato #{{ contrato.codigo }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:plano_detalhe' contrato.personal_id aluno.pk contrato.codigo plano.codigo %}">
+                    {{ plano.nome }}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ sessao.nome }}</li>
+        </ol>
+    </nav>
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">{{ sessao.nome }}</h1>
+        <p class="text-muted mb-0">
+            {% if sessao.dia_semana %}{{ sessao.get_dia_semana_display }} &nbsp;·&nbsp;{% endif %}
+            Sessão #{{ sessao.codigo }}
+        </p>
+    </div>
+
+    <h2 class="h5 mb-3">Exercícios</h2>
+
+    {% if exercicios %}
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ex in exercicios %}
+                <tr>
+                    <td class="text-muted small">{{ ex.codigo }}</td>
+                    <td><strong>{{ ex.nome }}</strong></td>
+                    <td>{{ ex.series }}</td>
+                    <td>{{ ex.repeticoes }}</td>
+                    <td>{{ ex.carga|default:"—" }}</td>
+                    <td class="text-muted small">{{ ex.observacoes|default:"—" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-muted">Nenhum exercício cadastrado nesta sessão.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -4,7 +4,10 @@
 
 {% block content %}
 <div class="container py-4">
-    <h1 class="h3 mb-4">Planos de treino criados</h1>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="h3 mb-0">Planos de treino criados</h1>
+        <a href="{% url 'core:personal_plano_create' %}" class="btn btn-spotter">Novo plano</a>
+    </div>
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -20,10 +23,10 @@
                 {% for p in planos %}
                 <tr>
                     <td>{{ p.nome }}</td>
-                    <td>{{ p.contrato.aluno.nome }}</td>
+                    <td>{{ p.contrato.aluno.usuario.nome }}</td>
                     <td>{% if p.ativo %}<span class="badge bg-success">Sim</span>{% else %}<span class="badge bg-secondary">Não</span>{% endif %}</td>
                     <td>{{ p.criado_em|date:"d/m/Y" }}</td>
-                    <td><a href="{% url 'core:personal_plano_detail' p.pk %}">Detalhes</a></td>
+                    <td><a href="{% url 'core:plano_detalhe' p.contrato.personal_id p.contrato.aluno_id p.contrato.codigo p.codigo %}">Detalhes</a></td>
                 </tr>
                 {% empty %}
                 <tr><td colspan="5" class="text-muted">Nenhum plano cadastrado.</td></tr>

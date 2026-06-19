@@ -1,14 +1,18 @@
 from django.db import models
 
+from .perfil_aluno import PerfilAluno
 from .perfil_personal import PerfilPersonal
-from .usuario import Usuario
 
 
 class ContratoQuerySet(models.QuerySet):
     def para_personal(self, personal):
-        return self.filter(personal=personal).select_related("aluno").order_by("-criado_em")
+        return self.filter(personal=personal).select_related("aluno__usuario").order_by("-criado_em")
 
     def para_aluno(self, aluno):
+        """aluno pode ser PerfilAluno ou Usuario (backward compat)."""
+        from .usuario import Usuario
+        if isinstance(aluno, Usuario):
+            return self.filter(aluno__usuario=aluno).select_related("personal__usuario").order_by("-criado_em")
         return self.filter(aluno=aluno).select_related("personal__usuario").order_by("-criado_em")
 
     def pendentes(self):
@@ -21,9 +25,17 @@ class ContratoQuerySet(models.QuerySet):
         return self.exclude(status=self.model.STATUS_ENCERRADO)
 
     def com_personal(self, aluno, personal):
+        """aluno pode ser PerfilAluno ou Usuario."""
+        from .usuario import Usuario
+        if isinstance(aluno, Usuario):
+            return self.filter(aluno__usuario=aluno, personal=personal)
         return self.filter(aluno=aluno, personal=personal)
 
     def bloqueados_por_aluno(self, aluno):
+        """aluno pode ser PerfilAluno ou Usuario."""
+        from .usuario import Usuario
+        if isinstance(aluno, Usuario):
+            return self.filter(aluno__usuario=aluno).exclude(status=self.model.STATUS_ENCERRADO)
         return self.filter(aluno=aluno).exclude(status=self.model.STATUS_ENCERRADO)
 
 
@@ -56,17 +68,17 @@ class Contrato(models.Model):
         (STATUS_RECUSADO, "Recusado"),
     ]
 
-    aluno = models.ForeignKey(
-        Usuario,
-        on_delete=models.PROTECT,
-        related_name="contratos_como_aluno",
-        limit_choices_to={"tipo": Usuario.ALUNO},
-    )
     personal = models.ForeignKey(
         PerfilPersonal,
         on_delete=models.PROTECT,
         related_name="contratos",
     )
+    aluno = models.ForeignKey(
+        PerfilAluno,
+        on_delete=models.PROTECT,
+        related_name="contratos",
+    )
+    codigo = models.PositiveIntegerField(editable=False, default=0)
     status = models.CharField(
         max_length=12,
         choices=STATUS_CHOICES,
@@ -81,16 +93,24 @@ class Contrato(models.Model):
     class Meta:
         verbose_name = "Contrato"
         verbose_name_plural = "Contratos"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["aluno", "personal"],
-                condition=models.Q(status="ativo"),
-                name="unique_contrato_ativo_por_par",
-            )
-        ]
+        unique_together = ("personal", "aluno", "codigo")
+        app_label = "core"
 
     def __str__(self):
-        return f"Contrato #{self.pk} – {self.aluno.nome} / {self.personal.usuario.nome} [{self.status}]"
+        return (
+            f"Contrato #{self.codigo} – "
+            f"{self.aluno.usuario.nome} / {self.personal.usuario.nome} "
+            f"[{self.status}]"
+        )
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            ultimo = Contrato.objects.filter(
+                personal=self.personal,
+                aluno=self.aluno,
+            ).aggregate(m=models.Max("codigo"))["m"] or 0
+            self.codigo = ultimo + 1
+        super().save(*args, **kwargs)
 
     @property
     def esta_ativo(self):
@@ -101,6 +121,17 @@ class Contrato(models.Model):
 
         if self.status != self.STATUS_PENDENTE:
             raise ValueError("Apenas contratos pendentes podem ser aceitos.")
+
+        # Encerra qualquer contrato ativo anterior do mesmo par
+        Contrato.objects.filter(
+            personal=self.personal,
+            aluno=self.aluno,
+            status=self.STATUS_ATIVO,
+        ).exclude(pk=self.pk).update(
+            status=self.STATUS_ENCERRADO,
+            encerrado_em=timezone.now(),
+        )
+
         self.status = self.STATUS_ATIVO
         self.aceito_em = timezone.now()
         self.save(update_fields=["status", "aceito_em"])

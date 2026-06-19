@@ -4,25 +4,33 @@
 
 {% block content %}
 <div class="container py-4">
-    <h1 class="h3 mb-4">Alunos com contrato ativo</h1>
+    
     <div class="row g-4">
-        {% for c in contratos %}
+        {% for item in contratos_with_info %}
+        {% with c=item.contrato info=item.info %}
         <div class="col-md-6 col-lg-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ c.aluno.nome }}</h5>
-                    <p class="small text-muted mb-2">{{ c.aluno.email }}</p>
-                    {% if c.aluno.perfil_aluno %}
+                <a href="{% url 'core:personal_aluno_detail' c.aluno.pk %}" class="card-body text-decoration-none text-dark d-block">
+                    <h5 class="card-title">{{ c.aluno.usuario.nome }}</h5>
+                    <p class="small text-muted mb-2">{{ c.aluno.usuario.email }}</p>
                     <p class="small mb-0">
-                        Nível: {{ c.aluno.perfil_aluno.get_nivel_condicionamento_display }}
+                        Nível: {{ c.aluno.get_nivel_condicionamento_display }}
                     </p>
-                    {% endif %}
-                </div>
-                <div class="card-footer bg-white border-0 d-grid gap-2">
-                    <span class="text-muted small">Contrato ativo</span>
+                    <p class="small text-muted mt-2 mb-0">
+                        {% if info.count %}
+                            {{ info.count }} plano{{ info.count|pluralize }}
+                        {% else %}
+                            Nenhum plano
+                        {% endif %}
+                    </p>
+                </a>
+                <div class="card-footer border-0 d-grid gap-2">
+                    <a href="{% url 'core:personal_plano_create' %}?contrato={{ c.pk }}" class="btn btn-sm btn-spotter">Adicionar plano</a>
+                    <a href="{% url 'core:personal_aluno_detail' c.aluno.pk %}" class="btn btn-sm btn-outline-secondary">Ver planos</a>
                 </div>
             </div>
         </div>
+        {% endwith %}
         {% empty %}
         <p class="text-muted">Nenhum aluno ativo no momento.</p>
         {% endfor %}

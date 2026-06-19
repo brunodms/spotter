@@ -1,0 +1,79 @@
+{% extends "core/base.html" %}
+
+{% block title %}Contrato #{{ contrato.codigo }} – {{ aluno.usuario.nome }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:personal_alunos' %}">Meus Alunos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:personal_aluno_detail' aluno.pk %}">{{ aluno.usuario.nome }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Contrato #{{ contrato.codigo }}</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex align-items-start justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1">
+                Contrato #{{ contrato.codigo }}
+                {% include "core/partials/status_badge.html" with status=contrato.status %}
+            </h1>
+            <p class="text-muted mb-0">
+                Personal: <strong>{{ personal.usuario.nome }}</strong> &nbsp;·&nbsp;
+                Aluno: <strong>{{ aluno.usuario.nome }}</strong>
+            </p>
+            <p class="text-muted small mt-1">
+                Criado em {{ contrato.criado_em|date:"d/m/Y" }}
+                {% if contrato.aceito_em %}· Aceito em {{ contrato.aceito_em|date:"d/m/Y" }}{% endif %}
+                {% if contrato.encerrado_em %}· Encerrado em {{ contrato.encerrado_em|date:"d/m/Y" }}{% endif %}
+            </p>
+        </div>
+        {% if contrato.status == "ativo" %}
+        <form method="post" action="{% url 'core:personal_encerrar_contrato' contrato.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger btn-sm">Encerrar contrato</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h5 mb-0">Planos de Treino</h2>
+        <a href="{% url 'core:personal_plano_create' %}?contrato={{ contrato.pk }}" class="btn btn-spotter btn-sm">
+            Novo plano
+        </a>
+    </div>
+
+    {% if planos %}
+    <div class="list-group">
+        {% for p in planos %}
+        <a href="{% url 'core:plano_detalhe' personal.pk aluno.pk contrato.codigo p.codigo %}"
+           class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ p.nome }}</h5>
+                <div>
+                    {% if p.ativo %}
+                    <span class="badge bg-success">Ativo</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Inativo</span>
+                    {% endif %}
+                    <small class="text-muted ms-2">{{ p.criado_em|date:"d/m/Y" }}</small>
+                </div>
+            </div>
+            {% if p.descricao %}
+            <p class="mb-1 text-muted small">{{ p.descricao|truncatewords:20 }}</p>
+            {% endif %}
+            <small class="text-muted">Plano #{{ p.codigo }}</small>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">Nenhum plano de treino criado para este contrato.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -18,7 +18,7 @@
             <tbody>
                 {% for c in contratos %}
                 <tr>
-                    <td>{{ c.aluno.nome }}</td>
+                    <td>{{ c.aluno.usuario.nome }}</td>
                     <td>{% include "core/partials/status_badge.html" with status=c.status %}</td>
                     <td>{{ c.criado_em|date:"d/m/Y" }}</td>
                     <td class="d-flex flex-wrap gap-1">
@@ -31,8 +31,11 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-sm btn-outline-danger">Recusar</button>
                         </form>
-                        {% elif c.status == "ativo" %}
-                            —
+                            {% elif c.status == "ativo" %}
+                                <form method="post" action="{% url 'core:personal_encerrar_contrato' c.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                                </form>
                         {% else %}
                             —
                         {% endif %}

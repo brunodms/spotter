@@ -39,7 +39,28 @@
 
         <div class="row g-4">
             <div class="col-lg-6">
-                <h2 class="h5 mb-3">Contratos pendentes</h2>
+                <h2 class="h5 mb-3">Contratos</h2>
+                <h3 class="small text-muted">Ativos</h3>
+                {% if contratos_ativos_with_plan %}
+                <ul class="list-group list-group-flush mb-3">
+                    {% for pair in contratos_ativos_with_plan %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {% with c=pair.0 plano=pair.1 %}
+                            {% if plano %}
+                                <a href="{% url 'core:aluno_plano_detail' plano.pk %}">{{ c.personal.usuario.nome }}</a>
+                            {% else %}
+                                {{ c.personal.usuario.nome }}
+                            {% endif %}
+                            {% include "core/partials/status_badge.html" with status=c.status %}
+                        {% endwith %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted-theme">Nenhum contrato ativo.</p>
+                {% endif %}
+
+                <h3 class="small text-muted mt-2">Pendentes</h3>
                 {% if contratos_pendentes %}
                 <ul class="list-group list-group-flush">
                     {% for c in contratos_pendentes %}

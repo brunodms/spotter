@@ -48,6 +48,18 @@ class PerfilPersonal(models.Model):
     def __str__(self):
         return f"Personal: {self.usuario.nome} – CREF {self.cref}"
 
+    @property
+    def code(self):
+        width = self.code_width()
+        return f"{self.pk:0{width}d}"
+
+    @classmethod
+    def code_width(cls):
+        qs = cls.objects.values_list("pk", flat=True)
+        if not qs.exists():
+            return 2
+        return max(2, max(len(str(pk)) for pk in qs))
+
     def atualizar_media(self):
         media = self.avaliacoes_recebidas.aggregate(
             media=models.Avg("nota")

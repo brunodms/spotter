@@ -76,3 +76,27 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     @property
     def eh_admin(self):
         return self.tipo == self.ADMIN
+
+    @property
+    def code(self):
+        width = self.code_width()
+        return f"{self.pk:0{width}d}"
+
+    @classmethod
+    def code_width(cls):
+        qs = cls.objects.filter(tipo=cls.ALUNO).values_list("pk", flat=True)
+        if not qs.exists():
+            return 2
+        return max(2, max(len(str(pk)) for pk in qs))
+
+    @classmethod
+    def parse_code(cls, code):
+        if not isinstance(code, str) or not code.isdigit():
+            return None
+        max_width = cls.code_width()
+        if len(code) < 1 or len(code) > max_width:
+            return None
+        try:
+            return int(code)
+        except ValueError:
+            return None

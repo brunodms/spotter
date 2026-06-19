@@ -10,6 +10,7 @@ class Exercicio(models.Model):
         on_delete=models.CASCADE,
         related_name="exercicios",
     )
+    codigo = models.PositiveIntegerField(editable=False, default=0)
     nome = models.CharField(max_length=150)
     series = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1)],
@@ -36,6 +37,16 @@ class Exercicio(models.Model):
         verbose_name = "Exercício"
         verbose_name_plural = "Exercícios"
         ordering = ["ordem"]
+        unique_together = ("sessao", "codigo")
+        app_label = "core"
 
     def __str__(self):
         return f"{self.nome} – {self.series}x{self.repeticoes}"
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            ultimo = Exercicio.objects.filter(
+                sessao=self.sessao,
+            ).aggregate(m=models.Max("codigo"))["m"] or 0
+            self.codigo = ultimo + 1
+        super().save(*args, **kwargs)

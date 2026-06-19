@@ -4,13 +4,19 @@
 
 {% block content %}
 <div class="container py-4">
-    <a href="{% url 'core:personal_planos' %}" class="text-muted small">&larr; Planos</a>
+    <a href="{% url 'core:personal_aluno_detail' plano.contrato.aluno.pk %}" class="text-muted small">&larr; Planos</a>
     <div class="mt-3 mb-4">
         <h1 class="h3">{{ plano.nome }}</h1>
-        <p class="text-muted">Aluno: {{ plano.contrato.aluno.nome }}</p>
+        <p class="text-muted">Aluno: {{ plano.contrato.aluno.usuario.nome }}</p>
         {% if plano.descricao %}<p>{{ plano.descricao }}</p>{% endif %}
     </div>
-    <h2 class="h5 mb-3">Sessões e exercícios</h2>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h5 mb-0">Sessões e exercícios</h2>
+        <div>
+            <a href="#" class="btn btn-outline-primary btn-sm me-2">Adicionar exercício</a>
+            <a href="{% url 'core:personal_plano_edit' plano.pk %}" class="btn btn-secondary btn-sm">Editar plano</a>
+        </div>
+    </div>
     {% include "core/partials/plano_sessoes.html" %}
 </div>
 {% endblock %}
