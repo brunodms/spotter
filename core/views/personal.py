@@ -95,29 +95,28 @@ class PersonalAlunoListView(PersonalRequiredMixin, ListView):
 
 
 class PersonalAlunoDetailView(PersonalRequiredMixin, TemplateView):
-    template_name = "core/personal/aluno_detail.html"
+    """Redireciona para o contrato ativo (ou mais recente) na URL hierárquica."""
 
     def get(self, request, aluno_id, *args, **kwargs):
         perfil_aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        personal = request.user.perfil_personal
         contrato_qs = Contrato.objects.filter(
             aluno=perfil_aluno,
-            personal=request.user.perfil_personal,
+            personal=personal,
         ).order_by("-criado_em")
         if not contrato_qs.exists():
             return redirect("core:personal_alunos")
 
-        # Mostrar planos apenas do contrato ativo (ou mais recente se nenhum ativo)
-        contrato_ativo = contrato_qs.filter(status=Contrato.STATUS_ATIVO).first()
-        contrato_exibido = contrato_ativo or contrato_qs.first()
-
-        planos = PlanoTreino.objects.filter(contrato=contrato_exibido)
-        return self.render_to_response({
-            "aluno": perfil_aluno.usuario,
-            "perfil_aluno": perfil_aluno,
-            "planos": planos,
-            "contrato": contrato_exibido,
-            "contratos": contrato_qs,
-        })
+        contrato = (
+            contrato_qs.filter(status=Contrato.STATUS_ATIVO).first()
+            or contrato_qs.first()
+        )
+        return redirect(
+            "core:contrato_detalhe",
+            personal_id=personal.pk,
+            aluno_id=perfil_aluno.pk,
+            contrato_cod=contrato.codigo,
+        )
 
 
 class PersonalPlanoDetailView(PersonalRequiredMixin, TemplateView):
