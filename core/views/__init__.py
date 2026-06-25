@@ -9,9 +9,13 @@ from .aluno import (
     AlunoAvaliacaoView,
     AlunoBuscarPersonalView,
     AlunoContratoListView,
+    AlunoExercicioDetailView,
+    AlunoFeedbackExercicioView,
+    AlunoFeedbackSessaoView,
     AlunoPersonalDetailView,
     AlunoPlanoDetailView,
     AlunoPlanoListView,
+    AlunoSessaoDetailView,
     AlunoSolicitarContratoView,
 )
 from .contrato import (
@@ -63,6 +67,10 @@ __all__ = [
     "AlunoSolicitarContratoView",
     "AlunoPlanoListView",
     "AlunoPlanoDetailView",
+    "AlunoSessaoDetailView",
+    "AlunoExercicioDetailView",
+    "AlunoFeedbackSessaoView",
+    "AlunoFeedbackExercicioView",
     "AlunoAvaliacaoView",
     # Contrato views
     "ContratoCreateView",
