@@ -1,5 +1,6 @@
 from .avaliacao import Avaliacao
 from .contrato import Contrato
+from .feedback import Feedback
 from .exercicio import Exercicio
 from .exercicio_padrao import ExercicioPadrao
 from .historico_treino import HistoricoTreino
@@ -12,6 +13,7 @@ from .usuario import Usuario, UsuarioManager
 __all__ = [
     "Avaliacao",
     "Contrato",
+    "Feedback",
     "Exercicio",
     "ExercicioPadrao",
     "HistoricoTreino",
