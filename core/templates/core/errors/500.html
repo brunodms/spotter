@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+
+{% block title %}Erro Interno do Servidor{% endblock %}
+
+{% block content %}
+<div class="container page-inner text-center py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <h1 class="display-1 fw-bold text-muted mb-3" style="font-size: 8rem; opacity: 0.2;">500</h1>
+            <h2 class="h3 fw-bold mb-3">Algo deu errado do nosso lado.</h2>
+            <p class="text-secondary mb-4">
+                Ocorreu um erro interno no servidor enquanto tentávamos processar a sua requisição. Nossa equipe já deve estar verificando isso.
+            </p>
+            <a href="{% url 'core:home' %}" class="btn btn-spotter px-4 py-2">
+                Voltar para a Página Inicial
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
