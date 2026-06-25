@@ -62,6 +62,8 @@ def redirecionar_ativo(request, personal_id, aluno_id):
 
 def detalhe(request, personal_id, aluno_id, contrato_cod):
     """Detalhe de um contrato específico pelo código composto."""
+    from ..models import PerfilPersonal, PerfilAluno, Contrato, HistoricoTreino, Feedback
+    
     personal = get_object_or_404(PerfilPersonal, id=personal_id)
     aluno = get_object_or_404(PerfilAluno, id=aluno_id)
     contrato = get_object_or_404(
@@ -71,9 +73,23 @@ def detalhe(request, personal_id, aluno_id, contrato_cod):
         codigo=contrato_cod,
     )
     planos = contrato.planos.order_by("-criado_em")
+    
+    historicos = []
+    if hasattr(aluno, "usuario"):
+        from ..models import HistoricoTreino
+        historicos = HistoricoTreino.objects.filter(aluno=aluno.usuario).order_by("-realizado_em")
+        
+    from ..models import Feedback
+    feedbacks = Feedback.objects.filter(aluno=aluno, personal=personal, plano__contrato=contrato).order_by("-criado_em")
+    
+    avaliacao_contrato = getattr(contrato, "avaliacao", None)
+    
     return render(request, "core/contrato_detalhe.html", {
         "personal": personal,
         "aluno": aluno,
         "contrato": contrato,
         "planos": planos,
+        "historicos": historicos,
+        "feedbacks": feedbacks,
+        "avaliacao_contrato": avaliacao_contrato,
     })
