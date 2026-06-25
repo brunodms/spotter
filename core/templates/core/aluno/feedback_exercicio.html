@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+
+{% block title %}Feedback — {{ exercicio.nome }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:aluno_planos' %}">Meus treinos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:aluno_plano_detail' plano.pk %}">{{ plano.nome }}</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:aluno_sessao_detail' plano.pk sessao.pk %}">{{ sessao.nome }}</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:aluno_exercicio_detail' plano.pk sessao.pk exercicio.pk %}">{{ exercicio.nome }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+        </ol>
+    </nav>
+
+    <h1 class="h3 mb-2">Feedback sobre {{ exercicio.nome }}</h1>
+    <p class="text-muted mb-4">
+        Sua mensagem será enviada para {{ plano.contrato.personal.usuario.nome }}.
+    </p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn-outline-color btn-outline-blue">Enviar feedback</button>
+                        <a href="{% url 'core:aluno_exercicio_detail' plano.pk sessao.pk exercicio.pk %}" class="btn-outline-color btn-outline-white">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

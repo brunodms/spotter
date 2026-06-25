@@ -9,9 +9,13 @@ from .aluno import (
     AlunoAvaliacaoView,
     AlunoBuscarPersonalView,
     AlunoContratoListView,
+    AlunoExercicioDetailView,
+    AlunoFeedbackExercicioView,
+    AlunoFeedbackSessaoView,
     AlunoPersonalDetailView,
     AlunoPlanoDetailView,
     AlunoPlanoListView,
+    AlunoSessaoDetailView,
     AlunoSolicitarContratoView,
 )
 from .contrato import (
@@ -33,6 +37,10 @@ from .personal import (
     plano_detalhe,
     sessao_detalhe,
     exercicio_detalhe,
+    SessaoCreateView,
+    SessaoDeleteView,
+    ExercicioCreateView,
+    ExercicioDeleteView,
 )
 
 __all__ = [
@@ -56,6 +64,10 @@ __all__ = [
     "plano_detalhe",
     "sessao_detalhe",
     "exercicio_detalhe",
+    "SessaoCreateView",
+    "SessaoDeleteView",
+    "ExercicioCreateView",
+    "ExercicioDeleteView",
     # Aluno views
     "AlunoContratoListView",
     "AlunoBuscarPersonalView",
@@ -63,6 +75,10 @@ __all__ = [
     "AlunoSolicitarContratoView",
     "AlunoPlanoListView",
     "AlunoPlanoDetailView",
+    "AlunoSessaoDetailView",
+    "AlunoExercicioDetailView",
+    "AlunoFeedbackSessaoView",
+    "AlunoFeedbackExercicioView",
     "AlunoAvaliacaoView",
     # Contrato views
     "ContratoCreateView",

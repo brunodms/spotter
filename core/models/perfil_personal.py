@@ -8,6 +8,16 @@ class PerfilPersonalQuerySet(models.QuerySet):
     def ativos(self):
         return self.filter(usuario__is_active=True).select_related("usuario").order_by("usuario__nome")
 
+    def filtrar_busca(self, cidade="", estado="", nota_min=None):
+        qs = self
+        if cidade:
+            qs = qs.filter(usuario__cidade__icontains=cidade)
+        if estado:
+            qs = qs.filter(usuario__estado__iexact=estado)
+        if nota_min is not None:
+            qs = qs.filter(avaliacao_media__gte=nota_min)
+        return qs
+
 
 class PerfilPersonalManager(models.Manager):
     def get_queryset(self):
@@ -15,6 +25,9 @@ class PerfilPersonalManager(models.Manager):
 
     def ativos(self):
         return self.get_queryset().ativos()
+
+    def filtrar_busca(self, **kwargs):
+        return self.get_queryset().ativos().filtrar_busca(**kwargs)
 
 
 class PerfilPersonal(models.Model):

@@ -10,7 +10,7 @@
             <p class="text-muted mb-0">Aqui estão todos os personals com quem você tem um contrato.</p>
         </div>
         <div class="text-end">
-            <a href="{% url 'core:aluno_buscar_personal' %}" class="btn btn-spotter">Buscar personal</a>
+            <a href="{% url 'core:aluno_buscar_personal' %}" class="btn-outline-color btn-outline-blue">Buscar personal</a>
         </div>
     </div>
 
@@ -46,11 +46,14 @@
                     <td>{% include "core/partials/status_badge.html" with status=c.status %}</td>
                     <td>{{ c.criado_em|date:"d/m/Y H:i" }}</td>
                     <td>
-                        {% if c.status == "encerrado" and not c.avaliacao %}
-                        <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn btn-sm btn-outline-warning">Avaliar</a>
+                        {% if c.status == "ativo" %}
+                        <a href="{% url 'core:aluno_planos' %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver treinos</a>
+                        {% endif %}
+                        {% if c.status != "pendente" and not c.avaliacao %}
+                        <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">Avaliar</a>
                         {% elif c.avaliacao %}
                         <span class="small text-muted">Avaliado ({{ c.avaliacao.nota }}★)</span>
-                        {% else %}—{% endif %}
+                        {% elif c.status == "pendente" %}—{% endif %}
                     </td>
                 </tr>
                 {% empty %}

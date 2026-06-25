@@ -36,44 +36,121 @@
         {% if contrato.status == "ativo" %}
         <form method="post" action="{% url 'core:personal_encerrar_contrato' contrato.pk %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger btn-sm">Encerrar contrato</button>
+            <button type="submit" class="btn-outline-color btn-outline-red">Encerrar contrato</button>
         </form>
         {% endif %}
     </div>
 
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <h2 class="h5 mb-0">Planos de Treino</h2>
-        <a href="{% url 'core:personal_plano_create' %}?contrato={{ contrato.pk }}" class="btn btn-spotter btn-sm">
-            Novo plano
-        </a>
-    </div>
+    <hr class="my-5">
 
-    {% if planos %}
-    <div class="list-group">
-        {% for p in planos %}
-        <a href="{% url 'core:plano_detalhe' personal.pk aluno.pk contrato.codigo p.codigo %}"
-           class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ p.nome }}</h5>
-                <div>
-                    {% if p.ativo %}
-                    <span class="badge bg-success">Ativo</span>
-                    {% else %}
-                    <span class="badge bg-secondary">Inativo</span>
+    <div class="row">
+        <!-- Coluna Esquerda: Planos -->
+        <div class="col-lg-7 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h5 mb-0">Planos de Treino</h2>
+                <a href="{% url 'core:personal_plano_create' %}?contrato={{ contrato.pk }}" class="btn-outline-color btn-outline-blue">
+                    Novo plano
+                </a>
+            </div>
+
+            {% if planos %}
+            <div class="list-group">
+                {% for p in planos %}
+                <a href="{% url 'core:plano_detalhe' personal.pk aluno.pk contrato.codigo p.codigo %}"
+                   class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ p.nome }}</h5>
+                        <div>
+                            {% if p.ativo %}
+                            <span class="badge bg-success">Ativo</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Inativo</span>
+                            {% endif %}
+                            <small class="text-muted ms-2">{{ p.criado_em|date:"d/m/Y" }}</small>
+                        </div>
+                    </div>
+                    {% if p.descricao %}
+                    <p class="mb-1 text-muted small">{{ p.descricao|truncatewords:20 }}</p>
                     {% endif %}
-                    <small class="text-muted ms-2">{{ p.criado_em|date:"d/m/Y" }}</small>
+                    <small class="text-muted">Plano #{{ p.codigo }}</small>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">Nenhum plano de treino criado para este contrato.</p>
+            {% endif %}
+            
+            <div class="mt-5">
+                <h2 class="h5 mb-3">Histórico de Treinos</h2>
+                {% if historicos %}
+                <div class="list-group">
+                    {% for h in historicos %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Treino realizado</h6>
+                            <small class="text-muted">{{ h.realizado_em|date:"d/m/Y H:i" }}</small>
+                        </div>
+                        <p class="mb-1 small">
+                            <strong>Plano:</strong> {{ h.plano.nome|default:"N/A" }}
+                        </p>
+                        {% if h.observacoes_aluno %}
+                        <p class="mb-1 text-muted small"><strong>Obs:</strong> {{ h.observacoes_aluno }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">O aluno ainda não registrou nenhum treino.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Coluna Direita: Feedbacks e Avaliação -->
+        <div class="col-lg-5 mb-4">
+            <h2 class="h5 mb-3">Feedbacks do Aluno</h2>
+            {% if feedbacks %}
+            <div class="list-group mb-4">
+                {% for f in feedbacks %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">
+                            {% if f.exercicio %}
+                                Exercício: {{ f.exercicio.nome }}
+                            {% elif f.sessao %}
+                                Sessão: {{ f.sessao.nome }}
+                            {% else %}
+                                Plano: {{ f.plano.nome }}
+                            {% endif %}
+                        </h6>
+                        <small class="text-muted">{{ f.criado_em|date:"d/m/Y" }}</small>
+                    </div>
+                    <p class="mb-1 small text-muted">{{ f.mensagem }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted mb-4">O aluno ainda não enviou feedbacks para este contrato.</p>
+            {% endif %}
+
+            {% if avaliacao_contrato %}
+            <h2 class="h5 mb-3">Avaliação do Contrato</h2>
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title d-flex justify-content-between align-items-center">
+                        Nota dada pelo aluno
+                        <span class="badge bg-warning text-dark">{{ avaliacao_contrato.nota }} / 5 <i class="bi bi-star-fill"></i></span>
+                    </h6>
+                    {% if avaliacao_contrato.comentario %}
+                    <p class="card-text small text-muted mt-2">"{{ avaliacao_contrato.comentario }}"</p>
+                    {% endif %}
+                    <p class="card-text small text-end mb-0 text-muted">
+                        Avaliado em {{ avaliacao_contrato.criado_em|date:"d/m/Y" }}
+                    </p>
                 </div>
             </div>
-            {% if p.descricao %}
-            <p class="mb-1 text-muted small">{{ p.descricao|truncatewords:20 }}</p>
             {% endif %}
-            <small class="text-muted">Plano #{{ p.codigo }}</small>
-        </a>
-        {% endfor %}
+        </div>
     </div>
-    {% else %}
-    <p class="text-muted">Nenhum plano de treino criado para este contrato.</p>
-    {% endif %}
 
 </div>
 {% endblock %}

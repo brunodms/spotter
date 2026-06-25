@@ -1,93 +1,137 @@
 {% extends "core/base.html" %}
 
 {% block title %}Painel do Aluno{% endblock %}
+{% block body_class %}page-aluno-dashboard{% endblock %}
 
 {% block content %}
-<div class="page-inner">
-    <div class="container">
-        <div class="page-header mb-4">
-            <h1 class="h3 mb-1">Olá, {{ user.nome }}!</h1>
-            <p class="text-muted-theme mb-0">Acompanhe seus contratos e treinos.</p>
+<section class="aluno-hero">
+    <div class="aluno-hero__bg" aria-hidden="true"></div>
+    <div class="aluno-hero__overlay" aria-hidden="true"></div>
+    <div class="container aluno-hero__content">
+        <p class="aluno-hero__eyebrow">Seu painel</p>
+        <h1 class="aluno-hero__title">Olá, {{ user.nome }}!</h1>
+        <p class="aluno-hero__subtitle">Acompanhe seus contratos, treinos e evolução com personal trainers.</p>
+        <div class="aluno-hero__actions">
+            <a href="{% url 'core:aluno_buscar_personal' %}" class="btn-outline-color btn-outline-blue">Buscar personal</a>
+            <a href="{% url 'core:aluno_planos' %}" class="btn-outline-color btn-outline-white">Meus treinos</a>
+            <a href="{% url 'core:aluno_contratos' %}" class="btn-outline-color btn-outline-white">Contratos</a>
         </div>
+    </div>
+</section>
 
+<div class="aluno-dashboard">
+    <div class="container">
         <div class="row g-4 mb-4">
             <div class="col-md-4">
                 <div class="stat-card">
-                    <div class="stat-value">{{ contratos_ativos.count }}</div>
+                    <div class="stat-value">{{ contratos_ativos_count }}</div>
                     <div class="stat-label">Contratos ativos</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stat-card stat-card-warn">
-                    <div class="stat-value">{{ contratos_pendentes.count }}</div>
+                    <div class="stat-value">{{ contratos_pendentes_count }}</div>
                     <div class="stat-label">Aguardando aceite</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stat-card">
-                    <div class="stat-value">{{ planos|length }}</div>
+                    <div class="stat-value">{{ planos_count }}</div>
                     <div class="stat-label">Planos de treino</div>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex flex-wrap gap-2 mb-4">
-            <a href="{% url 'core:aluno_buscar_personal' %}" class="btn btn-spotter">Buscar personal</a>
-            <a href="{% url 'core:aluno_planos' %}" class="btn btn-ghost-light">Meus treinos</a>
-            <a href="{% url 'core:aluno_contratos' %}" class="btn btn-ghost-light">Contratos</a>
-        </div>
-
         <div class="row g-4">
-            <div class="col-lg-6">
-                <h2 class="h5 mb-3">Contratos</h2>
-                <h3 class="small text-muted">Ativos</h3>
-                {% if contratos_ativos_with_plan %}
-                <ul class="list-group list-group-flush mb-3">
-                    {% for pair in contratos_ativos_with_plan %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {% with c=pair.0 plano=pair.1 %}
-                            {% if plano %}
-                                <a href="{% url 'core:aluno_plano_detail' plano.pk %}">{{ c.personal.usuario.nome }}</a>
-                            {% else %}
-                                {{ c.personal.usuario.nome }}
-                            {% endif %}
-                            {% include "core/partials/status_badge.html" with status=c.status %}
-                        {% endwith %}
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <p class="text-muted-theme">Nenhum contrato ativo.</p>
-                {% endif %}
+            <div class="col-lg-7">
+                <section class="dashboard-panel">
+                    <div class="dashboard-panel__header">
+                        <h2 class="dashboard-panel__title">Contratos</h2>
+                        <a href="{% url 'core:aluno_contratos' %}" class="dashboard-panel__link">Ver todos</a>
+                    </div>
 
-                <h3 class="small text-muted mt-2">Pendentes</h3>
-                {% if contratos_pendentes %}
-                <ul class="list-group list-group-flush">
-                    {% for c in contratos_pendentes %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ c.personal.usuario.nome }}
-                        {% include "core/partials/status_badge.html" with status=c.status %}
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <p class="text-muted-theme">Nenhuma solicitação pendente.</p>
-                {% endif %}
+                    <div class="dashboard-panel__section">
+                        <h3 class="dashboard-panel__section-title">Ativos</h3>
+                        {% if contratos_ativos_with_plan %}
+                        <div class="contract-list">
+                            {% for pair in contratos_ativos_with_plan %}
+                            {% with c=pair.0 plano=pair.1 %}
+                            <article class="contract-card">
+                                <div class="contract-card__info">
+                                    <strong class="contract-card__name">{{ c.personal.usuario.nome }}</strong>
+                                    <span class="contract-card__meta">
+                                        {% if c.aceito_em %}
+                                        Ativo desde {{ c.aceito_em|date:"d/m/Y" }}
+                                        {% else %}
+                                        Solicitado em {{ c.criado_em|date:"d/m/Y" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="contract-card__actions">
+                                    {% include "core/partials/status_badge.html" with status=c.status %}
+                                    {% if plano %}
+                                    <a href="{% url 'core:aluno_plano_detail' plano.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver treino</a>
+                                    {% endif %}
+                                </div>
+                            </article>
+                            {% endwith %}
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="dashboard-empty">Nenhum contrato ativo. Encontre um personal para começar.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="dashboard-panel__section">
+                        <h3 class="dashboard-panel__section-title">Pendentes</h3>
+                        {% if contratos_pendentes %}
+                        <div class="contract-list">
+                            {% for c in contratos_pendentes %}
+                            <article class="contract-card contract-card--pending">
+                                <div class="contract-card__info">
+                                    <strong class="contract-card__name">{{ c.personal.usuario.nome }}</strong>
+                                    <span class="contract-card__meta">Solicitado em {{ c.criado_em|date:"d/m/Y" }}</span>
+                                </div>
+                                <div class="contract-card__actions">
+                                    {% include "core/partials/status_badge.html" with status=c.status %}
+                                </div>
+                            </article>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="dashboard-empty">Nenhuma solicitação aguardando resposta.</p>
+                        {% endif %}
+                    </div>
+
+                    {% if not contratos_ativos_count and not contratos_pendentes_count %}
+                    <div class="dashboard-panel__footer">
+                        <a href="{% url 'core:aluno_buscar_personal' %}" class="btn-outline-color btn-outline-blue">Buscar personal trainer</a>
+                    </div>
+                    {% endif %}
+                </section>
             </div>
-            <div class="col-lg-6">
-                <h2 class="h5 mb-3">Treinos recentes</h2>
-                {% if planos %}
-                <ul class="list-group list-group-flush">
-                    {% for p in planos %}
-                    <li class="list-group-item">
-                        <a href="{% url 'core:aluno_plano_detail' p.pk %}">{{ p.nome }}</a>
-                        <span class="text-muted-theme small d-block">{{ p.personal.usuario.nome }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <p class="text-muted-theme">Nenhum plano disponível. Solicite um contrato a um personal.</p>
-                {% endif %}
+
+            <div class="col-lg-5">
+                <section class="dashboard-panel">
+                    <div class="dashboard-panel__header">
+                        <h2 class="dashboard-panel__title">Treinos recentes</h2>
+                        <a href="{% url 'core:aluno_planos' %}" class="dashboard-panel__link">Ver todos</a>
+                    </div>
+
+                    {% if planos %}
+                    <div class="treino-list">
+                        {% for p in planos %}
+                        <a href="{% url 'core:aluno_plano_detail' p.pk %}" class="treino-card">
+                            <span class="treino-card__name">{{ p.nome }}</span>
+                            <span class="treino-card__personal">{{ p.contrato.personal.usuario.nome }}</span>
+                            <span class="treino-card__sessions">{{ p.sessoes.count }} sessão(ões)</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="dashboard-empty">Nenhum plano disponível ainda. Após um contrato ativo, seu personal montará seus treinos.</p>
+                    {% endif %}
+                </section>
             </div>
         </div>
     </div>

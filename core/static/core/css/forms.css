@@ -1,0 +1,30 @@
+/* Formulários auth / perfil */
+.auth-card,
+.form-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+}
+
+.theme-dark .form-control,
+.theme-dark .form-select {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    border-radius: 0.75rem;
+    padding: 0.65rem 0.9rem;
+}
+
+.theme-dark .form-control:focus,
+.theme-dark .form-select:focus {
+    background: var(--bg-surface);
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 3px var(--bg-accent-blue-20);
+}
+
+.theme-dark .form-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}

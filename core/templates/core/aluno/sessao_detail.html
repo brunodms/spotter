@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ sessao.nome }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:aluno_planos' %}">Meus treinos</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:aluno_plano_detail' plano.pk %}">{{ plano.nome }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ sessao.nome }}</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="h3 mb-1">{{ sessao.nome }}</h1>
+            <p class="text-muted mb-0">
+                {% if sessao.dia_semana %}{{ sessao.get_dia_semana_display }} · {% endif %}
+                Personal: {{ plano.contrato.personal.usuario.nome }}
+            </p>
+        </div>
+        <a href="{% url 'core:aluno_feedback_sessao' plano.pk sessao.pk %}" class="btn-outline-color btn-outline-blue">
+            Enviar feedback
+        </a>
+    </div>
+
+    <h2 class="h5 mb-3">Exercícios</h2>
+
+    {% if exercicios %}
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Duração</th>
+                    <th>Observações</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ex in exercicios %}
+                <tr>
+                    <td><strong>{{ ex.nome }}</strong></td>
+                    <td>{{ ex.series }}</td>
+                    <td>{{ ex.repeticoes }}</td>
+                    <td>{{ ex.carga|default:"—" }}</td>
+                    <td>{% if ex.duracao_seg %}{{ ex.duracao_seg }}s{% else %}—{% endif %}</td>
+                    <td class="text-muted small">{{ ex.observacoes|default:"—" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'core:aluno_exercicio_detail' plano.pk sessao.pk ex.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm">
+                            Ver
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-muted">Nenhum exercício cadastrado nesta sessão.</p>
+    {% endif %}
+</div>
+{% endblock %}

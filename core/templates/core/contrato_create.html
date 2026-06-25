@@ -35,8 +35,8 @@
                                     <div class="text-danger small mt-1">{{ form.personal.errors }}</div>
                                 {% endif %}
                             </div>
-                            <button type="submit" class="btn btn-primary" {% if not can_request %}disabled{% endif %}>Solicitar contrato</button>
-                            <a href="{% url 'core:dashboard' %}" class="btn btn-link">Voltar</a>
+                            <button type="submit" class="btn-outline-color btn-outline-blue" {% if not can_request %}disabled{% endif %}>Solicitar contrato</button>
+                            <a href="{% url 'core:dashboard' %}" class="btn-outline-color btn-outline-white">Voltar</a>
                         </form>
                     </div>
                 </div>

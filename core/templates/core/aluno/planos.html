@@ -11,12 +11,12 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h5 class="card-title">{{ plano.nome }}</h5>
-                    <p class="text-muted small mb-2">Personal: {{ plano.personal.usuario.nome }}</p>
+                    <p class="text-muted small mb-2">Personal: {{ plano.contrato.personal.usuario.nome }}</p>
                     <p class="card-text small">{{ plano.descricao|truncatewords:20|default:"Sem descrição." }}</p>
                     <p class="small mb-0">{{ plano.sessoes.count }} sessão(ões)</p>
                 </div>
-                <div class="card-footer bg-white border-0">
-                    <a href="{% url 'core:aluno_plano_detail' plano.pk %}" class="btn btn-outline-spotter btn-sm">Ver treino</a>
+                <div class="card-footer border-0">
+                    <a href="{% url 'core:aluno_plano_detail' plano.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">Ver treino</a>
                 </div>
             </div>
         </div>

@@ -14,21 +14,15 @@
                 {% if user.is_authenticated %}
                     <p class="mb-4">Bem-vindo(a), {{ user.nome }}!</p>
                     {% if user.eh_aluno %}
-                        <a class="btn btn-primary btn-lg" href="{% url 'core:contrato_create' %}">Criar contrato</a>
+                        <a class="btn-outline-color btn-outline-blue btn-lg" href="{% url 'core:contrato_create' %}">Criar contrato</a>
                     {% elif user.eh_personal %}
-                        <div class="row g-3 justify-content-center">
-                            <div class="col-12 col-md-6">
-                                <a href="{% url 'core:personal_contratos' %}" class="d-block text-decoration-none text-center p-4 rounded shadow-sm bg-primary text-white">
-                                    <h3 class="h5 mb-1">Contratos</h3>
-                                    <p class="small mb-0">Aceitar/Cancelar contratos com alunos</p>
-                                </a>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <a href="{% url 'core:personal_alunos' %}" class="d-block text-decoration-none text-center p-4 rounded shadow-sm border bg-white">
-                                    <h3 class="h5 mb-1">Alunos</h3>
-                                    <p class="small mb-0">Ver alunos e gerenciar planos individuais</p>
-                                </a>
-                            </div>
+                        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
+                            <a href="{% url 'core:personal_contratos' %}" class="btn-outline-color btn-outline-blue btn-outline-lg">
+                                Contratos
+                            </a>
+                            <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white btn-outline-lg">
+                                Alunos
+                            </a>
                         </div>
                     {% endif %}
 
@@ -65,18 +59,18 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <a href="{% url 'core:aluno_contratos' %}" class="btn btn-outline-light btn-sm">Ver todos os contratos</a>
+                        <a href="{% url 'core:aluno_contratos' %}" class="btn-outline-color btn-outline-white btn-sm">Ver todos os contratos</a>
                     {% endif %}
 
                     <form method="post" action="{% url 'core:logout' %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-light mt-3">Sair</button>
+                        <button type="submit" class="btn-outline-color btn-outline-white mt-3">Sair</button>
                     </form>
                 {% else %}
                     <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
-                        <a class="btn btn-primary btn-lg" href="{% url 'core:registro' %}?tipo=aluno">Cadastrar como aluno</a>
-                        <a class="btn btn-outline-secondary btn-lg" href="{% url 'core:registro' %}?tipo=personal">Cadastrar como personal</a>
-                        <a class="btn btn-outline-secondary btn-lg" href="{% url 'core:login' %}">Entrar</a>
+                        <a class="btn-outline-color btn-outline-blue btn-lg" href="{% url 'core:registro' %}?tipo=aluno">Cadastrar como aluno</a>
+                        <a class="btn-outline-color btn-outline-white btn-lg" href="{% url 'core:registro' %}?tipo=personal">Cadastrar como personal</a>
+                        <a class="btn-outline-color btn-outline-white btn-lg" href="{% url 'core:login' %}">Entrar</a>
                     </div>
                 {% endif %}
             </div>

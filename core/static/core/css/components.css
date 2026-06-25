@@ -1,0 +1,270 @@
+/* ─── Search dock ────────────────────────────────────────── */
+
+.search-dock {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 1.25rem 1.5rem 1.5rem;
+    box-shadow: var(--shadow-dock);
+}
+
+.search-dock__tabs {
+    display: flex;
+    gap: 1.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+    overflow-x: auto;
+}
+
+.search-dock__tab {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0 0 0.5rem;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+}
+
+.search-dock__tab.is-active {
+    color: var(--text-primary);
+}
+
+.search-dock__tab.is-active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-white);
+    border-radius: 2px;
+}
+
+.search-dock__form {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.search-dock__fields {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem 1.25rem;
+    flex: 1;
+}
+
+.search-dock__field {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: text;
+    margin: 0;
+}
+
+.search-dock__icon {
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.search-dock__label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 0.15rem;
+}
+
+.search-dock__input,
+.search-dock input[type="text"],
+.search-dock select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 0;
+    outline: none;
+}
+
+.search-dock__input::placeholder,
+.search-dock input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-dock__submit {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent-blue);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    align-self: center;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+}
+
+.search-dock__submit:hover {
+    background: var(--accent-blue-hover);
+    transform: scale(1.05);
+}
+
+/* Busca page dock inline */
+.search-page-dock {
+    margin-bottom: 2.5rem;
+}
+
+@media (max-width: 991px) {
+    .search-dock__fields {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 575px) {
+    .search-dock__fields {
+        grid-template-columns: 1fr;
+    }
+
+    .search-dock__form {
+        flex-direction: column;
+    }
+
+    .search-dock__submit {
+        align-self: flex-end;
+    }
+}
+
+/* Cards escuros */
+.card-dark,
+.stat-card,
+.feature-card,
+.personal-card,
+.list-group-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+}
+
+.theme-dark .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+}
+
+.theme-dark .card-footer {
+    background: transparent;
+    border-color: var(--border-subtle);
+}
+
+.stat-card {
+    padding: 1.5rem;
+    border-left: 3px solid var(--accent-blue);
+}
+
+.stat-card-warn {
+    border-left-color: var(--accent-red);
+}
+
+.stat-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    margin-top: 0.35rem;
+}
+
+.personal-card {
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.personal-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-accent-blue-35);
+}
+
+.feature-section {
+    background: var(--bg-surface);
+    padding: 5rem 0;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.feature-card {
+    padding: 2rem;
+    text-align: center;
+    height: 100%;
+}
+
+.feature-card h5 {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.feature-icon {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+}
+
+.badge-tipo {
+    background: var(--bg-accent-blue-20) !important;
+    color: var(--text-info) !important;
+    font-weight: 600;
+}
+
+/* Status badges on dark */
+.badge.bg-warning.text-dark { color: var(--text-dark) !important; }
+
+/* Alertas */
+.messages-wrap {
+    position: relative;
+    z-index: 100;
+    padding-top: 1rem;
+}
+
+.theme-dark .alert {
+    border: none;
+    border-radius: var(--radius-lg);
+}
+
+.theme-dark .alert-success { background: var(--bg-success-15); color: var(--text-success); }
+.theme-dark .alert-danger { background: var(--bg-danger-15); color: var(--text-danger); }
+.theme-dark .alert-warning { background: var(--bg-warning-15); color: var(--text-warning); }
+.theme-dark .alert-info { background: var(--bg-accent-blue-15); color: var(--text-info); }
+
+
+/* ─── Modais com tema escuro ─────────────────────────────── */
+
+.modal-dark .modal-content {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+}
+
+.modal-dark .modal-header,
+.modal-dark .modal-footer {
+    border-color: var(--border-subtle);
+}
+
+.modal-dark hr {
+    border-color: var(--border-subtle);
+    opacity: 1;
+}
