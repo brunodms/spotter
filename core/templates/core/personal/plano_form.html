@@ -1,33 +1,62 @@
 {% extends "core/base.html" %}
 
-{% block title %}Novo Plano{% endblock %}
+{% block title %}{% if form.instance.pk %}Editar Plano{% else %}Novo Plano{% endif %}{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <h1 class="h3 mb-2">{% if form.instance.pk %}Editar plano{% else %}Novo plano de treino{% endif %}</h1>
-    {% if contrato %}
-    <p class="text-muted mb-4">Aluno: <strong>{{ contrato.aluno.nome }}</strong></p>
-    {% endif %}
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <form method="post">
+<div class="page-inner">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="form-card">
+                    <h1 class="h4 mb-1">{% if form.instance.pk %}Editar plano de treino{% else %}Novo plano de treino{% endif %}</h1>
+                    {% if contrato %}
+                    <p class="text-muted-theme small mb-4">Aluno: <strong>{{ contrato.aluno.usuario.nome }}</strong></p>
+                    {% elif plano %}
+                    <p class="text-muted-theme small mb-4">Aluno: <strong>{{ plano.contrato.aluno.usuario.nome }}</strong></p>
+                    {% else %}
+                    <p class="text-muted-theme small mb-4">Preencha os dados do plano vinculado a um contrato.</p>
+                    {% endif %}
+
+                    <form method="post" novalidate>
                         {% csrf_token %}
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+
                         {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label">{{ field.label }}</label>
+                        {% if field.field.widget.input_type == "checkbox" %}
+                        <div class="mb-3 form-check">
                             {{ field }}
+                            <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {{ field.errors }}
                         </div>
+                        {% else %}
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}<div class="form-text text-muted-theme">{{ field.help_text }}</div>{% endif %}
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
                         {% endfor %}
-                        <button type="submit" class="btn-outline-color btn-outline-blue">{% if form.instance.pk %}Salvar{% else %}Criar plano{% endif %}</button>
-                        <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white">Cancelar</a>
+
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <button type="submit" class="btn-outline-color btn-outline-blue">
+                                {% if form.instance.pk %}Salvar{% else %}Criar plano{% endif %}
+                            </button>
+                            {% if plano %}
+                            <a href="{% url 'core:plano_detalhe' plano.contrato.personal_id plano.contrato.aluno_id plano.contrato.codigo plano.codigo %}" class="btn-outline-color btn-outline-white">Cancelar</a>
+                            {% else %}
+                            <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white">Cancelar</a>
+                            {% endif %}
+                        </div>
                     </form>
-                    <p class="small text-muted mt-3 mb-0">
-                        Após criar o plano, adicione sessões e exercícios pelo
-                        <a href="/admin/">painel administrativo</a> (em breve: edição na interface).
+
+                    {% if not form.instance.pk %}
+                    <p class="small text-muted-theme mt-3 mb-0">
+                        Após criar o plano, adicione sessões e exercícios na tela de detalhe do plano.
                     </p>
+                    {% endif %}
                 </div>
             </div>
         </div>
