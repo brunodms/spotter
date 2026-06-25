@@ -30,7 +30,7 @@
                         {% endif %}
                     </p>
                     <p class="small mb-3">{{ personal.especialidades|truncatewords:18|default:"Sem especialidades cadastradas." }}</p>
-                    <a href="{% url 'core:aluno_personal_detail' personal.pk %}" class="btn btn-outline-spotter btn-sm w-100">Ver perfil</a>
+                    <a href="{% url 'core:aluno_personal_detail' personal.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm w-100">Ver perfil</a>
                 </article>
             </div>
             {% empty %}

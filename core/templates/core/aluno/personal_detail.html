@@ -22,14 +22,14 @@
                     {% if contrato %}
                         {% include "core/partials/status_badge.html" with status=contrato.status %}
                         {% if contrato.status == "encerrado" and not contrato.avaliacao %}
-                        <a href="{% url 'core:aluno_avaliar' contrato.pk %}" class="btn btn-outline-spotter btn-sm mt-2">Avaliar</a>
+                        <a href="{% url 'core:aluno_avaliar' contrato.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm mt-2">Avaliar</a>
                         {% elif contrato.status == "ativo" and not contrato.avaliacao %}
                         <span class="small text-muted-theme d-block mt-2">Avalie após encerrar o contrato</span>
                         {% endif %}
                     {% else %}
                     <form method="post" action="{% url 'core:aluno_solicitar_contrato' personal.pk %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-spotter">Solicitar contrato</button>
+                        <button type="submit" class="btn-outline-color btn-outline-blue">Solicitar contrato</button>
                     </form>
                     {% endif %}
                 </div>
