@@ -24,7 +24,7 @@
                 Personal: {{ plano.contrato.personal.usuario.nome }}
             </p>
         </div>
-        <a href="{% url 'core:aluno_feedback_sessao' plano.pk sessao.pk %}" class="btn btn-spotter">
+        <a href="{% url 'core:aluno_feedback_sessao' plano.pk sessao.pk %}" class="btn-outline-color btn-outline-blue">
             Enviar feedback
         </a>
     </div>
@@ -55,7 +55,7 @@
                     <td>{% if ex.duracao_seg %}{{ ex.duracao_seg }}s{% else %}—{% endif %}</td>
                     <td class="text-muted small">{{ ex.observacoes|default:"—" }}</td>
                     <td class="text-end">
-                        <a href="{% url 'core:aluno_exercicio_detail' plano.pk sessao.pk ex.pk %}" class="btn btn-sm btn-outline-spotter">
+                        <a href="{% url 'core:aluno_exercicio_detail' plano.pk sessao.pk ex.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm">
                             Ver
                         </a>
                     </td>

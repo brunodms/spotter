@@ -1,14 +1,14 @@
 {% if plano.sessoes.all %}
     {% for sessao in plano.sessoes.all %}
     <div class="card mb-3 border-0 shadow-sm">
-        <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="card-header border-0 d-flex flex-wrap justify-content-between align-items-center gap-2">
             <div>
                 <strong>{{ sessao.nome }}</strong>
                 {% if sessao.dia_semana %}
                 <span class="text-muted small ms-2">{{ sessao.get_dia_semana_display }}</span>
                 {% endif %}
             </div>
-            <a href="{% url 'core:aluno_sessao_detail' plano.pk sessao.pk %}" class="btn btn-sm btn-outline-spotter">
+            <a href="{% url 'core:aluno_sessao_detail' plano.pk sessao.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">
                 Ver sessão
             </a>
         </div>

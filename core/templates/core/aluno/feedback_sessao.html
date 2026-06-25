@@ -37,8 +37,8 @@
                             {{ field.errors }}
                         </div>
                         {% endfor %}
-                        <button type="submit" class="btn btn-spotter">Enviar feedback</button>
-                        <a href="{% url 'core:aluno_sessao_detail' plano.pk sessao.pk %}" class="btn btn-link">Cancelar</a>
+                        <button type="submit" class="btn-outline-color btn-outline-blue">Enviar feedback</button>
+                        <a href="{% url 'core:aluno_sessao_detail' plano.pk sessao.pk %}" class="btn-outline-color btn-outline-white">Cancelar</a>
                     </form>
                 </div>
             </div>

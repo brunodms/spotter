@@ -1,7 +1,7 @@
 {% if plano.sessoes.all %}
     {% for sessao in plano.sessoes.all %}
     <div class="card mb-3 border-0 shadow-sm">
-        <div class="card-header bg-white">
+        <div class="card-header border-0">
             <strong>{{ sessao.nome }}</strong>
             {% if sessao.dia_semana %}
             <span class="text-muted small ms-2">{{ sessao.get_dia_semana_display }}</span>
