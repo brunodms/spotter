@@ -5,8 +5,9 @@ from django.views.generic import ListView, View, TemplateView
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 
-from ..mixins import PersonalRequiredMixin
-from ..models import Contrato, Exercicio, ExercicioPadrao, PerfilAluno, PlanoTreino, SessaoTreino
+from ..forms import PlanoTreinoEditForm, PlanoTreinoForm
+from ...mixins import PersonalRequiredMixin
+from ...models import Contrato, Exercicio, ExercicioPadrao, PerfilAluno, PlanoTreino, SessaoTreino
 
 
 class PersonalContratoListView(PersonalRequiredMixin, ListView):
@@ -148,7 +149,7 @@ class PersonalPlanoDetailView(PersonalRequiredMixin, TemplateView):
 
 class PersonalPlanoCreateView(PersonalRequiredMixin, CreateView):
     model = PlanoTreino
-    fields = ["contrato", "nome", "descricao", "ativo"]
+    form_class = PlanoTreinoForm
     template_name = "core/personal/plano_form.html"
 
     def get_form(self, form_class=None):
@@ -213,17 +214,13 @@ class PersonalPlanoUpdateView(PersonalRequiredMixin, TemplateView):
         )
 
     def get(self, request, pk, *args, **kwargs):
-        from django.forms import modelform_factory
-        PlanoForm = modelform_factory(PlanoTreino, fields=["nome", "descricao", "ativo"])
         plano = self.get_object(pk)
-        form = PlanoForm(instance=plano)
+        form = PlanoTreinoEditForm(instance=plano)
         return self.render_to_response({"form": form, "plano": plano})
 
     def post(self, request, pk, *args, **kwargs):
-        from django.forms import modelform_factory
-        PlanoForm = modelform_factory(PlanoTreino, fields=["nome", "descricao", "ativo"])
         plano = self.get_object(pk)
-        form = PlanoForm(request.POST, instance=plano)
+        form = PlanoTreinoEditForm(request.POST, instance=plano)
         if form.is_valid():
             form.save()
             contrato = plano.contrato
@@ -241,7 +238,7 @@ class PersonalPlanoUpdateView(PersonalRequiredMixin, TemplateView):
 
 def plano_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod):
     """Detalhe de um plano via lookup hierárquico encadeado."""
-    from ..models import PerfilPersonal
+    from ...models import PerfilPersonal
     personal = get_object_or_404(PerfilPersonal, pk=personal_id)
     aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
     contrato = get_object_or_404(
@@ -270,7 +267,7 @@ class SessaoCreateView(PersonalRequiredMixin, View):
     """Cria uma nova sessão de treino via POST (enviado pelo modal)."""
 
     def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod):
-        from ..models import PerfilPersonal
+        from ...models import PerfilPersonal
         personal = get_object_or_404(PerfilPersonal, pk=personal_id)
         if personal.pk != request.user.perfil_personal.pk:
             messages.error(request, "Acesso negado.")
@@ -308,7 +305,7 @@ class SessaoDeleteView(PersonalRequiredMixin, View):
     """Exclui uma sessão de treino via POST."""
 
     def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod):
-        from ..models import PerfilPersonal
+        from ...models import PerfilPersonal
         personal = get_object_or_404(PerfilPersonal, pk=personal_id)
         if personal.pk != request.user.perfil_personal.pk:
             messages.error(request, "Acesso negado.")
@@ -332,7 +329,7 @@ class ExercicioCreateView(PersonalRequiredMixin, View):
     """Cria um novo exercício em uma sessão via POST (enviado pelo modal)."""
 
     def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod):
-        from ..models import PerfilPersonal
+        from ...models import PerfilPersonal
         personal = get_object_or_404(PerfilPersonal, pk=personal_id)
         if personal.pk != request.user.perfil_personal.pk:
             messages.error(request, "Acesso negado.")
@@ -400,7 +397,7 @@ class ExercicioDeleteView(PersonalRequiredMixin, View):
     """Exclui um exercício via POST."""
 
     def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod):
-        from ..models import PerfilPersonal
+        from ...models import PerfilPersonal
         personal = get_object_or_404(PerfilPersonal, pk=personal_id)
         if personal.pk != request.user.perfil_personal.pk:
             messages.error(request, "Acesso negado.")
@@ -459,3 +456,8 @@ def exercicio_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod, s
         "sessao": sessao,
         "exercicio": exercicio,
     })
+
+
+from .dashboard import PersonalDashboardView
+
+__all__ = ["PersonalDashboardView"]

@@ -1,65 +1,172 @@
 {% extends "core/base.html" %}
+{% load static %}
 
 {% block title %}Painel do Personal{% endblock %}
+{% block body_class %}page-personal-dashboard{% endblock %}
 
 {% block content %}
-<div class="page-inner">
+<section class="personal-hero">
+    <div class="personal-hero__bg" style="background-image: url('{% static 'core/img/personal-hero-bg.png' %}');" aria-hidden="true"></div>
+    <div class="personal-hero__overlay" aria-hidden="true"></div>
+    <div class="container personal-hero__content">
+        <p class="personal-hero__eyebrow">Seu painel</p>
+        <h1 class="personal-hero__title">Olá, {{ user.nome }}!</h1>
+        <p class="personal-hero__subtitle">Gerencie contratos, alunos e acompanhe as avaliações recebidas.</p>
+        <div class="personal-hero__actions">
+            <a href="{% url 'core:personal_contratos' %}" class="btn-outline-color btn-outline-blue">Contratos</a>
+            <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white">Meus alunos</a>
+            <a href="{% url 'core:personal_planos' %}" class="btn-outline-color btn-outline-white">Planos</a>
+        </div>
+    </div>
+</section>
+
+<div class="personal-dashboard">
     <div class="container">
-    <div class="page-header mb-4">
-        <h1 class="h3 mb-1">Olá, {{ user.nome }}!</h1>
-        <p class="text-muted-theme mb-0">Gerencie alunos, contratos e planos de treino.</p>
-    </div>
-
-    <div class="row g-4 mb-4">
-        <div class="col-md-4">
-            <div class="stat-card stat-card-warn">
-                <div class="stat-value">{{ pendentes.count }}</div>
-                <div class="stat-label">Solicitações pendentes</div>
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card stat-card--icon stat-card-warn">
+                    <div class="stat-card__top">
+                        <span class="stat-card__icon stat-card__icon--warn" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                        </span>
+                        <div class="stat-value">{{ contratos_pendentes_count }}</div>
+                    </div>
+                    <div class="stat-label">Solicitações pendentes</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card stat-card--icon">
+                    <div class="stat-card__top">
+                        <span class="stat-card__icon" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </span>
+                        <div class="stat-value">{{ contratos_ativos_count }}</div>
+                    </div>
+                    <div class="stat-label">Alunos ativos</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card stat-card--icon">
+                    <div class="stat-card__top">
+                        <span class="stat-card__icon stat-card__icon--star" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 17l-6.5 3.5 2-7L2 9h7z"/></svg>
+                        </span>
+                        <div class="stat-value">{{ personal.avaliacao_media|floatformat:1 }}</div>
+                    </div>
+                    <div class="stat-label">Média de avaliações ({{ avaliacoes_count }})</div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-value">{{ ativos.count }}</div>
-                <div class="stat-label">Alunos ativos</div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <section class="dashboard-panel">
+                    <div class="dashboard-panel__header">
+                        <h2 class="dashboard-panel__title">
+                            <span class="dashboard-panel__title-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                            </span>
+                            Contratos
+                        </h2>
+                        <a href="{% url 'core:personal_contratos' %}" class="dashboard-panel__link">Ver todos</a>
+                    </div>
+
+                    <div class="dashboard-panel__section">
+                        <h3 class="dashboard-panel__section-title">Pendentes</h3>
+                        {% if contratos_pendentes %}
+                        <div class="contract-list">
+                            {% for c in contratos_pendentes %}
+                            <article class="contract-card contract-card--pending">
+                                <div class="contract-card__info">
+                                    <strong class="contract-card__name">{{ c.aluno.usuario.nome }}</strong>
+                                    <span class="contract-card__meta">Solicitado em {{ c.criado_em|date:"d/m/Y" }}</span>
+                                </div>
+                                <div class="contract-card__actions">
+                                    {% include "core/partials/status_badge.html" with status=c.status %}
+                                    <form method="post" action="{% url 'core:personal_aceitar_contrato' c.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-outline-color btn-outline-green btn-outline-sm">Aceitar</button>
+                                    </form>
+                                    <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Recusar</button>
+                                    </form>
+                                </div>
+                            </article>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="dashboard-empty">Nenhuma solicitação aguardando resposta.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="dashboard-panel__section">
+                        <h3 class="dashboard-panel__section-title">Ativos</h3>
+                        {% if contratos_ativos %}
+                        <div class="contract-list">
+                            {% for c in contratos_ativos %}
+                            <article class="contract-card">
+                                <div class="contract-card__info">
+                                    <strong class="contract-card__name">{{ c.aluno.usuario.nome }}</strong>
+                                    <span class="contract-card__meta">
+                                        {% if c.aceito_em %}
+                                        Ativo desde {{ c.aceito_em|date:"d/m/Y" }}
+                                        {% else %}
+                                        Desde {{ c.criado_em|date:"d/m/Y" }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="contract-card__actions">
+                                    {% include "core/partials/status_badge.html" with status=c.status %}
+                                    <a href="{% url 'core:personal_aluno_detail' c.aluno.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver aluno</a>
+                                </div>
+                            </article>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="dashboard-empty">Nenhum aluno com contrato ativo no momento.</p>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-5">
+                <section class="dashboard-panel">
+                    <div class="dashboard-panel__header">
+                        <h2 class="dashboard-panel__title">
+                            <span class="dashboard-panel__title-icon dashboard-panel__title-icon--star" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 17l-6.5 3.5 2-7L2 9h7z"/></svg>
+                            </span>
+                            Avaliações dos alunos
+                        </h2>
+                    </div>
+
+                    {% if avaliacoes %}
+                    <div class="avaliacao-list">
+                        {% for a in avaliacoes %}
+                        <article class="avaliacao-card">
+                            <div class="avaliacao-card__header">
+                                <strong class="avaliacao-card__name">{{ a.aluno.usuario.nome }}</strong>
+                                <span class="avaliacao-card__rating" aria-label="{{ a.nota }} de 5 estrelas">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 17l-6.5 3.5 2-7L2 9h7z"/></svg>
+                                    {{ a.nota }}
+                                </span>
+                            </div>
+                            {% if a.comentario %}
+                            <p class="avaliacao-card__comment">"{{ a.comentario|truncatewords:24 }}"</p>
+                            {% else %}
+                            <p class="avaliacao-card__comment avaliacao-card__comment--empty">Sem comentário.</p>
+                            {% endif %}
+                            <span class="avaliacao-card__meta">{{ a.criado_em|date:"d/m/Y" }}</span>
+                        </article>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="dashboard-empty">Nenhuma avaliação recebida ainda. Quando alunos avaliarem seus contratos, elas aparecerão aqui.</p>
+                    {% endif %}
+                </section>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-value">{{ planos_recentes|length }}</div>
-                <div class="stat-label">Planos recentes</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="d-flex flex-wrap gap-2 mb-4">
-        <a href="{% url 'core:personal_contratos' %}" class="btn-outline-color btn-outline-blue">Ver contratos</a>
-        <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white">Meus alunos</a>
-        <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white">Planos</a>
-    </div>
-
-    {% if pendentes %}
-    <div class="alert alert-warning">
-        <strong>{{ pendentes.count }} solicitação(ões) aguardando aceite.</strong>
-        <a href="{% url 'core:personal_contratos' %}" class="alert-link">Ver agora</a>
-    </div>
-    {% endif %}
-
-    <h2 class="h5">Planos recentes</h2>
-    {% if planos_recentes %}
-    <ul class="list-group mb-4">
-        {% for p in planos_recentes %}
-        <li class="list-group-item d-flex justify-content-between">
-            <span>
-                <a href="{% url 'core:plano_detalhe' p.contrato.personal_id p.contrato.aluno_id p.contrato.codigo p.codigo %}">{{ p.nome }}</a>
-                <small class="text-muted d-block">{{ p.contrato.aluno.usuario.nome }}</small>
-            </span>
-            <span class="text-muted small">{{ p.criado_em|date:"d/m/Y" }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p class="text-muted-theme">Nenhum plano criado ainda.</p>
-    {% endif %}
     </div>
 </div>
 {% endblock %}
