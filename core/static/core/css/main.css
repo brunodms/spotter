@@ -737,6 +737,9 @@ a:hover {
     font-size: 1.15rem;
     font-weight: 700;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
 .dashboard-panel__link {
@@ -854,6 +857,11 @@ a:hover {
         padding-bottom: 2.5rem;
     }
 
+    .personal-hero {
+        min-height: 360px;
+        padding-bottom: 2.5rem;
+    }
+
     .contract-card {
         flex-direction: column;
         align-items: flex-start;
@@ -863,4 +871,185 @@ a:hover {
         width: 100%;
         justify-content: space-between;
     }
+}
+
+/* ─── Painel do personal ─────────────────────────────────── */
+
+.page-personal-dashboard main {
+    padding-bottom: 0;
+}
+
+.personal-hero {
+    position: relative;
+    min-height: 420px;
+    margin-top: calc(-1 * var(--nav-height));
+    padding: calc(var(--nav-height) + 3rem) 0 3.5rem;
+    overflow: hidden;
+}
+
+.personal-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 35%;
+    background-repeat: no-repeat;
+}
+
+.personal-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        rgba(6, 8, 15, 0.93) 0%,
+        rgba(6, 8, 15, 0.75) 45%,
+        rgba(6, 8, 15, 0.58) 100%
+    );
+}
+
+.personal-hero__content {
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+}
+
+.personal-hero__eyebrow {
+    color: var(--accent-blue-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.personal-hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+}
+
+.personal-hero__subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    margin-bottom: 1.75rem;
+    max-width: 520px;
+}
+
+.personal-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.personal-dashboard {
+    padding: 2.5rem 0 4rem;
+    margin-top: -1.5rem;
+    position: relative;
+    z-index: 3;
+}
+
+.stat-card--icon {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+.stat-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-accent-blue-15);
+    color: var(--accent-blue-light);
+    flex-shrink: 0;
+}
+
+.stat-card__icon--warn {
+    background: var(--bg-warning-15);
+    color: var(--text-warning);
+}
+
+.stat-card__icon--star {
+    background: rgba(234, 179, 8, 0.15);
+    color: #fde047;
+}
+
+.dashboard-panel__title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--bg-accent-blue-15);
+    color: var(--accent-blue-light);
+    flex-shrink: 0;
+}
+
+.dashboard-panel__title-icon--star {
+    background: rgba(234, 179, 8, 0.15);
+    color: #fde047;
+}
+
+.avaliacao-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.avaliacao-card {
+    padding: 1rem 1.1rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+}
+
+.avaliacao-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.avaliacao-card__name {
+    font-size: 1rem;
+}
+
+.avaliacao-card__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #fde047;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.avaliacao-card__comment {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+}
+
+.avaliacao-card__comment--empty {
+    color: var(--text-muted);
+    font-style: normal;
+}
+
+.avaliacao-card__meta {
+    color: var(--text-muted);
+    font-size: 0.8rem;
 }

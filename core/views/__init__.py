@@ -34,6 +34,7 @@ from .personal import (
     PersonalPlanoDetailView,
     PersonalPlanoCreateView,
     PersonalPlanoUpdateView,
+    PersonalDashboardView,
     plano_detalhe,
     sessao_detalhe,
     exercicio_detalhe,
@@ -60,6 +61,7 @@ __all__ = [
     "PersonalPlanoDetailView",
     "PersonalPlanoCreateView",
     "PersonalPlanoUpdateView",
+    "PersonalDashboardView",
     # Personal function-based hierarchy views
     "plano_detalhe",
     "sessao_detalhe",
