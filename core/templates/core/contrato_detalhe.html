@@ -36,14 +36,14 @@
         {% if contrato.status == "ativo" %}
         <form method="post" action="{% url 'core:personal_encerrar_contrato' contrato.pk %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger btn-sm">Encerrar contrato</button>
+            <button type="submit" class="btn-outline-color btn-outline-red">Encerrar contrato</button>
         </form>
         {% endif %}
     </div>
 
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h2 class="h5 mb-0">Planos de Treino</h2>
-        <a href="{% url 'core:personal_plano_create' %}?contrato={{ contrato.pk }}" class="btn btn-spotter btn-sm">
+        <a href="{% url 'core:personal_plano_create' %}?contrato={{ contrato.pk }}" class="btn-outline-color btn-outline-blue">
             Novo plano
         </a>
     </div>

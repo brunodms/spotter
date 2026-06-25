@@ -1,0 +1,54 @@
+:root {
+    /* --- Cores Base e de Fundo --- */
+    --bg-body: #06080f;
+    --bg-surface: #0f1219;
+    --bg-elevated: #161b26;
+    --bg-glass: rgba(15, 18, 25, 0.82);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+
+    /* --- Cores de Texto --- */
+    --text-primary: #f4f6fb;
+    --text-secondary: #9aa3b5;
+    --text-muted: #6b7280;
+    --text-dark: #1a1a1a;
+    --color-white: #ffffff;
+
+    /* --- Cores de Marca / Acentuação --- */
+    --accent-blue: #2f7cf6;
+    --accent-blue-hover: #1a6ae8;
+    --accent-blue-light: #5b9cff;
+    --accent-red: #e63946;
+
+    /* --- Cores Semânticas (Alertas e Textos de Status) --- */
+    --text-info: #93c5fd;
+    --text-success: #86efac;
+    --text-danger: #fca5a5;
+    --text-warning: #fde047;
+
+    /* --- Transparências da Cor Principal (Azul) --- */
+    --bg-accent-blue-15: rgba(47, 124, 246, 0.15);
+    --bg-accent-blue-20: rgba(47, 124, 246, 0.2);
+    --border-accent-blue-35: rgba(47, 124, 246, 0.35);
+
+    /* --- Transparências de Branco (Sobreposições) --- */
+    --bg-white-08: rgba(255, 255, 255, 0.08);
+    --border-white-25: rgba(255, 255, 255, 0.25);
+    --border-white-35: rgba(255, 255, 255, 0.35);
+
+    /* --- Transparências para Alertas (Fundos Semânticos) --- */
+    --bg-success-15: rgba(34, 197, 94, 0.15);
+    --bg-danger-15: rgba(239, 68, 68, 0.15);
+    --bg-warning-15: rgba(234, 179, 8, 0.15);
+
+    /* --- Transparências Específicas do Hero (Landing Page) --- */
+    --bg-overlay-15: rgba(6, 8, 15, 0.15);
+    --bg-overlay-55: rgba(6, 8, 15, 0.55);
+    --bg-overlay-92: rgba(6, 8, 15, 0.92);
+    --shadow-accent-red-45: rgba(230, 57, 70, 0.45);
+
+    /* --- Variáveis Estruturais --- */
+    --radius-lg: 1.25rem;
+    --radius-xl: 1.75rem;
+    --nav-height: 72px;
+    --shadow-dock: 0 24px 60px rgba(0, 0, 0, 0.55);
+}

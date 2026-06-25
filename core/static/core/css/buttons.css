@@ -1,0 +1,148 @@
+/* ─── Botões ─────────────────────────────────────────────── */
+
+.btn-spotter,
+.btn-accent {
+    background: var(--accent-blue);
+    border: none;
+    color: var(--color-white);
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.65rem 1.5rem;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-spotter:hover,
+.btn-accent:hover {
+    background: var(--accent-blue-hover);
+    color: var(--color-white);
+    transform: translateY(-1px);
+}
+
+.btn-outline-spotter {
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    background: transparent;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.btn-outline-spotter:hover {
+    background: var(--accent-blue);
+    color: var(--color-white);
+}
+
+.btn-ghost-light {
+    border: 1px solid var(--border-white-25);
+    color: var(--text-primary);
+    background: transparent;
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+.btn-ghost-light:hover {
+    background: var(--bg-white-08);
+    color: var(--color-white);
+}
+
+.btn-nav-outline {
+    border: 1px solid var(--border-white-35) !important;
+    border-radius: 999px !important;
+    color: var(--text-primary) !important;
+    padding: 0.45rem 1.1rem !important;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.btn-nav-outline:hover {
+    background: var(--bg-white-08);
+    color: var(--text-primary) !important;
+}
+
+.btn-nav-cta {
+    background: transparent !important;
+    border: 1px solid var(--border-white-35) !important;
+    border-radius: 999px !important;
+    color: var(--text-primary) !important;
+    padding: 0.45rem 1.1rem !important;
+}
+
+/* ─── Botão outline colorido (padrão para ações em tabelas/painéis) ──── */
+/* Uso: class="btn-outline-color --blue"  →  borda + texto azul           */
+/*      class="btn-outline-color --red"   →  borda + texto vermelho        */
+/*      class="btn-outline-color --white" →  borda + texto branco          */
+
+.btn-outline-color {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    background: transparent;
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    line-height: 1.4;
+    /* Standard sizing */
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+/* Modificador de tamanho (para tabelas e painéis) */
+.btn-outline-sm {
+    font-size: .78rem !important;
+    padding: .28rem .65rem !important;
+}
+
+.btn-outline-lg {
+    font-size: 1.1rem !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+/* Modificadores de cor */
+.btn-outline-blue {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+.btn-outline-blue:hover {
+    background: var(--bg-accent-blue-15);
+}
+
+.btn-outline-red {
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+.btn-outline-red:hover {
+    background: var(--bg-danger-15);
+}
+
+.btn-outline-green {
+    border-color: var(--text-success);
+    color: var(--text-success);
+}
+.btn-outline-green:hover {
+    background: var(--bg-success-15);
+}
+
+.btn-outline-white {
+    border-color: var(--border-white-35);
+    color: var(--text-primary);
+}
+.btn-outline-white:hover {
+    background: var(--bg-white-08);
+}
+
+/* Botão sólido vermelho para excluir (movido de components) */
+.btn-excluir-exercicio {
+    background: var(--accent-red);
+    color: var(--color-white);
+    border: none;
+    border-radius: 6px;
+    font-size: .75rem;
+    padding: .2rem .6rem;
+    cursor: pointer;
+    transition: opacity .15s;
+}
+.btn-excluir-exercicio:hover {
+    opacity: .85;
+}

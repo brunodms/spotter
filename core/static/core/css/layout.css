@@ -1,0 +1,264 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body.theme-dark {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-body);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+.nav-spacer {
+    height: var(--nav-height);
+    flex-shrink: 0;
+}
+
+/* ─── Navbar ───────────────────────────────────────────── */
+
+.navbar-spotter {
+    background: var(--bg-body) !important;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0.85rem 0;
+    min-height: var(--nav-height);
+}
+
+.navbar-spotter .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.02em;
+}
+
+.brand-logo {
+    display: inline-flex;
+    color: var(--accent-blue);
+}
+
+.navbar-spotter .nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.85rem !important;
+}
+
+.navbar-spotter .nav-link:hover,
+.navbar-spotter .nav-link.active {
+    color: var(--text-primary) !important;
+}
+
+.nav-pill-link {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 0.4rem 1rem !important;
+}
+
+.navbar-spotter .dropdown-menu {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+}
+
+.navbar-spotter .dropdown-item {
+    color: var(--text-secondary);
+}
+
+.navbar-spotter .dropdown-item:hover {
+    background: var(--bg-accent-blue-15);
+    color: var(--text-primary);
+}
+
+/* ─── Hero (landing) ─────────────────────────────────────── */
+
+.page-home main {
+    padding-bottom: 0;
+}
+
+.hero-train {
+    position: relative;
+    min-height: calc(100vh - var(--nav-height));
+    margin-top: calc(-1 * var(--nav-height));
+    padding-top: var(--nav-height);
+    overflow: hidden;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.hero-train__bg {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(105deg, var(--bg-overlay-15) 0%, var(--bg-overlay-55) 45%, var(--bg-overlay-92) 68%),
+        url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1600&q=80') center 30% / cover no-repeat;
+}
+
+.hero-train__accent {
+    position: absolute;
+    top: -10%;
+    left: 38%;
+    width: 4px;
+    height: 130%;
+    background: var(--accent-red);
+    transform: rotate(-18deg);
+    transform-origin: top center;
+    z-index: 2;
+    box-shadow: 0 0 20px var(--shadow-accent-red-45);
+}
+
+.hero-train__content {
+    position: relative;
+    z-index: 3;
+    min-height: calc(100vh - var(--nav-height) - 140px);
+    display: flex;
+    align-items: center;
+    padding: 3rem 0 10rem;
+}
+
+.hero-train__copy {
+    margin-left: auto;
+    max-width: 520px;
+    text-align: right;
+}
+
+.hero-train__title {
+    font-size: clamp(2.4rem, 5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+}
+
+.hero-train__subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.hero-train__dock-wrap {
+    position: absolute;
+    left: 50%;
+    bottom: 2.5rem;
+    transform: translateX(-50%);
+    width: min(1100px, calc(100% - 2rem));
+    z-index: 5;
+}
+
+/* ─── Seções internas ────────────────────────────────────── */
+
+.page-inner {
+    padding: 2.5rem 0 4rem;
+}
+
+.theme-dark main > .container {
+    padding: 2.5rem 0 4rem;
+}
+
+.theme-dark hr {
+    border-color: var(--border-subtle);
+    opacity: 1;
+}
+
+/* Footer */
+.footer-spotter {
+    background: var(--bg-body);
+    border-top: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+}
+
+/* Responsivo */
+@media (max-width: 991px) {
+    .hero-train__copy {
+        text-align: left;
+        margin-left: 0;
+        max-width: 100%;
+    }
+
+    .hero-train__accent {
+        left: 55%;
+    }
+
+    .hero-train__dock-wrap {
+        position: relative;
+        transform: none;
+        left: auto;
+        bottom: auto;
+        width: 100%;
+        margin-top: 2rem;
+        padding: 0 1rem 2rem;
+    }
+
+    .hero-train__content {
+        padding-bottom: 2rem;
+        flex-direction: column;
+    }
+}
+
+/* ─── Painel de Plano de Treino ──────────────────────────── */
+
+.plano-panel {
+    background: var(--bg-body);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.plano-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .75rem 1rem;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.sessao-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.sessao-header__info {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.sessao-nome {
+    font-size: .92rem;
+    font-weight: 700;
+}
+
+.badge-dia {
+    background: var(--accent-blue);
+    color: var(--color-white);
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .18rem .65rem;
+    border-radius: 999px;
+    box-shadow: 0 0 10px var(--border-accent-blue-35);
+}
+
+.sessao-code {
+    color: var(--text-muted);
+    font-size: .8rem;
+}
+
+.sessao-header__actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.plano-panel__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}

@@ -37,6 +37,10 @@ from .personal import (
     plano_detalhe,
     sessao_detalhe,
     exercicio_detalhe,
+    SessaoCreateView,
+    SessaoDeleteView,
+    ExercicioCreateView,
+    ExercicioDeleteView,
 )
 
 __all__ = [
@@ -60,6 +64,10 @@ __all__ = [
     "plano_detalhe",
     "sessao_detalhe",
     "exercicio_detalhe",
+    "SessaoCreateView",
+    "SessaoDeleteView",
+    "ExercicioCreateView",
+    "ExercicioDeleteView",
     # Aluno views
     "AlunoContratoListView",
     "AlunoBuscarPersonalView",

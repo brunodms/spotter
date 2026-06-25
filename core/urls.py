@@ -74,6 +74,30 @@ urlpatterns = [
         views.plano_detalhe,
         name="plano_detalhe",
     ),
+    # Criar sessão no plano
+    path(
+        "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/sessao/nova/",
+        views.SessaoCreateView.as_view(),
+        name="sessao_create",
+    ),
+    # Excluir sessão
+    path(
+        "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/<int:sessao_cod>/excluir/",
+        views.SessaoDeleteView.as_view(),
+        name="sessao_delete",
+    ),
+    # Criar exercício na sessão
+    path(
+        "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/<int:sessao_cod>/exercicio/novo/",
+        views.ExercicioCreateView.as_view(),
+        name="exercicio_create",
+    ),
+    # Excluir exercício
+    path(
+        "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/<int:sessao_cod>/<int:exercicio_cod>/excluir/",
+        views.ExercicioDeleteView.as_view(),
+        name="exercicio_delete",
+    ),
     # Detalhe de uma sessão
     path(
         "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/<int:sessao_cod>/",

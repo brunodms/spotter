@@ -1,0 +1,22 @@
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--accent-blue-light);
+}
+
+.page-header h1 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.page-header .text-muted,
+.text-muted-theme {
+    color: var(--text-secondary) !important;
+}
+
+.theme-dark .text-muted {
+    color: var(--text-secondary) !important;
+}

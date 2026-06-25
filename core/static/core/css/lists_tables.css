@@ -1,0 +1,107 @@
+/* Tabelas */
+.theme-dark table,
+.theme-dark table th,
+.theme-dark table td,
+.theme-dark table thead th,
+.theme-dark table tbody td,
+.theme-dark table tbody tr,
+.theme-dark table thead,
+.theme-dark .table {
+    color: var(--text-primary) !important;
+    background-color: transparent !important;
+    border-color: var(--border-subtle) !important;
+}
+
+.theme-dark table {
+    background-color: var(--bg-surface) !important;
+}
+
+.theme-dark table th,
+.theme-dark table td {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark table thead th {
+    color: var(--text-secondary) !important;
+    font-weight: 600;
+    border-bottom-color: var(--border-subtle) !important;
+}
+
+.theme-dark table tbody tr {
+    border-color: var(--border-subtle) !important;
+}
+
+.theme-dark .table {
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--border-subtle);
+}
+
+.theme-dark .list-group-item {
+    background: var(--bg-elevated);
+    border-color: var(--border-subtle);
+    color: var(--text-primary);
+}
+
+.theme-dark .list-group-item a {
+    color: var(--accent-blue);
+}
+
+.theme-dark .page-link {
+    background: var(--bg-elevated);
+    border-color: var(--border-subtle);
+    color: var(--text-secondary);
+}
+
+.theme-dark .page-item.active .page-link {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+/* ─── Tabela de Exercícios (Painel de Plano) ─────────────── */
+
+.sessao-table-wrap {
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.sessao-table {
+    font-size: .88rem;
+    color: var(--text-primary) !important;
+    --bs-table-color: var(--text-primary);
+    --bs-table-bg: transparent;
+    --bs-table-striped-color: var(--text-primary);
+    --bs-table-striped-bg: transparent;
+    --bs-table-hover-color: var(--text-primary);
+    --bs-table-hover-bg: transparent;
+    background: transparent !important;
+}
+
+.sessao-thead tr {
+    color: var(--text-muted);
+    font-size: .75rem;
+    letter-spacing: .04em;
+}
+
+.sessao-th-num {
+    width: 44px;
+    padding-left: 1rem !important;
+}
+
+.exercicio-row {
+    color: var(--text-primary) !important;
+}
+
+.exercicio-td-num {
+    color: var(--text-muted);
+    padding-left: 1rem !important;
+}
+
+.exercicio-td-obs {
+    color: var(--text-muted);
+}
+
+.sessao-empty-row td {
+    color: var(--text-muted);
+    font-size: .85rem;
+    text-align: center;
+    padding: .75rem;
+}

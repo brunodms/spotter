@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, View, TemplateView
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 
 from ..mixins import PersonalRequiredMixin
-from ..models import Contrato, Exercicio, PerfilAluno, PlanoTreino, SessaoTreino
+from ..models import Contrato, Exercicio, ExercicioPadrao, PerfilAluno, PlanoTreino, SessaoTreino
 
 
 class PersonalContratoListView(PersonalRequiredMixin, ListView):
@@ -95,29 +96,28 @@ class PersonalAlunoListView(PersonalRequiredMixin, ListView):
 
 
 class PersonalAlunoDetailView(PersonalRequiredMixin, TemplateView):
-    template_name = "core/personal/aluno_detail.html"
+    """Redireciona para o contrato ativo (ou mais recente) na URL hierárquica."""
 
     def get(self, request, aluno_id, *args, **kwargs):
         perfil_aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        personal = request.user.perfil_personal
         contrato_qs = Contrato.objects.filter(
             aluno=perfil_aluno,
-            personal=request.user.perfil_personal,
+            personal=personal,
         ).order_by("-criado_em")
         if not contrato_qs.exists():
             return redirect("core:personal_alunos")
 
-        # Mostrar planos apenas do contrato ativo (ou mais recente se nenhum ativo)
-        contrato_ativo = contrato_qs.filter(status=Contrato.STATUS_ATIVO).first()
-        contrato_exibido = contrato_ativo or contrato_qs.first()
-
-        planos = PlanoTreino.objects.filter(contrato=contrato_exibido)
-        return self.render_to_response({
-            "aluno": perfil_aluno.usuario,
-            "perfil_aluno": perfil_aluno,
-            "planos": planos,
-            "contrato": contrato_exibido,
-            "contratos": contrato_qs,
-        })
+        contrato = (
+            contrato_qs.filter(status=Contrato.STATUS_ATIVO).first()
+            or contrato_qs.first()
+        )
+        return redirect(
+            "core:contrato_detalhe",
+            personal_id=personal.pk,
+            aluno_id=perfil_aluno.pk,
+            contrato_cod=contrato.codigo,
+        )
 
 
 class PersonalPlanoDetailView(PersonalRequiredMixin, TemplateView):
@@ -249,13 +249,178 @@ def plano_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod):
     )
     plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
     sessoes = plano.sessoes.prefetch_related("exercicios").all()
+    exercicios_padrao = ExercicioPadrao.objects.all()
+    is_personal_owner = (
+        request.user.is_authenticated
+        and hasattr(request.user, "perfil_personal")
+        and request.user.perfil_personal == personal
+    )
     return render(request, "core/plano_detalhe.html", {
         "personal": personal,
         "aluno": aluno,
         "contrato": contrato,
         "plano": plano,
         "sessoes": sessoes,
+        "exercicios_padrao": exercicios_padrao,
+        "is_personal_owner": is_personal_owner,
     })
+
+
+class SessaoCreateView(PersonalRequiredMixin, View):
+    """Cria uma nova sessão de treino via POST (enviado pelo modal)."""
+
+    def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod):
+        from ..models import PerfilPersonal
+        personal = get_object_or_404(PerfilPersonal, pk=personal_id)
+        if personal.pk != request.user.perfil_personal.pk:
+            messages.error(request, "Acesso negado.")
+            return redirect("core:personal_alunos")
+        aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        contrato = get_object_or_404(
+            Contrato, personal=personal, aluno=aluno, codigo=contrato_cod
+        )
+        plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
+
+        nome = request.POST.get("nome", "").strip()
+        dia_semana = request.POST.get("dia_semana", "")
+        ordem = request.POST.get("ordem", 1)
+        if not nome:
+            messages.error(request, "O nome da sessão é obrigatório.")
+        else:
+            SessaoTreino.objects.create(
+                plano=plano,
+                nome=nome,
+                dia_semana=dia_semana,
+                ordem=int(ordem),
+            )
+            messages.success(request, f'Sessão "{nome}" criada com sucesso.')
+
+        return redirect(
+            "core:plano_detalhe",
+            personal_id=personal_id,
+            aluno_id=aluno_id,
+            contrato_cod=contrato_cod,
+            plano_cod=plano_cod,
+        )
+
+
+class SessaoDeleteView(PersonalRequiredMixin, View):
+    """Exclui uma sessão de treino via POST."""
+
+    def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod):
+        from ..models import PerfilPersonal
+        personal = get_object_or_404(PerfilPersonal, pk=personal_id)
+        if personal.pk != request.user.perfil_personal.pk:
+            messages.error(request, "Acesso negado.")
+            return redirect("core:personal_alunos")
+        aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        contrato = get_object_or_404(Contrato, personal=personal, aluno=aluno, codigo=contrato_cod)
+        plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
+        sessao = get_object_or_404(SessaoTreino, plano=plano, codigo=sessao_cod)
+        sessao.delete()
+        messages.success(request, "Sessão excluída.")
+        return redirect(
+            "core:plano_detalhe",
+            personal_id=personal_id,
+            aluno_id=aluno_id,
+            contrato_cod=contrato_cod,
+            plano_cod=plano_cod,
+        )
+
+
+class ExercicioCreateView(PersonalRequiredMixin, View):
+    """Cria um novo exercício em uma sessão via POST (enviado pelo modal)."""
+
+    def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod):
+        from ..models import PerfilPersonal
+        personal = get_object_or_404(PerfilPersonal, pk=personal_id)
+        if personal.pk != request.user.perfil_personal.pk:
+            messages.error(request, "Acesso negado.")
+            return redirect("core:personal_alunos")
+        aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        contrato = get_object_or_404(Contrato, personal=personal, aluno=aluno, codigo=contrato_cod)
+        plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
+        sessao = get_object_or_404(SessaoTreino, plano=plano, codigo=sessao_cod)
+
+        # Pode vir de um exercício padrão ou manual
+        padrao_id = request.POST.get("exercicio_padrao_id")
+        nome = request.POST.get("nome", "").strip()
+        series = request.POST.get("series", "")
+        repeticoes = request.POST.get("repeticoes", "")
+        carga = request.POST.get("carga", "").strip()
+        observacoes = request.POST.get("observacoes", "").strip()
+        ordem = request.POST.get("ordem", 1)
+
+        # Preenche a partir do padrão se selecionado
+        if padrao_id:
+            try:
+                padrao = ExercicioPadrao.objects.get(pk=padrao_id)
+                if not nome:
+                    nome = padrao.nome
+                if not series:
+                    series = padrao.series_padrao
+                if not repeticoes:
+                    repeticoes = padrao.repeticoes_padrao
+            except ExercicioPadrao.DoesNotExist:
+                pass
+
+        errors = []
+        if not nome:
+            errors.append("O nome do exercício é obrigatório.")
+        if not series:
+            errors.append("Séries é obrigatório.")
+        if not repeticoes:
+            errors.append("Repetições é obrigatório.")
+
+        if errors:
+            for e in errors:
+                messages.error(request, e)
+        else:
+            Exercicio.objects.create(
+                sessao=sessao,
+                nome=nome,
+                series=int(series),
+                repeticoes=int(repeticoes),
+                carga=carga,
+                observacoes=observacoes,
+                ordem=int(ordem),
+            )
+            messages.success(request, f'Exercício "{nome}" adicionado.')
+
+        return redirect(
+            "core:plano_detalhe",
+            personal_id=personal_id,
+            aluno_id=aluno_id,
+            contrato_cod=contrato_cod,
+            plano_cod=plano_cod,
+        )
+
+
+class ExercicioDeleteView(PersonalRequiredMixin, View):
+    """Exclui um exercício via POST."""
+
+    def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod):
+        from ..models import PerfilPersonal
+        personal = get_object_or_404(PerfilPersonal, pk=personal_id)
+        if personal.pk != request.user.perfil_personal.pk:
+            messages.error(request, "Acesso negado.")
+            return redirect("core:personal_alunos")
+        aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        contrato = get_object_or_404(Contrato, personal=personal, aluno=aluno, codigo=contrato_cod)
+        plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
+        sessao = get_object_or_404(SessaoTreino, plano=plano, codigo=sessao_cod)
+        exercicio = get_object_or_404(Exercicio, sessao=sessao, codigo=exercicio_cod)
+        exercicio.delete()
+        messages.success(request, "Exercício excluído.")
+        return redirect(
+            "core:plano_detalhe",
+            personal_id=personal_id,
+            aluno_id=aluno_id,
+            contrato_cod=contrato_cod,
+            plano_cod=plano_cod,
+        )
+
+
 
 
 def sessao_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod):

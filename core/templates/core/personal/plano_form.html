@@ -21,8 +21,8 @@
                             {{ field.errors }}
                         </div>
                         {% endfor %}
-                        <button type="submit" class="btn btn-spotter">{% if form.instance.pk %}Salvar{% else %}Criar plano{% endif %}</button>
-                        <a href="{% url 'core:personal_alunos' %}" class="btn btn-link">Cancelar</a>
+                        <button type="submit" class="btn-outline-color btn-outline-blue">{% if form.instance.pk %}Salvar{% else %}Criar plano{% endif %}</button>
+                        <a href="{% url 'core:personal_alunos' %}" class="btn-outline-color btn-outline-white">Cancelar</a>
                     </form>
                     <p class="small text-muted mt-3 mb-0">
                         Após criar o plano, adicione sessões e exercícios pelo
