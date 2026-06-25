@@ -29,7 +29,7 @@
                 {% else %}<span class="badge bg-secondary ms-1">Inativo</span>{% endif %}
             </p>
         </div>
-        <a href="{% url 'core:personal_plano_edit' plano.pk %}" class="btn btn-outline-secondary btn-sm">Editar plano</a>
+        <a href="{% url 'core:personal_plano_edit' plano.pk %}" class="btn-outline-color btn-outline-white btn-sm">Editar plano</a>
     </div>
 
     {# ── Painel principal ── #}
@@ -39,7 +39,7 @@
         <div class="plano-panel__header">
             <span class="fw-semibold">Sessões e Exercícios</span>
             {% if is_personal_owner %}
-            <button class="btn-outline-color btn-outline-blue"
+            <button class="btn-outline-color btn-outline-blue btn-outline-sm"
                     data-bs-toggle="modal" data-bs-target="#modalNovaSessao">
                 Nova Sessão
             </button>
@@ -61,7 +61,7 @@
                 </div>
                 {% if is_personal_owner %}
                 <div class="sessao-header__actions">
-                    <button class="btn-outline-color btn-outline-blue"
+                    <button class="btn-outline-color btn-outline-blue btn-outline-sm"
                             data-bs-toggle="modal"
                             data-bs-target="#modalNovoExercicio{{ sessao.codigo }}">
                         + Exercício
@@ -70,7 +70,7 @@
                           action="{% url 'core:sessao_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}"
                           onsubmit="return confirm('Excluir esta sessão e todos os seus exercícios?')">
                         {% csrf_token %}
-                        <button type="submit" class="btn-outline-color btn-outline-red">Excluir sessão</button>
+                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir sessão</button>
                     </form>
                 </div>
                 {% endif %}
@@ -105,7 +105,7 @@
                                       action="{% url 'core:exercicio_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
                                       onsubmit="return confirm('Excluir este exercício?')">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn-excluir-exercicio">Excluir</button>
+                                    <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir</button>
                                 </form>
                             </td>
                             {% endif %}
@@ -115,7 +115,7 @@
                             <td colspan="{% if is_personal_owner %}7{% else %}6{% endif %}">
                                 Nenhum exercício nesta sessão.
                                 {% if is_personal_owner %}
-                                <button class="btn btn-link btn-sm p-0 ms-1"
+                                <button class="btn-outline-color btn-outline-white btn-sm p-0 ms-1"
                                         data-bs-toggle="modal"
                                         data-bs-target="#modalNovoExercicio{{ sessao.codigo }}">
                                     Adicionar agora
@@ -134,7 +134,7 @@
         <div class="plano-panel__empty">
             <p class="mb-2">Nenhuma sessão criada ainda.</p>
             {% if is_personal_owner %}
-            <button class="btn-outline-color btn-outline-blue"
+            <button class="btn-outline-color btn-outline-blue btn-outline-sm"
                     data-bs-toggle="modal" data-bs-target="#modalNovaSessao">
                 Criar primeira sessão
             </button>
@@ -187,8 +187,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-spotter btn-sm">Criar sessão</button>
+                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Criar sessão</button>
                 </div>
             </form>
         </div>
@@ -272,8 +272,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-spotter btn-sm">Adicionar exercício</button>
+                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Adicionar exercício</button>
                 </div>
             </form>
         </div>

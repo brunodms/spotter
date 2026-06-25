@@ -72,15 +72,31 @@
 /*      class="btn-outline-color --white" →  borda + texto branco          */
 
 .btn-outline-color {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
     background: transparent;
     border-radius: 6px;
-    font-size: .78rem;
-    padding: .28rem .65rem;
     border-width: 1px;
     border-style: solid;
     cursor: pointer;
     transition: background 0.18s, color 0.18s;
     line-height: 1.4;
+    /* Standard sizing */
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+/* Modificador de tamanho (para tabelas e painéis) */
+.btn-outline-sm {
+    font-size: .78rem !important;
+    padding: .28rem .65rem !important;
+}
+
+.btn-outline-lg {
+    font-size: 1.1rem !important;
+    padding: 0.75rem 1.5rem !important;
 }
 
 /* Modificadores de cor */
@@ -98,6 +114,14 @@
 }
 .btn-outline-red:hover {
     background: var(--bg-danger-15);
+}
+
+.btn-outline-green {
+    border-color: var(--text-success);
+    color: var(--text-success);
+}
+.btn-outline-green:hover {
+    background: var(--bg-success-15);
 }
 
 .btn-outline-white {
