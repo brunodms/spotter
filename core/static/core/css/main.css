@@ -476,6 +476,164 @@ a:hover {
     font-weight: 500;
 }
 
+.theme-dark .form-check-label {
+    color: var(--text-primary);
+}
+
+.theme-dark .form-text {
+    color: var(--text-muted) !important;
+}
+
+/* ─── Painel de plano de treino ──────────────────────────── */
+
+.plano-panel {
+    background: var(--bg-body);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.plano-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.sessao-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.sessao-header__info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.sessao-nome {
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.badge-dia {
+    background: var(--accent-blue);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.18rem 0.65rem;
+    border-radius: 999px;
+}
+
+.sessao-code {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.sessao-header__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.sessao-header__actions form {
+    margin: 0;
+    display: inline-flex;
+}
+
+.plano-panel__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+/* ─── Modais tema escuro ─────────────────────────────────── */
+
+.modal-dark .modal-content {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+}
+
+.modal-dark .modal-header,
+.modal-dark .modal-footer {
+    border-color: var(--border-subtle);
+    background: var(--bg-elevated);
+}
+
+.modal-dark .modal-body {
+    background: var(--bg-elevated);
+}
+
+.modal-dark .modal-title {
+    color: var(--text-primary);
+}
+
+.modal-dark .modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.modal-dark hr {
+    border-color: var(--border-subtle);
+    opacity: 1;
+}
+
+.modal-dark .form-control,
+.modal-dark .form-select,
+.modal-dark textarea.form-control {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    border-radius: 0.75rem;
+}
+
+.modal-dark .form-control:focus,
+.modal-dark .form-select:focus,
+.modal-dark textarea.form-control:focus {
+    background: var(--bg-surface);
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 3px rgba(47, 124, 246, 0.2);
+}
+
+.modal-dark .form-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.modal-dark .form-select option,
+.modal-dark .form-select optgroup {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+@media (max-width: 767px) {
+    .sessao-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sessao-header__actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 /* Tabelas */
 .theme-dark table,
 .theme-dark table th,

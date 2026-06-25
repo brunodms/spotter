@@ -5,6 +5,7 @@ from django.views.generic import ListView, View, TemplateView
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 
+from ..forms import PlanoTreinoEditForm, PlanoTreinoForm
 from ...mixins import PersonalRequiredMixin
 from ...models import Contrato, Exercicio, ExercicioPadrao, PerfilAluno, PlanoTreino, SessaoTreino
 
@@ -148,7 +149,7 @@ class PersonalPlanoDetailView(PersonalRequiredMixin, TemplateView):
 
 class PersonalPlanoCreateView(PersonalRequiredMixin, CreateView):
     model = PlanoTreino
-    fields = ["contrato", "nome", "descricao", "ativo"]
+    form_class = PlanoTreinoForm
     template_name = "core/personal/plano_form.html"
 
     def get_form(self, form_class=None):
@@ -213,17 +214,13 @@ class PersonalPlanoUpdateView(PersonalRequiredMixin, TemplateView):
         )
 
     def get(self, request, pk, *args, **kwargs):
-        from django.forms import modelform_factory
-        PlanoForm = modelform_factory(PlanoTreino, fields=["nome", "descricao", "ativo"])
         plano = self.get_object(pk)
-        form = PlanoForm(instance=plano)
+        form = PlanoTreinoEditForm(instance=plano)
         return self.render_to_response({"form": form, "plano": plano})
 
     def post(self, request, pk, *args, **kwargs):
-        from django.forms import modelform_factory
-        PlanoForm = modelform_factory(PlanoTreino, fields=["nome", "descricao", "ativo"])
         plano = self.get_object(pk)
-        form = PlanoForm(request.POST, instance=plano)
+        form = PlanoTreinoEditForm(request.POST, instance=plano)
         if form.is_valid():
             form.save()
             contrato = plano.contrato

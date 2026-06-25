@@ -10,7 +10,7 @@
         {% with c=item.contrato info=item.info %}
         <div class="col-md-6 col-lg-4">
             <div class="card shadow-sm border-0 h-100">
-                <a href="{% url 'core:personal_aluno_detail' c.aluno.pk %}" class="card-body text-decoration-none text-dark d-block">
+                <a href="{% url 'core:personal_aluno_detail' c.aluno.pk %}" class="card-body text-decoration-none text-white d-block">
                     <h5 class="card-title">{{ c.aluno.usuario.nome }}</h5>
                     <p class="small text-muted mb-2">{{ c.aluno.usuario.email }}</p>
                     <p class="small mb-0">
