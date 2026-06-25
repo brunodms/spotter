@@ -47,10 +47,10 @@
                     <td>{{ c.criado_em|date:"d/m/Y H:i" }}</td>
                     <td>
                         {% if c.status == "ativo" %}
-                        <a href="{% url 'core:aluno_planos' %}" class="btn btn-sm btn-outline-spotter">Ver treinos</a>
+                        <a href="{% url 'core:aluno_planos' %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver treinos</a>
                         {% endif %}
                         {% if c.status != "pendente" and not c.avaliacao %}
-                        <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn btn-sm btn-outline-warning">Avaliar</a>
+                        <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">Avaliar</a>
                         {% elif c.avaliacao %}
                         <span class="small text-muted">Avaliado ({{ c.avaliacao.nota }}★)</span>
                         {% elif c.status == "pendente" %}—{% endif %}

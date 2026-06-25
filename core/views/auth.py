@@ -3,13 +3,12 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, TemplateView
 
 from ..forms import LoginForm, RegistroForm
-from ..models import Contrato, Usuario, PlanoTreino
-
-
-from django.shortcuts import redirect
+from ..models import Usuario
+from .aluno.dashboard import AlunoDashboardView
 
 
 class HomeView(TemplateView):
@@ -65,30 +64,10 @@ class SpotterLogoutView(LogoutView):
     next_page = reverse_lazy("core:home")
 
 
-class DashboardView(TemplateView):
-    template_name = "core/home.html"
-
+class DashboardView(View):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("core:login")
-        # Do not auto-redirect personals; show dashboard with options instead
-        return super().dispatch(request, *args, **kwargs)
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated and self.request.user.eh_aluno:
-            contratos_pendentes = Contrato.objects.para_aluno(self.request.user).pendentes()
-            contratos_ativos = Contrato.objects.para_aluno(self.request.user).ativos()
-            planos_ativos = PlanoTreino.objects.filter(contrato__in=contratos_ativos, ativo=True)
-            planos_por_contrato = {p.contrato_id: p for p in planos_ativos}
-            contratos_ativos_with_plan = [(c, planos_por_contrato.get(c.pk)) for c in contratos_ativos]
-            context.update({
-                "contratos_pendentes": contratos_pendentes,
-                "contratos_pendentes_count": contratos_pendentes.count(),
-                "contratos_ativos": contratos_ativos,
-                "contratos_ativos_count": contratos_ativos.count(),
-                "planos_por_contrato": planos_por_contrato,
-                "contratos_ativos_with_plan": contratos_ativos_with_plan,
-            })
-        return context
+        if request.user.eh_aluno:
+            return AlunoDashboardView.as_view()(request, *args, **kwargs)
+        return TemplateView.as_view(template_name="core/home.html")(request, *args, **kwargs)
