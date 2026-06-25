@@ -11,7 +11,7 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h5 class="card-title">{{ plano.nome }}</h5>
-                    <p class="text-muted small mb-2">Personal: {{ plano.personal.usuario.nome }}</p>
+                    <p class="text-muted small mb-2">Personal: {{ plano.contrato.personal.usuario.nome }}</p>
                     <p class="card-text small">{{ plano.descricao|truncatewords:20|default:"Sem descrição." }}</p>
                     <p class="small mb-0">{{ plano.sessoes.count }} sessão(ões)</p>
                 </div>

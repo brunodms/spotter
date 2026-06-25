@@ -21,6 +21,28 @@ urlpatterns = [
     path("aluno/personal/<int:pk>/", views.AlunoPersonalDetailView.as_view(), name="aluno_personal_detail"),
     path("aluno/personal/<int:pk>/solicitar/", views.AlunoSolicitarContratoView.as_view(), name="aluno_solicitar_contrato"),
     path("aluno/contratos/<int:pk>/avaliar/", views.AlunoAvaliacaoView.as_view(), name="aluno_avaliar"),
+    path("aluno/planos/", views.AlunoPlanoListView.as_view(), name="aluno_planos"),
+    path("aluno/planos/<int:pk>/", views.AlunoPlanoDetailView.as_view(), name="aluno_plano_detail"),
+    path(
+        "aluno/planos/<int:plano_pk>/sessoes/<int:sessao_pk>/",
+        views.AlunoSessaoDetailView.as_view(),
+        name="aluno_sessao_detail",
+    ),
+    path(
+        "aluno/planos/<int:plano_pk>/sessoes/<int:sessao_pk>/exercicios/<int:exercicio_pk>/",
+        views.AlunoExercicioDetailView.as_view(),
+        name="aluno_exercicio_detail",
+    ),
+    path(
+        "aluno/planos/<int:plano_pk>/sessoes/<int:sessao_pk>/feedback/",
+        views.AlunoFeedbackSessaoView.as_view(),
+        name="aluno_feedback_sessao",
+    ),
+    path(
+        "aluno/planos/<int:plano_pk>/sessoes/<int:sessao_pk>/exercicios/<int:exercicio_pk>/feedback/",
+        views.AlunoFeedbackExercicioView.as_view(),
+        name="aluno_feedback_exercicio",
+    ),
 
     # ── Área do Personal ────────────────────────────────────────────────────
     path("personal/contratos/", views.PersonalContratoListView.as_view(), name="personal_contratos"),

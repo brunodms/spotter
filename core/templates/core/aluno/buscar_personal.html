@@ -7,7 +7,7 @@
     <div class="container">
         <div class="page-header mb-4">
             <h1 class="h3">Buscar personal trainers</h1>
-            <p class="text-muted-theme mb-0">Filtre por localização, especialidade e avaliação.</p>
+            <p class="text-muted-theme mb-0">Busque personal trainers por cidade, estado ou avaliação.</p>
         </div>
 
         <div class="search-page-dock">
@@ -36,7 +36,7 @@
             {% empty %}
             <div class="col-12">
                 <div class="auth-card text-center py-5">
-                    <p class="text-muted-theme mb-0">Nenhum personal encontrado. Tente outros filtros.</p>
+                    <p class="text-muted-theme mb-0">Nenhum personal encontrado para os filtros informados.</p>
                 </div>
             </div>
             {% endfor %}
@@ -46,11 +46,11 @@
         <nav class="mt-5">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">Anterior</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Anterior</a></li>
                 {% endif %}
                 <li class="page-item disabled"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
                 {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">Próxima</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Próxima</a></li>
                 {% endif %}
             </ul>
         </nav>
