@@ -5,7 +5,7 @@ from django.views.generic import ListView, View, TemplateView
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 
-from ..forms import PlanoTreinoEditForm, PlanoTreinoForm
+from ...forms import PlanoTreinoEditForm, PlanoTreinoForm
 from ...mixins import PersonalRequiredMixin
 from ...models import Contrato, Exercicio, ExercicioPadrao, PerfilAluno, PlanoTreino, SessaoTreino
 
