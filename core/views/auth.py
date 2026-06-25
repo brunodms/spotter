@@ -9,6 +9,7 @@ from django.views.generic import CreateView, TemplateView
 from ..forms import LoginForm, RegistroForm
 from ..models import Usuario
 from .aluno.dashboard import AlunoDashboardView
+from .personal.dashboard import PersonalDashboardView
 
 
 class HomeView(TemplateView):
@@ -50,13 +51,6 @@ class SpotterLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        # Redirect personals to their contracts panel, students to dashboard
-        user = self.request.user
-        try:
-            if user.eh_personal:
-                return reverse("core:personal_contratos")
-        except Exception:
-            pass
         return reverse("core:dashboard")
 
 
@@ -70,4 +64,6 @@ class DashboardView(View):
             return redirect("core:login")
         if request.user.eh_aluno:
             return AlunoDashboardView.as_view()(request, *args, **kwargs)
+        if request.user.eh_personal:
+            return PersonalDashboardView.as_view()(request, *args, **kwargs)
         return TemplateView.as_view(template_name="core/home.html")(request, *args, **kwargs)
