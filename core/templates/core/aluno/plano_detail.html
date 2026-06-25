@@ -6,8 +6,10 @@
 <div class="container py-4">
     <a href="{% url 'core:aluno_planos' %}" class="text-muted small">&larr; Meus treinos</a>
     <div class="mt-3 mb-4">
-        <h1 class="h3 fw-bold mb-1">{{ plano.nome }}</h1>
-        <p class="text-muted mb-2 small">Personal: <strong>{{ plano.contrato.personal.usuario.nome }}</strong></p>
+        <div class="d-flex align-items-baseline gap-3 mb-2">
+            <h1 class="h3 fw-bold mb-0">{{ plano.nome }}</h1>
+            <span class="text-muted small">Personal: <strong>{{ plano.contrato.personal.usuario.nome }}</strong></span>
+        </div>
         {% if plano.descricao %}<p class="text-secondary mt-2">{{ plano.descricao }}</p>{% endif %}
     </div>
     <h2 class="h5 mb-3">Sessões</h2>
