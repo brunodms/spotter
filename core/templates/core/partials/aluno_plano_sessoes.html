@@ -12,36 +12,7 @@
                 Ver sessão
             </a>
         </div>
-        {% if sessao.exercicios.all %}
-        <div class="table-responsive">
-            <table class="table table-sm mb-0">
-                <thead>
-                    <tr>
-                        <th>Exercício</th>
-                        <th>Séries</th>
-                        <th>Reps</th>
-                        <th>Carga</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for ex in sessao.exercicios.all %}
-                    <tr>
-                        <td>{{ ex.nome }}</td>
-                        <td>{{ ex.series }}</td>
-                        <td>{{ ex.repeticoes }}</td>
-                        <td>{{ ex.carga|default:"—" }}</td>
-                        <td class="text-end">
-                            <a href="{% url 'core:aluno_exercicio_detail' plano.pk sessao.pk ex.pk %}" class="small">Detalhes</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% else %}
-        <div class="card-body text-muted small">Nenhum exercício cadastrado nesta sessão.</div>
-        {% endif %}
+
     </div>
     {% endfor %}
 {% else %}
