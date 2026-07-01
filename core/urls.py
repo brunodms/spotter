@@ -16,11 +16,15 @@ urlpatterns = [
     path("contratos/novo/", views.ContratoCreateView.as_view(), name="contrato_create"),
 
     # ── Área do Aluno ───────────────────────────────────────────────────────
+    path("aluno/perfil/", views.AlunoPerfilUpdateView.as_view(), name="aluno_perfil"),
     path("aluno/contratos/", views.AlunoContratoListView.as_view(), name="aluno_contratos"),
+    path("aluno/contratos/<int:pk>/cancelar/", views.AlunoCancelarContratoView.as_view(), name="aluno_cancelar_contrato"),
     path("aluno/personal/buscar/", views.AlunoBuscarPersonalView.as_view(), name="aluno_buscar_personal"),
     path("aluno/personal/<int:pk>/", views.AlunoPersonalDetailView.as_view(), name="aluno_personal_detail"),
     path("aluno/personal/<int:pk>/solicitar/", views.AlunoSolicitarContratoView.as_view(), name="aluno_solicitar_contrato"),
     path("aluno/contratos/<int:pk>/avaliar/", views.AlunoAvaliacaoView.as_view(), name="aluno_avaliar"),
+    path("aluno/contratos/<int:pk>/avaliacao/", views.AlunoAvaliacaoDetailView.as_view(), name="aluno_avaliacao_detail"),
+    path("aluno/contratos/<int:pk>/avaliacao/editar/", views.AlunoAvaliacaoUpdateView.as_view(), name="aluno_avaliacao_edit"),
     path("aluno/planos/", views.AlunoPlanoListView.as_view(), name="aluno_planos"),
     path("aluno/planos/<int:pk>/", views.AlunoPlanoDetailView.as_view(), name="aluno_plano_detail"),
     path(

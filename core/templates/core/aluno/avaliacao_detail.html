@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+
+{% block title %}Avaliação — {{ contrato.personal.usuario.nome }}{% endblock %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="form-card">
+                    <a href="{% url 'core:aluno_contratos' %}" class="text-muted-theme small">&larr; Meus contratos</a>
+                    <h1 class="h4 mt-3 mb-1">Sua avaliação</h1>
+                    <p class="text-muted-theme small mb-4">
+                        Personal: <strong>{{ contrato.personal.usuario.nome }}</strong>
+                    </p>
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Nota</dt>
+                        <dd class="col-sm-8">
+                            <span class="text-warning fw-semibold">{{ avaliacao.nota }} ★</span>
+                        </dd>
+
+                        <dt class="col-sm-4">Comentário</dt>
+                        <dd class="col-sm-8">
+                            {% if avaliacao.comentario %}
+                            {{ avaliacao.comentario|linebreaksbr }}
+                            {% else %}
+                            <span class="text-muted-theme">Sem comentário.</span>
+                            {% endif %}
+                        </dd>
+
+                        <dt class="col-sm-4">Enviada em</dt>
+                        <dd class="col-sm-8">{{ avaliacao.criado_em|date:"d/m/Y H:i" }}</dd>
+                    </dl>
+
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <a href="{% url 'core:aluno_avaliacao_edit' contrato.pk %}" class="btn-outline-color btn-outline-blue">Editar avaliação</a>
+                        <a href="{% url 'core:aluno_contratos' %}" class="btn-outline-color btn-outline-white">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
