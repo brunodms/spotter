@@ -418,10 +418,70 @@ class ExercicioDeleteView(PersonalRequiredMixin, View):
         )
 
 
+class ExercicioUpdateView(PersonalRequiredMixin, View):
+    """Edita um exercício existente."""
+
+    def _get_context(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod):
+        from ...forms import ExercicioForm
+        from ...models import PerfilPersonal
+
+        personal = get_object_or_404(PerfilPersonal, pk=personal_id)
+        if personal.pk != request.user.perfil_personal.pk:
+            return None
+        aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
+        contrato = get_object_or_404(Contrato, personal=personal, aluno=aluno, codigo=contrato_cod)
+        plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
+        sessao = get_object_or_404(SessaoTreino, plano=plano, codigo=sessao_cod)
+        exercicio = get_object_or_404(Exercicio, sessao=sessao, codigo=exercicio_cod)
+        return {
+            "personal": personal,
+            "aluno": aluno,
+            "contrato": contrato,
+            "plano": plano,
+            "sessao": sessao,
+            "exercicio": exercicio,
+            "ExercicioForm": ExercicioForm,
+        }
+
+    def get(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod):
+        ctx = self._get_context(
+            request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod
+        )
+        if ctx is None:
+            messages.error(request, "Acesso negado.")
+            return redirect("core:personal_alunos")
+        ctx["form"] = ctx["ExercicioForm"](instance=ctx["exercicio"])
+        return render(request, "core/exercicio_edit.html", ctx)
+
+    def post(self, request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod):
+        ctx = self._get_context(
+            request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod
+        )
+        if ctx is None:
+            messages.error(request, "Acesso negado.")
+            return redirect("core:personal_alunos")
+        form = ctx["ExercicioForm"](request.POST, instance=ctx["exercicio"])
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Exercício atualizado.")
+            return redirect(
+                "core:plano_detalhe",
+                personal_id=personal_id,
+                aluno_id=aluno_id,
+                contrato_cod=contrato_cod,
+                plano_cod=plano_cod,
+            )
+        ctx["form"] = form
+        return render(request, "core/exercicio_edit.html", ctx)
+
+
 
 
 def sessao_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod):
     """Detalhe de uma sessão via lookup hierárquico encadeado."""
+    from ...models import PerfilPersonal
+
+    personal = get_object_or_404(PerfilPersonal, pk=personal_id)
     aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
     contrato = get_object_or_404(
         Contrato, personal_id=personal_id, aluno=aluno, codigo=contrato_cod
@@ -429,18 +489,28 @@ def sessao_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod, sess
     plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
     sessao = get_object_or_404(SessaoTreino, plano=plano, codigo=sessao_cod)
     exercicios = sessao.exercicios.all()
+    is_personal_owner = (
+        request.user.is_authenticated
+        and hasattr(request.user, "perfil_personal")
+        and request.user.perfil_personal == personal
+    )
     return render(request, "core/sessao_detalhe.html", {
+        "personal": personal,
         "personal_id": personal_id,
         "aluno": aluno,
         "contrato": contrato,
         "plano": plano,
         "sessao": sessao,
         "exercicios": exercicios,
+        "is_personal_owner": is_personal_owner,
     })
 
 
 def exercicio_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod, sessao_cod, exercicio_cod):
     """Detalhe de um exercício via lookup hierárquico encadeado."""
+    from ...models import PerfilPersonal
+
+    personal = get_object_or_404(PerfilPersonal, pk=personal_id)
     aluno = get_object_or_404(PerfilAluno, pk=aluno_id)
     contrato = get_object_or_404(
         Contrato, personal_id=personal_id, aluno=aluno, codigo=contrato_cod
@@ -448,16 +518,24 @@ def exercicio_detalhe(request, personal_id, aluno_id, contrato_cod, plano_cod, s
     plano = get_object_or_404(PlanoTreino, contrato=contrato, codigo=plano_cod)
     sessao = get_object_or_404(SessaoTreino, plano=plano, codigo=sessao_cod)
     exercicio = get_object_or_404(Exercicio, sessao=sessao, codigo=exercicio_cod)
+    is_personal_owner = (
+        request.user.is_authenticated
+        and hasattr(request.user, "perfil_personal")
+        and request.user.perfil_personal == personal
+    )
     return render(request, "core/exercicio_detalhe.html", {
+        "personal": personal,
         "personal_id": personal_id,
         "aluno": aluno,
         "contrato": contrato,
         "plano": plano,
         "sessao": sessao,
         "exercicio": exercicio,
+        "is_personal_owner": is_personal_owner,
     })
 
 
 from .dashboard import PersonalDashboardView
+from .perfil import PersonalPerfilUpdateView
 
-__all__ = ["PersonalDashboardView"]
+__all__ = ["PersonalDashboardView", "PersonalPerfilUpdateView"]

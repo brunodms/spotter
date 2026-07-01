@@ -553,6 +553,19 @@ a:hover {
     display: inline-flex;
 }
 
+.sessao-exercicios {
+    padding: 0 1rem 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.sessao-exercicios--empty {
+    padding-top: 0;
+}
+
+.sessao-exercicios .table {
+    margin-bottom: 0;
+}
+
 .plano-panel__empty {
     text-align: center;
     padding: 3rem 1rem;

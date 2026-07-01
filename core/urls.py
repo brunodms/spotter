@@ -58,6 +58,7 @@ urlpatterns = [
     path("personal/planos/", views.PersonalPlanoListView.as_view(), name="personal_planos"),
     path("personal/planos/novo/", views.PersonalPlanoCreateView.as_view(), name="personal_plano_create"),
     path("personal/planos/<int:pk>/editar/", views.PersonalPlanoUpdateView.as_view(), name="personal_plano_edit"),
+    path("personal/perfil/", views.PersonalPerfilUpdateView.as_view(), name="personal_perfil"),
 
     # ── Hierarquia composta: Contrato → Plano → Sessão → Exercício ──────────
     # Redireciona para o contrato ativo do par (personal, aluno)
@@ -101,6 +102,12 @@ urlpatterns = [
         "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/<int:sessao_cod>/<int:exercicio_cod>/excluir/",
         views.ExercicioDeleteView.as_view(),
         name="exercicio_delete",
+    ),
+    # Editar exercício
+    path(
+        "<int:personal_id>/<int:aluno_id>/<int:contrato_cod>/<int:plano_cod>/<int:sessao_cod>/<int:exercicio_cod>/editar/",
+        views.ExercicioUpdateView.as_view(),
+        name="exercicio_edit",
     ),
     # Detalhe de uma sessão
     path(

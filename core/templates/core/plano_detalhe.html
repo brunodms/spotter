@@ -71,11 +71,62 @@
                           action="{% url 'core:sessao_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}"
                           onsubmit="return confirm('Excluir esta sessão e todos os seus exercícios?')">
                         {% csrf_token %}
-                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir</button>
+                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir sessão</button>
                     </form>
                     {% endif %}
                 </div>
             </div>
+
+            {% if sessao.exercicios.all %}
+            <div class="sessao-exercicios">
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Exercício</th>
+                                <th>Séries</th>
+                                <th>Reps</th>
+                                <th>Carga</th>
+                                {% if is_personal_owner %}<th class="text-end">Ações</th>{% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ex in sessao.exercicios.all %}
+                            <tr>
+                                <td class="text-muted small">{{ ex.codigo }}</td>
+                                <td>
+                                    <a href="{% url 'core:exercicio_detalhe' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
+                                       class="text-decoration-none">{{ ex.nome }}</a>
+                                </td>
+                                <td>{{ ex.series }}</td>
+                                <td>{{ ex.repeticoes }}</td>
+                                <td>{{ ex.carga|default:"—" }}</td>
+                                {% if is_personal_owner %}
+                                <td class="text-end">
+                                    <div class="d-inline-flex flex-wrap gap-1 justify-content-end">
+                                        <a href="{% url 'core:exercicio_edit' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
+                                           class="btn-outline-color btn-outline-white btn-outline-sm">Editar</a>
+                                        <form method="post"
+                                              action="{% url 'core:exercicio_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
+                                              onsubmit="return confirm('Excluir este exercício?')">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% elif is_personal_owner %}
+            <div class="sessao-exercicios sessao-exercicios--empty">
+                <p class="text-muted small mb-0">Nenhum exercício nesta sessão ainda.</p>
+            </div>
+            {% endif %}
 
             {% endfor %}
 

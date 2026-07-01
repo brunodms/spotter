@@ -36,6 +36,7 @@
     </div>
 
     <h2 class="h5 mb-3">Exercícios</h2>
+    <p class="text-muted small mb-3">Visualização dos exercícios desta sessão.</p>
 
     {% if exercicios %}
     <div class="table-responsive">
@@ -48,6 +49,7 @@
                     <th>Reps</th>
                     <th>Carga</th>
                     <th>Observações</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +61,10 @@
                     <td>{{ ex.repeticoes }}</td>
                     <td>{{ ex.carga|default:"—" }}</td>
                     <td class="text-muted small">{{ ex.observacoes|default:"—" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'core:exercicio_detalhe' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
+                           class="btn-outline-color btn-outline-white btn-outline-sm">Ver detalhes</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -67,6 +73,10 @@
     {% else %}
     <p class="text-muted">Nenhum exercício cadastrado nesta sessão.</p>
     {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'core:plano_detalhe' personal.pk aluno.pk contrato.codigo plano.codigo %}" class="btn-outline-color btn-outline-white btn-outline-sm">&larr; Voltar ao plano</a>
+    </div>
 
 </div>
 {% endblock %}

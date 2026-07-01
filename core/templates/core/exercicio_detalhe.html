@@ -59,6 +59,15 @@
                 <dd class="col-sm-8">{{ exercicio.observacoes }}</dd>
                 {% endif %}
             </dl>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                {% if is_personal_owner %}
+                <a href="{% url 'core:exercicio_edit' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo exercicio.codigo %}"
+                   class="btn-outline-color btn-outline-blue">Editar exercício</a>
+                {% endif %}
+                <a href="{% url 'core:plano_detalhe' personal.pk aluno.pk contrato.codigo plano.codigo %}"
+                   class="btn-outline-color btn-outline-white">Voltar ao plano</a>
+            </div>
         </div>
     </div>
 
