@@ -29,7 +29,8 @@
                 {% else %}<span class="badge bg-secondary ms-1">Inativo</span>{% endif %}
             </p>
         </div>
-        <a href="{% url 'core:personal_plano_edit' plano.pk %}" class="btn-outline-color btn-outline-white btn-sm">Editar plano</a>
+        <a href="{% url 'core:personal_plano_edit' plano.pk %}"
+            class="btn-outline-color btn-outline-white btn-sm">Editar plano</a>
     </div>
 
     {# ── Painel principal ── #}
@@ -39,8 +40,8 @@
         <div class="plano-panel__header">
             <span class="fw-semibold">Sessões e Exercícios</span>
             {% if is_personal_owner %}
-            <button class="btn-outline-color btn-outline-blue btn-outline-sm"
-                    data-bs-toggle="modal" data-bs-target="#modalNovaSessao">
+            <button class="btn-outline-color btn-outline-blue btn-outline-sm" data-bs-toggle="modal"
+                data-bs-target="#modalNovaSessao">
                 Nova Sessão
             </button>
             {% endif %}
@@ -48,99 +49,96 @@
 
         {# ── Sessões ── #}
         {% if sessoes %}
-            {% for sessao in sessoes %}
+        {% for sessao in sessoes %}
 
-            {# Cabeçalho da sessão #}
-            <div class="sessao-header">
-                <div class="sessao-header__info">
-                    <strong class="sessao-nome">{{ sessao.nome }}</strong>
-                    {% if sessao.dia_semana %}
-                    <span class="badge-dia">{{ sessao.get_dia_semana_display }}</span>
-                    {% endif %}
-                    <span class="sessao-code">Sessão #{{ sessao.codigo }}</span>
-                </div>
-                <div class="sessao-header__actions">
-                    {# Ver sessão → modal xl #}
-                    <button class="btn-outline-color btn-outline-white btn-outline-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalVerSessao{{ sessao.codigo }}">
-                        Ver sessão
-                    </button>
-                    {% if is_personal_owner %}
-                    {# + Exercício → modal de criação #}
-                    <button class="btn-outline-color btn-outline-blue btn-outline-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalNovoExercicio{{ sessao.codigo }}">
-                        + Exercício
-                    </button>
-                    {% endif %}
-                </div>
+        {# Cabeçalho da sessão #}
+        <div class="sessao-header">
+            <div class="sessao-header__info">
+                <strong class="sessao-nome">{{ sessao.nome }}</strong>
+                {% if sessao.dia_semana %}
+                <span class="badge-dia">{{ sessao.get_dia_semana_display }}</span>
+                {% endif %}
+                <span class="sessao-code">Sessão #{{ sessao.codigo }}</span>
             </div>
+            <div class="sessao-header__actions">
+                {# Ver sessão → modal xl #}
+                <button class="btn-outline-color btn-outline-white btn-outline-sm" data-bs-toggle="modal"
+                    data-bs-target="#modalVerSessao{{ sessao.codigo }}">
+                    Ver sessão
+                </button>
+                {% if is_personal_owner %}
+                {# + Exercício → modal de criação #}
+                <button class="btn-outline-color btn-outline-blue btn-outline-sm" data-bs-toggle="modal"
+                    data-bs-target="#modalNovoExercicio{{ sessao.codigo }}">
+                    + Exercício
+                </button>
+                {% endif %}
+            </div>
+        </div>
 
-            {% if sessao.exercicios.all %}
-            <div class="sessao-exercicios">
-                <div class="table-responsive">
-                    <table class="table table-sm align-middle mb-0">
-                        <thead class="text-muted" style="font-size: 0.8rem;">
-                            <tr>
-                                <th class="fw-normal">#</th>
-                                <th class="fw-normal">Exercício</th>
-                                <th class="fw-normal">Séries</th>
-                                <th class="fw-normal">Reps</th>
-                                <th class="fw-normal">Carga</th>
-                                {% if is_personal_owner %}<th class="text-end fw-normal">Ações</th>{% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for ex in sessao.exercicios.all %}
-                            <tr>
-                                <td class="text-muted small">{{ ex.codigo }}</td>
-                                <td>
-                                    {# Nome do exercício → abre modal de edição/detalhes #}
-                                    {% if is_personal_owner %}
-                                    <a href="#" class="text-decoration-none"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
-                                        {{ ex.nome }}
-                                    </a>
-                                    {% else %}
-                                    {{ ex.nome }}
-                                    {% endif %}
-                                </td>
-                                <td>{{ ex.series }}</td>
-                                <td>{{ ex.repeticoes }}</td>
-                                <td>{{ ex.carga|default:"—" }}</td>
+        {% if sessao.exercicios.all %}
+        <div class="sessao-exercicios">
+            <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                    <thead class="text-muted" style="font-size: 0.8rem;">
+                        <tr>
+                            <th class="fw-normal">#</th>
+                            <th class="fw-normal">Exercício</th>
+                            <th class="fw-normal">Séries</th>
+                            <th class="fw-normal">Reps</th>
+                            <th class="fw-normal">Carga</th>
+                            {% if is_personal_owner %}<th class="text-end fw-normal">Ações</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ex in sessao.exercicios.all %}
+                        <tr>
+                            <td class="text-muted small">{{ ex.codigo }}</td>
+                            <td>
+                                {# Nome do exercício → abre modal de edição/detalhes #}
                                 {% if is_personal_owner %}
-                                <td class="text-end">
-                                    <div class="d-inline-flex flex-wrap gap-1 justify-content-end">
-                                        <button class="btn-outline-color btn-outline-white btn-outline-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
-                                            Editar
-                                        </button>
-                                    </div>
-                                </td>
+                                <a href="#" class="text-decoration-none" data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                                    {{ ex.nome }}
+                                </a>
+                                {% else %}
+                                {{ ex.nome }}
                                 {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            </td>
+                            <td>{{ ex.series }}</td>
+                            <td>{{ ex.repeticoes }}</td>
+                            <td>{{ ex.carga|default:"—" }}</td>
+                            {% if is_personal_owner %}
+                            <td class="text-end">
+                                <div class="d-inline-flex flex-wrap gap-1 justify-content-end">
+                                    <button class="btn-outline-color btn-outline-white btn-outline-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                                        Editar
+                                    </button>
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            {% elif is_personal_owner %}
-            <div class="sessao-exercicios sessao-exercicios--empty">
-                <p class="text-muted small mb-0">Nenhum exercício nesta sessão ainda.</p>
-            </div>
-            {% endif %}
+        </div>
+        {% elif is_personal_owner %}
+        <div class="sessao-exercicios sessao-exercicios--empty">
+            <p class="text-muted small mb-0">Nenhum exercício nesta sessão ainda.</p>
+        </div>
+        {% endif %}
 
-            {% endfor %}
+        {% endfor %}
 
         {% else %}
         <div class="plano-panel__empty">
             <p class="mb-2">Nenhuma sessão criada ainda.</p>
             {% if is_personal_owner %}
-            <button class="btn-outline-color btn-outline-blue btn-outline-sm"
-                    data-bs-toggle="modal" data-bs-target="#modalNovaSessao">
+            <button class="btn-outline-color btn-outline-blue btn-outline-sm" data-bs-toggle="modal"
+                data-bs-target="#modalNovaSessao">
                 Criar primeira sessão
             </button>
             {% endif %}
@@ -151,19 +149,17 @@
 
 </div>
 
-{# ══════════════════════════════════════════════════════════════
-   MODAIS — fora do container para z-index correto
-   ══════════════════════════════════════════════════════════════ #}
+{# Modais #}
 
 {% if is_personal_owner %}
 
 {# ── Modal: Nova Sessão ── #}
-<div class="modal fade modal-dark" id="modalNovaSessao" tabindex="-1"
-     aria-labelledby="lblNovaSessao" aria-hidden="true">
+<div class="modal fade modal-dark" id="modalNovaSessao" tabindex="-1" aria-labelledby="lblNovaSessao"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post"
-                  action="{% url 'core:sessao_create' personal.pk aluno.pk contrato.codigo plano.codigo %}">
+                action="{% url 'core:sessao_create' personal.pk aluno.pk contrato.codigo plano.codigo %}">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title" id="lblNovaSessao">Nova Sessão de Treino</h5>
@@ -172,8 +168,8 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Nome da sessão <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="nome"
-                               placeholder="Ex: Treino A – Peito e Tríceps" required>
+                        <input type="text" class="form-control" name="nome" placeholder="Ex: Treino A – Peito e Tríceps"
+                            required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Dia da semana</label>
@@ -190,12 +186,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ordem</label>
-                        <input type="number" class="form-control" name="ordem"
-                               value="{{ sessoes.count|add:1 }}" min="1">
+                        <input type="number" class="form-control" name="ordem" value="{{ sessoes.count|add:1 }}"
+                            min="1">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn-outline-color btn-outline-white btn-sm"
+                        data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Criar sessão</button>
                 </div>
             </form>
@@ -207,7 +204,7 @@
 
 {# ── Modal: Ver Sessão (xl, somente leitura) ── #}
 <div class="modal fade modal-dark" id="modalVerSessao{{ sessao.codigo }}" tabindex="-1"
-     aria-labelledby="lblVerSessao{{ sessao.codigo }}" aria-hidden="true">
+    aria-labelledby="lblVerSessao{{ sessao.codigo }}" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -256,7 +253,8 @@
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm"
+                    data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
@@ -264,7 +262,7 @@
 
 {# ── Modal: Confirmar Excluir Sessão ── #}
 <div class="modal fade modal-dark" id="modalExcluirSessao{{ sessao.codigo }}" tabindex="-1"
-     aria-labelledby="lblExcluirSessao{{ sessao.codigo }}" aria-hidden="true">
+    aria-labelledby="lblExcluirSessao{{ sessao.codigo }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -273,12 +271,14 @@
             </div>
             <div class="modal-body">
                 <p class="mb-1">Tem certeza que deseja excluir a sessão <strong>{{ sessao.nome }}</strong>?</p>
-                <p class="text-muted small mb-0">Todos os exercícios desta sessão também serão removidos. Esta ação não pode ser desfeita.</p>
+                <p class="text-muted small mb-0">Todos os exercícios desta sessão também serão removidos. Esta ação não
+                    pode ser desfeita.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm"
+                    data-bs-dismiss="modal">Cancelar</button>
                 <form method="post"
-                      action="{% url 'core:sessao_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}">
+                    action="{% url 'core:sessao_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}">
                     {% csrf_token %}
                     <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Excluir sessão</button>
                 </form>
@@ -289,11 +289,11 @@
 
 {# ── Modal: Novo Exercício ── #}
 <div class="modal fade modal-dark" id="modalNovoExercicio{{ sessao.codigo }}" tabindex="-1"
-     aria-labelledby="lblEx{{ sessao.codigo }}" aria-hidden="true">
+    aria-labelledby="lblEx{{ sessao.codigo }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form method="post"
-                  action="{% url 'core:exercicio_create' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}">
+                action="{% url 'core:exercicio_create' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title" id="lblEx{{ sessao.codigo }}">
@@ -308,18 +308,15 @@
                             Biblioteca de exercícios
                             <span class="text-muted small">(opcional — preenche os campos abaixo)</span>
                         </label>
-                        <select class="form-select" id="padrao_sel_{{ sessao.codigo }}"
-                                name="exercicio_padrao_id"
-                                onchange="preencherExercicio(this, '{{ sessao.codigo }}')">
+                        <select class="form-select" id="padrao_sel_{{ sessao.codigo }}" name="exercicio_padrao_id"
+                            onchange="preencherExercicio(this, '{{ sessao.codigo }}')">
                             <option value="">— selecione para preencher automaticamente —</option>
                             {% regroup exercicios_padrao by get_grupo_muscular_display as grupos %}
                             {% for grupo in grupos %}
                             <optgroup label="{{ grupo.grouper }}">
                                 {% for ep in grupo.list %}
-                                <option value="{{ ep.pk }}"
-                                        data-nome="{{ ep.nome }}"
-                                        data-series="{{ ep.series_padrao }}"
-                                        data-reps="{{ ep.repeticoes_padrao }}">
+                                <option value="{{ ep.pk }}" data-nome="{{ ep.nome }}"
+                                    data-series="{{ ep.series_padrao }}" data-reps="{{ ep.repeticoes_padrao }}">
                                     {{ ep.nome }} ({{ ep.series_padrao }}×{{ ep.repeticoes_padrao }})
                                 </option>
                                 {% endfor %}
@@ -333,19 +330,18 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label">Nome do exercício <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control"
-                                   id="nome_ex_{{ sessao.codigo }}" name="nome" required
-                                   placeholder="Ex: Agachamento Livre">
+                            <input type="text" class="form-control" id="nome_ex_{{ sessao.codigo }}" name="nome"
+                                required placeholder="Ex: Agachamento Livre">
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Séries <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" min="1"
-                                   id="series_ex_{{ sessao.codigo }}" name="series" required>
+                            <input type="number" class="form-control" min="1" id="series_ex_{{ sessao.codigo }}"
+                                name="series" required>
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Repetições <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" min="1"
-                                   id="reps_ex_{{ sessao.codigo }}" name="repeticoes" required>
+                            <input type="number" class="form-control" min="1" id="reps_ex_{{ sessao.codigo }}"
+                                name="repeticoes" required>
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Carga</label>
@@ -354,7 +350,7 @@
                         <div class="col-sm-3">
                             <label class="form-label">Ordem</label>
                             <input type="number" class="form-control" name="ordem"
-                                   value="{{ sessao.exercicios.count|add:1 }}" min="1">
+                                value="{{ sessao.exercicios.count|add:1 }}" min="1">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Observações</label>
@@ -363,7 +359,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn-outline-color btn-outline-white btn-sm"
+                        data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Adicionar exercício</button>
                 </div>
             </form>
@@ -376,11 +373,11 @@
 
 {# Modal: Editar Exercício (xl) #}
 <div class="modal fade modal-dark" id="modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}" tabindex="-1"
-     aria-labelledby="lblEditarEx{{ sessao.codigo }}_{{ ex.codigo }}" aria-hidden="true">
+    aria-labelledby="lblEditarEx{{ sessao.codigo }}_{{ ex.codigo }}" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <form method="post"
-                  action="{% url 'core:exercicio_edit' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}">
+                action="{% url 'core:exercicio_edit' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}">
                 {% csrf_token %}
                 <div class="modal-header">
                     <div>
@@ -395,50 +392,49 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label">Nome do exercício <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="nome"
-                                   value="{{ ex.nome }}" required>
+                            <input type="text" class="form-control" name="nome" value="{{ ex.nome }}" required>
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Séries <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="series"
-                                   value="{{ ex.series }}" min="1" required>
+                            <input type="number" class="form-control" name="series" value="{{ ex.series }}" min="1"
+                                required>
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Repetições <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="repeticoes"
-                                   value="{{ ex.repeticoes }}" min="1" required>
+                            <input type="number" class="form-control" name="repeticoes" value="{{ ex.repeticoes }}"
+                                min="1" required>
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Carga</label>
-                            <input type="text" class="form-control" name="carga"
-                                   value="{{ ex.carga|default:'' }}" placeholder="ex: 20kg">
+                            <input type="text" class="form-control" name="carga" value="{{ ex.carga|default:'' }}"
+                                placeholder="ex: 20kg">
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label">Duração (seg)</label>
                             <input type="number" class="form-control" name="duracao_seg"
-                                   value="{{ ex.duracao_seg|default:'' }}" min="1">
+                                value="{{ ex.duracao_seg|default:'' }}" min="1">
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label">Ordem</label>
-                            <input type="number" class="form-control" name="ordem"
-                                   value="{{ ex.ordem }}" min="1">
+                            <input type="number" class="form-control" name="ordem" value="{{ ex.ordem }}" min="1">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Observações</label>
-                            <textarea class="form-control" name="observacoes" rows="3">{{ ex.observacoes|default:'' }}</textarea>
+                            <textarea class="form-control" name="observacoes"
+                                rows="3">{{ ex.observacoes|default:'' }}</textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn-outline-color btn-outline-red btn-sm"
-                            data-bs-dismiss="modal"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                    <button type="button" class="btn-outline-color btn-outline-red btn-sm" data-bs-dismiss="modal"
+                        data-bs-toggle="modal" data-bs-target="#modalExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}">
                         Excluir exercício
                     </button>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Salvar alterações</button>
+                        <button type="button" class="btn-outline-color btn-outline-white btn-sm"
+                            data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Salvar
+                            alterações</button>
                     </div>
                 </div>
             </form>
@@ -448,7 +444,7 @@
 
 {# Modal: Confirmar Excluir Exercício #}
 <div class="modal fade modal-dark" id="modalExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}" tabindex="-1"
-     aria-labelledby="lblExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}" aria-hidden="true">
+    aria-labelledby="lblExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -460,9 +456,10 @@
                 <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm"
+                    data-bs-dismiss="modal">Cancelar</button>
                 <form method="post"
-                      action="{% url 'core:exercicio_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}">
+                    action="{% url 'core:exercicio_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}">
                     {% csrf_token %}
                     <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Excluir</button>
                 </form>
@@ -480,12 +477,12 @@
 
 {% block extra_js %}
 <script>
-function preencherExercicio(select, sessaoCod) {
-    const opt = select.options[select.selectedIndex];
-    if (!opt.value) return;
-    document.getElementById('nome_ex_'   + sessaoCod).value = opt.dataset.nome   || '';
-    document.getElementById('series_ex_' + sessaoCod).value = opt.dataset.series || '';
-    document.getElementById('reps_ex_'   + sessaoCod).value = opt.dataset.reps   || '';
-}
+    function preencherExercicio(select, sessaoCod) {
+        const opt = select.options[select.selectedIndex];
+        if (!opt.value) return;
+        document.getElementById('nome_ex_' + sessaoCod).value = opt.dataset.nome || '';
+        document.getElementById('series_ex_' + sessaoCod).value = opt.dataset.series || '';
+        document.getElementById('reps_ex_' + sessaoCod).value = opt.dataset.reps || '';
+    }
 </script>
 {% endblock %}
