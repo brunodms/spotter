@@ -86,7 +86,7 @@
                                     {% include "core/partials/status_badge.html" with status=c.status %}
                                     <form method="post" action="{% url 'core:personal_aceitar_contrato' c.pk %}">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn-outline-color btn-outline-green btn-outline-sm">Aceitar</button>
+                                        <button type="submit" class="btn-outline-color btn-outline-blue btn-outline-sm">Aceitar</button>
                                     </form>
                                     <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
                                         {% csrf_token %}
