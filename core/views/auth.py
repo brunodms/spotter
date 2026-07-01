@@ -62,6 +62,8 @@ class DashboardView(View):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("core:login")
+        if request.user.is_superuser or request.user.is_staff:
+            return redirect("admin:index")
         if request.user.eh_aluno:
             return AlunoDashboardView.as_view()(request, *args, **kwargs)
         if request.user.eh_personal:
