@@ -15,6 +15,7 @@
             <a href="{% url 'core:aluno_buscar_personal' %}" class="btn-outline-color btn-outline-blue">Buscar personal</a>
             <a href="{% url 'core:aluno_planos' %}" class="btn-outline-color btn-outline-white">Meus treinos</a>
             <a href="{% url 'core:aluno_contratos' %}" class="btn-outline-color btn-outline-white">Contratos</a>
+            <a href="{% url 'core:aluno_perfil' %}" class="btn-outline-color btn-outline-white">Meu perfil</a>
         </div>
     </div>
 </section>
@@ -72,6 +73,10 @@
                                     {% if plano %}
                                     <a href="{% url 'core:aluno_plano_detail' plano.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver treino</a>
                                     {% endif %}
+                                    <form method="post" action="{% url 'core:aluno_cancelar_contrato' c.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Encerrar</button>
+                                    </form>
                                 </div>
                             </article>
                             {% endwith %}
@@ -94,6 +99,10 @@
                                 </div>
                                 <div class="contract-card__actions">
                                     {% include "core/partials/status_badge.html" with status=c.status %}
+                                    <form method="post" action="{% url 'core:aluno_cancelar_contrato' c.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Cancelar</button>
+                                    </form>
                                 </div>
                             </article>
                             {% endfor %}

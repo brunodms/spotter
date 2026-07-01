@@ -1,6 +1,6 @@
 {% extends "core/base.html" %}
 
-{% block title %}Avaliar Personal{% endblock %}
+{% block title %}Editar Avaliação{% endblock %}
 
 {% block content %}
 <div class="page-inner">
@@ -8,8 +8,12 @@
         <div class="row justify-content-center">
             <div class="col-lg-7">
                 <div class="form-card">
-                    <h1 class="h4 mb-1">Avaliar {{ contrato.personal.usuario.nome }}</h1>
-                    <p class="text-muted-theme small mb-4">Sua opinião ajuda outros alunos a escolher um personal.</p>
+                    <a href="{% url 'core:aluno_avaliacao_detail' contrato.pk %}" class="text-muted-theme small">&larr; Ver avaliação</a>
+                    <h1 class="h4 mt-3 mb-1">Editar avaliação</h1>
+                    <p class="text-muted-theme small mb-4">
+                        Personal: <strong>{{ contrato.personal.usuario.nome }}</strong>
+                    </p>
+
                     <form method="post" novalidate>
                         {% csrf_token %}
                         {% for field in form %}
@@ -20,8 +24,8 @@
                         </div>
                         {% endfor %}
                         <div class="d-flex flex-wrap gap-2 mt-4">
-                            <button type="submit" class="btn-outline-color btn-outline-blue">Enviar avaliação</button>
-                            <a href="{% url 'core:aluno_contratos' %}" class="btn-outline-color btn-outline-white">Cancelar</a>
+                            <button type="submit" class="btn-outline-color btn-outline-blue">Salvar alterações</button>
+                            <a href="{% url 'core:aluno_avaliacao_detail' contrato.pk %}" class="btn-outline-color btn-outline-white">Cancelar</a>
                         </div>
                     </form>
                 </div>

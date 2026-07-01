@@ -22,8 +22,8 @@ class AlunoAvaliacaoView(AlunoRequiredMixin, CreateView):
             messages.warning(request, "Não é possível avaliar um contrato pendente.")
             return redirect("core:aluno_contratos")
         if hasattr(self.contrato, "avaliacao"):
-            messages.warning(request, "Este contrato já foi avaliado.")
-            return redirect("core:aluno_contratos")
+            messages.info(request, "Você já avaliou este contrato. Você pode editar sua avaliação abaixo.")
+            return redirect("core:aluno_avaliacao_edit", pk=self.contrato.pk)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -38,4 +38,4 @@ class AlunoAvaliacaoView(AlunoRequiredMixin, CreateView):
         avaliacao.personal = self.contrato.personal
         avaliacao.save()
         messages.success(self.request, "Avaliação enviada com sucesso.")
-        return redirect("core:aluno_contratos")
+        return redirect("core:aluno_avaliacao_detail", pk=self.contrato.pk)
