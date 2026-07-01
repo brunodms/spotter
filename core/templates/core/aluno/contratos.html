@@ -45,15 +45,24 @@
                     <td>{{ c.personal.usuario.nome }}</td>
                     <td>{% include "core/partials/status_badge.html" with status=c.status %}</td>
                     <td>{{ c.criado_em|date:"d/m/Y H:i" }}</td>
-                    <td>
+                    <td class="d-flex flex-wrap gap-1">
                         {% if c.status == "ativo" %}
                         <a href="{% url 'core:aluno_planos' %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver treinos</a>
+                        {% endif %}
+                        {% if c.status == "pendente" or c.status == "ativo" %}
+                        <form method="post" action="{% url 'core:aluno_cancelar_contrato' c.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">
+                                {% if c.status == "pendente" %}Cancelar solicitação{% else %}Encerrar contrato{% endif %}
+                            </button>
+                        </form>
                         {% endif %}
                         {% if c.status != "pendente" and not c.avaliacao %}
                         <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">Avaliar</a>
                         {% elif c.avaliacao %}
-                        <span class="small text-muted">Avaliado ({{ c.avaliacao.nota }}★)</span>
-                        {% elif c.status == "pendente" %}—{% endif %}
+                        <a href="{% url 'core:aluno_avaliacao_detail' c.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">Ver avaliação</a>
+                        <a href="{% url 'core:aluno_avaliacao_edit' c.pk %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Editar</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}
