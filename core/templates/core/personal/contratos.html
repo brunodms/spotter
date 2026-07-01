@@ -18,7 +18,11 @@
             <tbody>
                 {% for c in contratos %}
                 <tr>
-                    <td>{{ c.aluno.usuario.nome }}</td>
+                    <td>
+                        <a href="{% url 'core:personal_aluno_detail' c.aluno.pk %}" class="text-decoration-none">
+                            {{ c.aluno.usuario.nome }}
+                        </a>
+                    </td>
                     <td>{% include "core/partials/status_badge.html" with status=c.status %}</td>
                     <td>{{ c.criado_em|date:"d/m/Y" }}</td>
                     <td class="d-flex flex-wrap gap-1">
