@@ -58,6 +58,34 @@ spotter/
 └── db.sqlite3            # Banco de dados (git ignored)
 ```
 
+## Tecnologias e Bibliotecas Utilizadas
+
+O projeto Spotter foi estruturado utilizando as seguintes tecnologias e dependências:
+
+### Core (Base)
+- **Python 3.x**: Linguagem base do projeto.
+- **Django (6.0.5)**: Framework web principal, responsável pela estrutura MTV, ORM, sistema de autenticação, sessões e rotas.
+- **SQLite3**: Banco de dados relacional padrão (em ambiente de desenvolvimento).
+
+### API e Comunicação
+- **Django REST Framework (3.17.1)**: Ferramenta poderosa para construção de APIs REST (ViewSets, Serializers). Prepara o terreno para futuras integrações (ex: app mobile).
+- **django-cors-headers (4.9.0)**: Middleware essencial para habilitar requisições Cross-Origin (CORS), permitindo que aplicações em portas ou domínios diferentes consumam a API.
+
+### Produção e Deploy
+- **Gunicorn (21.2.0)**: Servidor WSGI HTTP de alto desempenho, utilizado como padrão para rodar a aplicação em ambientes de produção (Render).
+- **WhiteNoise (6.6.0)**: Biblioteca que permite que a própria aplicação web sirva seus próprios arquivos estáticos (CSS, JS, Imagens). Extremamente necessário para deploys em serviços PaaS (como Render/Heroku).
+- **dj-database-url (2.1.0)**: Utilitário que facilita a configuração do banco de dados em produção, lendo diretamente da variável de ambiente `DATABASE_URL`.
+
+### Utilitários
+- **python-dotenv (1.0.1)**: Responsável por ler o arquivo `.env` local e carregar variáveis de ambiente, garantindo segurança para a `SECRET_KEY` e credenciais.
+- **asgiref (3.11.1)** & **sqlparse (0.5.5)**: Dependências utilitárias sob o capô do Django para suporte a assincronismo e formatação SQL.
+
+### Frontend
+- **Bootstrap 5**: Framework CSS (via CDN) utilizado para os layouts responsivos, grids e componentes de UI (Modais, Cards, Botões).
+- **Bootstrap Icons**: Biblioteca de ícones (via CDN) utilizada na interface.
+- **Vanilla JavaScript**: Código JS puro, focado na manipulação simples de elementos da tela sem frameworks pesados.
+
+---
 ## Comandos Úteis
 
 ### Gerenciar Banco de Dados

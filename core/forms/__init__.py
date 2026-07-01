@@ -5,6 +5,7 @@ from .contrato import ContratoForm
 from .exercicio import ExercicioForm
 from .feedback import FeedbackForm
 from .perfil_aluno import PerfilAlunoForm
+from .perfil_personal import PerfilPersonalForm
 from .plano_treino import PlanoTreinoEditForm, PlanoTreinoForm
 
 __all__ = [
@@ -15,6 +16,7 @@ __all__ = [
     "FeedbackForm",
     "LoginForm",
     "PerfilAlunoForm",
+    "PerfilPersonalForm",
     "PlanoTreinoEditForm",
     "PlanoTreinoForm",
     "RegistroForm",
