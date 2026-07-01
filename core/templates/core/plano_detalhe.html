@@ -6,7 +6,7 @@
 <div class="container py-4">
 
     {# ── Breadcrumb ── #}
-    <nav aria-label="breadcrumb" class="mb-3">
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'core:personal_alunos' %}">Meus Alunos</a></li>
             <li class="breadcrumb-item">
@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">
                 <a href="{% url 'core:contrato_detalhe' personal.pk aluno.pk contrato.codigo %}">Contrato #{{ contrato.codigo }}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{ plano.nome }}</li>
+            <li class="breadcrumb-item" aria-hidden="true"></li>
         </ol>
     </nav>
 

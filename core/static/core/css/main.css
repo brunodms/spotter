@@ -52,6 +52,24 @@ a:hover {
     color: #5b9cff;
 }
 
+/* ─── Breadcrumb ────────────────────────────────────────── */
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--text-muted);
+}
+
+.breadcrumb-item a {
+    color: var(--accent-blue);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+}
+
+.breadcrumb {
+    margin-bottom: 0.25rem;
+}
+
 /* ─── Navbar ───────────────────────────────────────────── */
 
 .navbar-spotter {
