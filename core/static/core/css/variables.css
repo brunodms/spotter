@@ -32,6 +32,8 @@
 
     /* --- Transparências de Branco (Sobreposições) --- */
     --bg-white-08: rgba(255, 255, 255, 0.08);
+    --bg-white-25: rgba(255, 255, 255, 0.25);
+    --bg-white-35: rgba(255, 255, 255, 0.35);
     --border-white-25: rgba(255, 255, 255, 0.25);
     --border-white-35: rgba(255, 255, 255, 0.35);
 

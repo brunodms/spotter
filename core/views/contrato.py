@@ -77,7 +77,7 @@ def detalhe(request, personal_id, aluno_id, contrato_cod):
     historicos = []
     if hasattr(aluno, "usuario"):
         from ..models import HistoricoTreino
-        historicos = HistoricoTreino.objects.filter(aluno=aluno.usuario).order_by("-realizado_em")
+        historicos = HistoricoTreino.objects.filter(aluno=aluno.usuario).select_related("sessao").order_by("-realizado_em")
         
     from ..models import Feedback
     feedbacks = Feedback.objects.filter(aluno=aluno, personal=personal, plano__contrato=contrato).order_by("-criado_em")

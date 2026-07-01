@@ -33,6 +33,11 @@ urlpatterns = [
         name="aluno_sessao_detail",
     ),
     path(
+        "aluno/planos/<int:plano_pk>/sessoes/<int:sessao_pk>/concluir/",
+        views.AlunoConcluirSessaoView.as_view(),
+        name="aluno_concluir_sessao",
+    ),
+    path(
         "aluno/planos/<int:plano_pk>/sessoes/<int:sessao_pk>/exercicios/<int:exercicio_pk>/",
         views.AlunoExercicioDetailView.as_view(),
         name="aluno_exercicio_detail",

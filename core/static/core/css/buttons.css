@@ -20,15 +20,17 @@
 
 .btn-outline-spotter {
     border: 1px solid var(--accent-blue);
-    color: var(--accent-blue);
-    background: transparent;
+    color: var(--color-white);
+    background: var(--accent-blue);
     border-radius: 999px;
     font-weight: 600;
+    transition: background 0.2s, transform 0.15s;
 }
 
 .btn-outline-spotter:hover {
-    background: var(--accent-blue);
+    background: var(--accent-blue-hover);
     color: var(--color-white);
+    transform: translateY(-1px);
 }
 
 .btn-ghost-light {
@@ -102,34 +104,49 @@
 /* Modificadores de cor */
 .btn-outline-blue {
     border-color: var(--accent-blue);
-    color: var(--accent-blue);
+    color: var(--color-white);
+    background: var(--accent-blue);
 }
+
 .btn-outline-blue:hover {
-    background: var(--bg-accent-blue-15);
+    background: var(--accent-blue-hover);
+    color: var(--color-white);
 }
 
 .btn-outline-red {
     border-color: var(--accent-red);
-    color: var(--accent-red);
+    color: var(--color-white);
+    background: var(--accent-red);
 }
+
 .btn-outline-red:hover {
-    background: var(--bg-danger-15);
+    background: var(--accent-red);
+    /* Or a darker red if available, keeping it simple */
+    opacity: 0.85;
+    color: var(--color-white);
 }
 
 .btn-outline-green {
     border-color: var(--text-success);
-    color: var(--text-success);
+    color: var(--color-white);
+    background: var(--text-success);
 }
+
 .btn-outline-green:hover {
-    background: var(--bg-success-15);
+    background: var(--text-success);
+    opacity: 0.85;
+    color: var(--color-white);
 }
 
 .btn-outline-white {
     border-color: var(--border-white-35);
-    color: var(--text-primary);
+    color: var(--color-white);
+    background: var(--bg-white-25);
 }
+
 .btn-outline-white:hover {
-    background: var(--bg-white-08);
+    background: var(--bg-white-35);
+    color: var(--color-white);
 }
 
 /* Botão sólido vermelho para excluir (movido de components) */
@@ -143,6 +160,7 @@
     cursor: pointer;
     transition: opacity .15s;
 }
+
 .btn-excluir-exercicio:hover {
     opacity: .85;
 }

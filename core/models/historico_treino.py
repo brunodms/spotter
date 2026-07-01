@@ -1,6 +1,5 @@
 from django.db import models
 
-from .plano_treino import PlanoTreino
 from .usuario import Usuario
 
 
@@ -11,8 +10,8 @@ class HistoricoTreino(models.Model):
         related_name="historico_treinos",
         limit_choices_to={"tipo": Usuario.ALUNO},
     )
-    plano = models.ForeignKey(
-        PlanoTreino,
+    sessao = models.ForeignKey(
+        "SessaoTreino",
         on_delete=models.SET_NULL,
         null=True,
         related_name="historicos",

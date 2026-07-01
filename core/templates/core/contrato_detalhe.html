@@ -54,10 +54,10 @@
             </div>
 
             {% if planos %}
-            <div class="list-group">
+            <div class="list-group gap-1">
                 {% for p in planos %}
                 <a href="{% url 'core:plano_detalhe' personal.pk aluno.pk contrato.codigo p.codigo %}"
-                   class="list-group-item list-group-item-action">
+                   class="list-group-item list-group-item-action rounded" style="border-top-width: var(--bs-list-group-border-width);">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ p.nome }}</h5>
                         <div>
@@ -83,15 +83,15 @@
             <div class="mt-5">
                 <h2 class="h5 mb-3">Histórico de Treinos</h2>
                 {% if historicos %}
-                <div class="list-group">
+                <div class="list-group gap-1">
                     {% for h in historicos %}
-                    <div class="list-group-item">
+                    <div class="list-group-item rounded" style="border-top-width: var(--bs-list-group-border-width);">
                         <div class="d-flex w-100 justify-content-between">
                             <h6 class="mb-1">Treino realizado</h6>
                             <small class="text-muted">{{ h.realizado_em|date:"d/m/Y H:i" }}</small>
                         </div>
                         <p class="mb-1 small">
-                            <strong>Plano:</strong> {{ h.plano.nome|default:"N/A" }}
+                            <strong>Sessão:</strong> {{ h.sessao.nome|default:"N/A" }}
                         </p>
                         {% if h.observacoes_aluno %}
                         <p class="mb-1 text-muted small"><strong>Obs:</strong> {{ h.observacoes_aluno }}</p>
@@ -109,9 +109,9 @@
         <div class="col-lg-5 mb-4">
             <h2 class="h5 mb-3">Feedbacks do Aluno</h2>
             {% if feedbacks %}
-            <div class="list-group mb-4">
+            <div class="list-group gap-1 mb-4">
                 {% for f in feedbacks %}
-                <div class="list-group-item">
+                <div class="list-group-item rounded" style="border-top-width: var(--bs-list-group-border-width);">
                     <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">
                             {% if f.exercicio %}

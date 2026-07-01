@@ -13,6 +13,7 @@ from .perfil import AlunoPerfilUpdateView
 from .personal_detail import AlunoPersonalDetailView
 from .planos.plano_detail import AlunoPlanoDetailView
 from .planos.planos import AlunoPlanoListView
+from .planos.concluir_sessao import AlunoConcluirSessaoView
 from .solicitar_contrato import AlunoSolicitarContratoView
 
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
     "AlunoAvaliacaoView",
     "AlunoBuscarPersonalView",
     "AlunoCancelarContratoView",
+    "AlunoConcluirSessaoView",
     "AlunoContratoListView",
     "AlunoDashboardView",
     "AlunoExercicioDetailView",

@@ -22,6 +22,7 @@ from .aluno import (
     AlunoPlanoListView,
     AlunoSessaoDetailView,
     AlunoSolicitarContratoView,
+    AlunoConcluirSessaoView,
 )
 from .contrato import (
     ContratoCreateView,
@@ -96,6 +97,7 @@ __all__ = [
     "AlunoAvaliacaoDetailView",
     "AlunoAvaliacaoUpdateView",
     "AlunoDashboardView",
+    "AlunoConcluirSessaoView",
     # Contrato views
     "ContratoCreateView",
     "redirecionar_ativo",

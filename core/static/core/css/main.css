@@ -1,7 +1,7 @@
 /* Spotter — tema escuro inspirado no layout Train */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-@import 'buttons.css';
+@import 'buttons.css?v=2';
 
 :root {
     --bg-body: #06080f;
@@ -16,6 +16,9 @@
     --accent-blue-hover: #1a6ae8;
     --accent-blue-light: #5b9cff;
     --accent-red: #e63946;
+    --bg-white-25: rgba(255, 255, 255, 0.25);
+    --bg-white-35: rgba(255, 255, 255, 0.35);
+    --border-white-35: rgba(255, 255, 255, 0.35);
     --radius-lg: 1.25rem;
     --radius-xl: 1.75rem;
     --nav-height: 72px;
