@@ -34,13 +34,41 @@
             </p>
         </div>
         {% if contrato.status == "ativo" %}
-        <form method="post" action="{% url 'core:personal_encerrar_contrato' contrato.pk %}">
-            {% csrf_token %}
-            <button type="submit" class="btn-outline-color btn-outline-red">Encerrar contrato</button>
-        </form>
+        <button class="btn-outline-color btn-outline-red"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEncerrarContrato">
+            Encerrar contrato
+        </button>
         {% endif %}
     </div>
 
+{# Modal de confirmação: Encerrar contrato #}
+{% if contrato.status == "ativo" %}
+<div class="modal fade modal-dark" id="modalEncerrarContrato" tabindex="-1"
+     aria-labelledby="lblEncerrarContrato" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblEncerrarContrato">Encerrar contrato</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-1">Tem certeza que deseja encerrar o contrato com <strong>{{ contrato.aluno.usuario.nome }}</strong>?</p>
+                <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" action="{% url 'core:personal_encerrar_contrato' contrato.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Encerrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
     <hr class="my-5">
 
     <div class="row">

@@ -88,10 +88,11 @@
                                         {% csrf_token %}
                                         <button type="submit" class="btn-outline-color btn-outline-blue btn-outline-sm">Aceitar</button>
                                     </form>
-                                    <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Recusar</button>
-                                    </form>
+                                    <button class="btn-outline-color btn-outline-red btn-outline-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalRecusarDash{{ c.pk }}">
+                                        Recusar
+                                    </button>
                                 </div>
                             </article>
                             {% endfor %}
@@ -100,6 +101,32 @@
                         <p class="dashboard-empty">Nenhuma solicitação aguardando resposta.</p>
                         {% endif %}
                     </div>
+
+                    {# Modais de confirmação: Recusar contrato #}
+                    {% for c in contratos_pendentes %}
+                    <div class="modal fade modal-dark" id="modalRecusarDash{{ c.pk }}" tabindex="-1"
+                         aria-labelledby="lblRecusarDash{{ c.pk }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="lblRecusarDash{{ c.pk }}">Recusar solicitação</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="mb-1">Tem certeza que deseja recusar a solicitação de <strong>{{ c.aluno.usuario.nome }}</strong>?</p>
+                                    <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                                    <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Recusar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
 
                     <div class="dashboard-panel__section">
                         <h3 class="dashboard-panel__section-title">Ativos</h3>

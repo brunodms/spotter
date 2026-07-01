@@ -50,12 +50,11 @@
                         <a href="{% url 'core:aluno_planos' %}" class="btn-outline-color btn-outline-blue btn-outline-sm">Ver treinos</a>
                         {% endif %}
                         {% if c.status == "pendente" or c.status == "ativo" %}
-                        <form method="post" action="{% url 'core:aluno_cancelar_contrato' c.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">
-                                {% if c.status == "pendente" %}Cancelar solicitação{% else %}Encerrar contrato{% endif %}
-                            </button>
-                        </form>
+                        <button class="btn-outline-color btn-outline-red btn-outline-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalCancelarContrato{{ c.pk }}">
+                            {% if c.status == "pendente" %}Cancelar solicitação{% else %}Encerrar contrato{% endif %}
+                        </button>
                         {% endif %}
                         {% if c.status != "pendente" and not c.avaliacao %}
                         <a href="{% url 'core:aluno_avaliar' c.pk %}" class="btn-outline-color btn-outline-white btn-outline-sm">Avaliar</a>
@@ -72,4 +71,43 @@
         </table>
     </div>
 </div>
+
+{# Modais de confirmação #}
+{% for c in contratos %}
+{% if c.status == "pendente" or c.status == "ativo" %}
+<div class="modal fade modal-dark" id="modalCancelarContrato{{ c.pk }}" tabindex="-1"
+     aria-labelledby="lblCancelarContrato{{ c.pk }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblCancelarContrato{{ c.pk }}">
+                    {% if c.status == "pendente" %}Cancelar solicitação{% else %}Encerrar contrato{% endif %}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-1">
+                    {% if c.status == "pendente" %}
+                    Tem certeza que deseja cancelar a solicitação para <strong>{{ c.personal.usuario.nome }}</strong>?
+                    {% else %}
+                    Tem certeza que deseja encerrar o contrato com <strong>{{ c.personal.usuario.nome }}</strong>?
+                    {% endif %}
+                </p>
+                <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Manter</button>
+                <form method="post" action="{% url 'core:aluno_cancelar_contrato' c.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-color btn-outline-red btn-sm">
+                        {% if c.status == "pendente" %}Cancelar solicitação{% else %}Encerrar{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
 {% endblock %}

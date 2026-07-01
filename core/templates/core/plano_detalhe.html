@@ -60,19 +60,19 @@
                     <span class="sessao-code">Sessão #{{ sessao.codigo }}</span>
                 </div>
                 <div class="sessao-header__actions">
-                    <a href="{% url 'core:sessao_detalhe' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}" class="btn-outline-color btn-outline-white btn-outline-sm">Ver sessão</a>
+                    {# Ver sessão → modal xl #}
+                    <button class="btn-outline-color btn-outline-white btn-outline-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalVerSessao{{ sessao.codigo }}">
+                        Ver sessão
+                    </button>
                     {% if is_personal_owner %}
+                    {# + Exercício → modal de criação #}
                     <button class="btn-outline-color btn-outline-blue btn-outline-sm"
                             data-bs-toggle="modal"
                             data-bs-target="#modalNovoExercicio{{ sessao.codigo }}">
                         + Exercício
                     </button>
-                    <form method="post"
-                          action="{% url 'core:sessao_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}"
-                          onsubmit="return confirm('Excluir esta sessão e todos os seus exercícios?')">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir sessão</button>
-                    </form>
                     {% endif %}
                 </div>
             </div>
@@ -96,8 +96,16 @@
                             <tr>
                                 <td class="text-muted small">{{ ex.codigo }}</td>
                                 <td>
-                                    <a href="{% url 'core:exercicio_detalhe' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
-                                       class="text-decoration-none">{{ ex.nome }}</a>
+                                    {# Nome do exercício → abre modal de edição/detalhes #}
+                                    {% if is_personal_owner %}
+                                    <a href="#" class="text-decoration-none"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                                        {{ ex.nome }}
+                                    </a>
+                                    {% else %}
+                                    {{ ex.nome }}
+                                    {% endif %}
                                 </td>
                                 <td>{{ ex.series }}</td>
                                 <td>{{ ex.repeticoes }}</td>
@@ -105,14 +113,11 @@
                                 {% if is_personal_owner %}
                                 <td class="text-end">
                                     <div class="d-inline-flex flex-wrap gap-1 justify-content-end">
-                                        <a href="{% url 'core:exercicio_edit' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
-                                           class="btn-outline-color btn-outline-white btn-outline-sm">Editar</a>
-                                        <form method="post"
-                                              action="{% url 'core:exercicio_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}"
-                                              onsubmit="return confirm('Excluir este exercício?')">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Excluir</button>
-                                        </form>
+                                        <button class="btn-outline-color btn-outline-white btn-outline-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                                            Editar
+                                        </button>
                                     </div>
                                 </td>
                                 {% endif %}
@@ -146,10 +151,13 @@
 
 </div>
 
-{# ── Modais (fora do container para z-index correto) ── #}
+{# ══════════════════════════════════════════════════════════════
+   MODAIS — fora do container para z-index correto
+   ══════════════════════════════════════════════════════════════ #}
+
 {% if is_personal_owner %}
 
-{# Modal: Nova Sessão #}
+{# ── Modal: Nova Sessão ── #}
 <div class="modal fade modal-dark" id="modalNovaSessao" tabindex="-1"
      aria-labelledby="lblNovaSessao" aria-hidden="true">
     <div class="modal-dialog">
@@ -195,8 +203,91 @@
     </div>
 </div>
 
-{# Modais: Novo Exercício (um por sessão) #}
 {% for sessao in sessoes %}
+
+{# ── Modal: Ver Sessão (xl, somente leitura) ── #}
+<div class="modal fade modal-dark" id="modalVerSessao{{ sessao.codigo }}" tabindex="-1"
+     aria-labelledby="lblVerSessao{{ sessao.codigo }}" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title mb-0" id="lblVerSessao{{ sessao.codigo }}">
+                        {{ sessao.nome }}
+                    </h5>
+                    <small class="text-muted">
+                        Sessão #{{ sessao.codigo }}{% if sessao.dia_semana %} &nbsp;·&nbsp; {{ sessao.get_dia_semana_display }}{% endif %}
+                    </small>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                {% if sessao.exercicios.all %}
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead class="text-muted" style="font-size: 0.8rem;">
+                            <tr>
+                                <th class="fw-normal ps-3">#</th>
+                                <th class="fw-normal">Exercício</th>
+                                <th class="fw-normal">Séries</th>
+                                <th class="fw-normal">Reps</th>
+                                <th class="fw-normal">Carga</th>
+                                <th class="fw-normal">Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ex in sessao.exercicios.all %}
+                            <tr>
+                                <td class="text-muted small ps-3">{{ ex.codigo }}</td>
+                                <td><strong>{{ ex.nome }}</strong></td>
+                                <td>{{ ex.series }}</td>
+                                <td>{{ ex.repeticoes }}</td>
+                                <td>{{ ex.carga|default:"—" }}</td>
+                                <td class="text-muted small">{{ ex.observacoes|default:"—" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="p-4 text-center text-muted">
+                    <p class="mb-0">Nenhum exercício cadastrado nesta sessão.</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ── Modal: Confirmar Excluir Sessão ── #}
+<div class="modal fade modal-dark" id="modalExcluirSessao{{ sessao.codigo }}" tabindex="-1"
+     aria-labelledby="lblExcluirSessao{{ sessao.codigo }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblExcluirSessao{{ sessao.codigo }}">Excluir sessão</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-1">Tem certeza que deseja excluir a sessão <strong>{{ sessao.nome }}</strong>?</p>
+                <p class="text-muted small mb-0">Todos os exercícios desta sessão também serão removidos. Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post"
+                      action="{% url 'core:sessao_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Excluir sessão</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ── Modal: Novo Exercício ── #}
 <div class="modal fade modal-dark" id="modalNovoExercicio{{ sessao.codigo }}" tabindex="-1"
      aria-labelledby="lblEx{{ sessao.codigo }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -279,9 +370,111 @@
         </div>
     </div>
 </div>
-{% endfor %}
 
-{% endif %}
+{# ── Modais por exercício: Editar + Confirmar Excluir ── #}
+{% for ex in sessao.exercicios.all %}
+
+{# Modal: Editar Exercício (xl) #}
+<div class="modal fade modal-dark" id="modalEditarEx{{ sessao.codigo }}_{{ ex.codigo }}" tabindex="-1"
+     aria-labelledby="lblEditarEx{{ sessao.codigo }}_{{ ex.codigo }}" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form method="post"
+                  action="{% url 'core:exercicio_edit' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title mb-0" id="lblEditarEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                            {{ ex.nome }}
+                        </h5>
+                        <small class="text-muted">{{ sessao.nome }} &nbsp;·&nbsp; Exercício #{{ ex.codigo }}</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Nome do exercício <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nome"
+                                   value="{{ ex.nome }}" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="form-label">Séries <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="series"
+                                   value="{{ ex.series }}" min="1" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="form-label">Repetições <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="repeticoes"
+                                   value="{{ ex.repeticoes }}" min="1" required>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="form-label">Carga</label>
+                            <input type="text" class="form-control" name="carga"
+                                   value="{{ ex.carga|default:'' }}" placeholder="ex: 20kg">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="form-label">Duração (seg)</label>
+                            <input type="number" class="form-control" name="duracao_seg"
+                                   value="{{ ex.duracao_seg|default:'' }}" min="1">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">Ordem</label>
+                            <input type="number" class="form-control" name="ordem"
+                                   value="{{ ex.ordem }}" min="1">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-control" name="observacoes" rows="3">{{ ex.observacoes|default:'' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn-outline-color btn-outline-red btn-sm"
+                            data-bs-dismiss="modal"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}">
+                        Excluir exercício
+                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-outline-color btn-outline-blue btn-sm">Salvar alterações</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Modal: Confirmar Excluir Exercício #}
+<div class="modal fade modal-dark" id="modalExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}" tabindex="-1"
+     aria-labelledby="lblExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblExcluirEx{{ sessao.codigo }}_{{ ex.codigo }}">Excluir exercício</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-1">Tem certeza que deseja excluir <strong>{{ ex.nome }}</strong>?</p>
+                <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post"
+                      action="{% url 'core:exercicio_delete' personal.pk aluno.pk contrato.codigo plano.codigo sessao.codigo ex.codigo %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}{# /for ex #}
+{% endfor %}{# /for sessao #}
+
+{% endif %}{# /is_personal_owner #}
 
 {% endblock %}
 

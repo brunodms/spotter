@@ -31,15 +31,17 @@
                             {% csrf_token %}
                             <button type="submit" class="btn-outline-color btn-outline-blue btn-outline-sm">Aceitar</button>
                         </form>
-                        <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Recusar</button>
-                        </form>
-                            {% elif c.status == "ativo" %}
-                                <form method="post" action="{% url 'core:personal_encerrar_contrato' c.pk %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn-outline-color btn-outline-red btn-outline-sm">Cancelar</button>
-                                </form>
+                        <button class="btn-outline-color btn-outline-red btn-outline-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalRecusar{{ c.pk }}">
+                            Recusar
+                        </button>
+                        {% elif c.status == "ativo" %}
+                        <button class="btn-outline-color btn-outline-red btn-outline-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalCancelar{{ c.pk }}">
+                            Cancelar
+                        </button>
                         {% else %}
                             —
                         {% endif %}
@@ -52,4 +54,56 @@
         </table>
     </div>
 </div>
+
+{# Modais de confirmação #}
+{% for c in contratos %}
+    {% if c.status == "pendente" %}
+    <div class="modal fade modal-dark" id="modalRecusar{{ c.pk }}" tabindex="-1"
+         aria-labelledby="lblRecusar{{ c.pk }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lblRecusar{{ c.pk }}">Recusar solicitação</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-1">Tem certeza que deseja recusar a solicitação de <strong>{{ c.aluno.usuario.nome }}</strong>?</p>
+                    <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="post" action="{% url 'core:personal_recusar_contrato' c.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Recusar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% elif c.status == "ativo" %}
+    <div class="modal fade modal-dark" id="modalCancelar{{ c.pk }}" tabindex="-1"
+         aria-labelledby="lblCancelar{{ c.pk }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lblCancelar{{ c.pk }}">Encerrar contrato</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-1">Tem certeza que deseja encerrar o contrato com <strong>{{ c.aluno.usuario.nome }}</strong>?</p>
+                    <p class="text-muted small mb-0">Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-color btn-outline-white btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="post" action="{% url 'core:personal_encerrar_contrato' c.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-outline-color btn-outline-red btn-sm">Encerrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
 {% endblock %}
