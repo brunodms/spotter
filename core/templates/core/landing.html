@@ -1,0 +1,384 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Spotter — O suporte que seu treino precisa{% endblock %}
+{% block body_class %}page-landing{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/landing.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{# ══════════════════════════════════════════════════════════════ #}
+{# SLIDES CONTAINER #}
+{# ══════════════════════════════════════════════════════════════ #}
+
+<div class="slides-wrap" id="slidesWrap">
+
+    {# ── Slide 0: Capa ─────────────────────────────────────────── #}
+    <section class="slide slide--cover active" id="slide-0">
+        <div class="slide__bg-grid" aria-hidden="true"></div>
+        <div class="slide__glow slide__glow--blue" aria-hidden="true"></div>
+        <div class="slide__glow slide__glow--purple" aria-hidden="true"></div>
+        <div class="slide__content slide__content--center">
+            <div class="cover-badge">Tópicos Especiais em Programação</div>
+            <h1 class="cover-title">
+                <span class="cover-title__accent">Spotter</span>
+            </h1>
+            <p class="cover-subtitle">O suporte que seu treino precisa</p>
+            <div class="cover-meta">
+                <div class="cover-meta__group">
+                    <span class="cover-meta__label">Discentes</span>
+                    <span class="cover-meta__name">Bruno de Macedo <span class="cover-meta__id">2121101030</span></span>
+                    <span class="cover-meta__name">Jonathan Gotz Correa <span class="cover-meta__id">2121101052</span></span>
+                </div>
+                <div class="cover-meta__group">
+                    <span class="cover-meta__label">Docente</span>
+                    <span class="cover-meta__name">Fabrício Herpich</span>
+                </div>
+                <div class="cover-meta__group">
+                    <span class="cover-meta__label">Chapecó – SC · 2026</span>
+                </div>
+            </div>
+            <div class="cover-actions">
+                <a href="{% url 'core:login' %}" class="btn-outline-color btn-outline-blue">Entrar na plataforma</a>
+                <a href="{% url 'core:registro' %}" class="btn-outline-color btn-outline-white">Cadastrar-se</a>
+            </div>
+        </div>
+        <div class="slide-hint">Role ou use as teclas ← → para navegar</div>
+    </section>
+
+    {# ── Slide 1: Resumo ───────────────────────────────────────── #}
+    <section class="slide" id="slide-1">
+        <div class="slide__content">
+            <div class="slide-label">01 · Resumo</div>
+            <h2 class="slide-title">O que é o Spotter?</h2>
+            <p class="slide-lead">
+                Uma plataforma web desenvolvida em <strong>Django</strong> que conecta clientes a personal trainers
+                de forma prática, regionalizada e sob demanda.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card__icon">🔍</div>
+                    <h3>Busca regionalizada</h3>
+                    <p>Encontre profissionais filtrados por localização geográfica, próximos a você.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">📄</div>
+                    <h3>Contratos digitais</h3>
+                    <p>Formalize a contratação diretamente na plataforma. Aceite mútuo libera o acesso aos treinos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">🏋️</div>
+                    <h3>Planos de treino</h3>
+                    <p>Banco de dados compartilhado com sessões, exercícios, séries e repetições personalizadas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card__icon">⭐</div>
+                    <h3>Avaliações e feedback</h3>
+                    <p>Alunos avaliam o serviço; personais orientam a execução das atividades.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ── Slide 2: Problema & Justificativa ─────────────────────── #}
+    <section class="slide" id="slide-2">
+        <div class="slide__content">
+            <div class="slide-label">02 · Problema & Justificativa</div>
+            <h2 class="slide-title">Por que o Spotter existe?</h2>
+            <div class="two-col">
+                <div class="two-col__left">
+                    <h3 class="two-col__heading two-col__heading--red">O problema</h3>
+                    <ul class="slide-list">
+                        <li>Busca fragmentada — redes sociais, indicações, contato direto em academias</li>
+                        <li>Sem plataforma centralizada que organize a oferta de profissionais</li>
+                        <li>Falta de ferramentas de acompanhamento remoto de treino</li>
+                        <li>Pouca visibilidade para os profissionais locais</li>
+                    </ul>
+                </div>
+                <div class="two-col__right">
+                    <h3 class="two-col__heading two-col__heading--blue">A solução</h3>
+                    <ul class="slide-list">
+                        <li>Catálogo centralizado com filtro por região</li>
+                        <li>Contratos digitais com aceite mútuo</li>
+                        <li>Repositório estruturado de treinos (séries e repetições)</li>
+                        <li>Canal de feedback e avaliação em estrelas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ── Slide 3: Objetivos ────────────────────────────────────── #}
+    <section class="slide" id="slide-3">
+        <div class="slide__content">
+            <div class="slide-label">03 · Objetivos</div>
+            <h2 class="slide-title">O que queremos entregar</h2>
+            <div class="obj-list">
+                <div class="obj-item">
+                    <span class="obj-item__num">01</span>
+                    <div>
+                        <strong>Catálogo regionalizado</strong>
+                        <p>Filtros de busca por localização para conectar alunos a profissionais próximos.</p>
+                    </div>
+                </div>
+                <div class="obj-item">
+                    <span class="obj-item__num">02</span>
+                    <div>
+                        <strong>Gestão de contratos automatizada</strong>
+                        <p>Fluxo digital onde o conteúdo é liberado automaticamente após aceite mútuo.</p>
+                    </div>
+                </div>
+                <div class="obj-item">
+                    <span class="obj-item__num">03</span>
+                    <div>
+                        <strong>Planos de treino dinâmicos</strong>
+                        <p>Banco relacional com exercícios, séries e repetições customizáveis por aluno.</p>
+                    </div>
+                </div>
+                <div class="obj-item">
+                    <span class="obj-item__num">04</span>
+                    <div>
+                        <strong>Dois perfis distintos</strong>
+                        <p>Personal Trainer (gestor de conteúdo) e Aluno (consumidor), com acesso seguro via autenticação.</p>
+                    </div>
+                </div>
+                <div class="obj-item">
+                    <span class="obj-item__num">05</span>
+                    <div>
+                        <strong>Canal de feedback</strong>
+                        <p>Avaliações e orientações que promovem a melhoria contínua do serviço.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ── Slide 4: Escopo & Requisitos ──────────────────────────── #}
+    <section class="slide" id="slide-4">
+        <div class="slide__content">
+            <div class="slide-label">04 · Escopo & Requisitos</div>
+            <h2 class="slide-title">O que o sistema faz</h2>
+            <div class="req-grid">
+                <div class="req-col">
+                    <h3 class="req-col__title">Funcionais</h3>
+                    <div class="req-item"><span class="req-badge">RF01</span> Cadastro e autenticação de Aluno e Personal Trainer</div>
+                    <div class="req-item"><span class="req-badge">RF02</span> Perfil do Personal com especialidades e localização</div>
+                    <div class="req-item"><span class="req-badge">RF03</span> Filtro de busca por região geográfica</div>
+                    <div class="req-item"><span class="req-badge">RF04</span> Emissão e aceite de contratos digitais</div>
+                    <div class="req-item"><span class="req-badge">RF05</span> Gestão de planos de treino (séries e repetições)</div>
+                    <div class="req-item"><span class="req-badge">RF06</span> Acesso ao treino somente com contrato ativo</div>
+                    <div class="req-item"><span class="req-badge">RF07</span> Avaliações e feedbacks</div>
+                    <div class="req-item"><span class="req-badge">RF08</span> Histórico completo do aluno acessível ao Personal</div>
+                </div>
+                <div class="req-col">
+                    <h3 class="req-col__title">Regras de negócio</h3>
+                    <div class="req-item"><span class="req-badge req-badge--warn">RN01</span> Contrato ativo somente após aceite do Personal</div>
+                    <div class="req-item"><span class="req-badge req-badge--warn">RN02</span> Aluno não visualiza treinos sem contrato ativo</div>
+                    <div class="req-item"><span class="req-badge req-badge--warn">RN03</span> Exercícios exigem séries e repetições obrigatórias</div>
+                    <div class="req-item"><span class="req-badge req-badge--warn">RN04</span> Personal não acessa dados privados sem vínculo</div>
+                    <div class="req-item"><span class="req-badge req-badge--warn">RN05</span> Avaliação exige histórico de contrato</div>
+                    <h3 class="req-col__title mt-4">Stack tecnológica</h3>
+                    <div class="tech-badges">
+                        <span class="tech-tag">Python · Django</span>
+                        <span class="tech-tag">SQLite / PostgreSQL</span>
+                        <span class="tech-tag">HTML5 · CSS3</span>
+                        <span class="tech-tag">Bootstrap 5</span>
+                        <span class="tech-tag">GitHub · Render</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ── Slide 5: Cronograma ───────────────────────────────────── #}
+    <section class="slide" id="slide-5">
+        <div class="slide__content">
+            <div class="slide-label">05 · Cronograma</div>
+            <h2 class="slide-title">Linha do tempo</h2>
+            <div class="timeline">
+                <div class="timeline-item timeline-item--done">
+                    <div class="timeline-item__dot"></div>
+                    <div class="timeline-item__body">
+                        <strong>Março</strong>
+                        <p>Planejamento e levantamento de requisitos. Definição do escopo e análise de viabilidade.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-item--done">
+                    <div class="timeline-item__dot"></div>
+                    <div class="timeline-item__body">
+                        <strong>Abril</strong>
+                        <p>Modelagem do banco de dados, fluxos de login/cadastro e perfis de usuário.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-item--done">
+                    <div class="timeline-item__dot"></div>
+                    <div class="timeline-item__body">
+                        <strong>Maio</strong>
+                        <p>Busca regional por profissionais, sistema de contratos e painéis de acesso.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-item--done">
+                    <div class="timeline-item__dot"></div>
+                    <div class="timeline-item__body">
+                        <strong>Junho</strong>
+                        <p>Gestão de treinos (planos, sessões, exercícios) e sistema de avaliações.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-item--active">
+                    <div class="timeline-item__dot"></div>
+                    <div class="timeline-item__body">
+                        <strong>Julho</strong>
+                        <p>Testes automatizados, deploy final na Render e apresentação acadêmica.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-footer">
+                Período: <strong>07/03/2026 – 06/07/2026</strong> · Disciplina: Tópicos Especiais em Programação XLIII
+            </div>
+        </div>
+    </section>
+
+    {# ── Slide 6: Equipe ───────────────────────────────────────── #}
+    <section class="slide" id="slide-6">
+        <div class="slide__content slide__content--center">
+            <div class="slide-label">06 · Equipe</div>
+            <h2 class="slide-title">Quem fez o Spotter</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-card__avatar">BM</div>
+                    <strong class="team-card__name">Bruno de Macedo</strong>
+                    <span class="team-card__id">2121101030</span>
+                    <span class="team-card__role">Desenvolvedor Full-Stack</span>
+                    <p class="team-card__desc">Modelagem do banco, codificação backend, construção de views e templates.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-card__avatar">JG</div>
+                    <strong class="team-card__name">Jonathan Gotz Correa</strong>
+                    <span class="team-card__id">2121101052</span>
+                    <span class="team-card__role">Desenvolvedor Full-Stack</span>
+                    <p class="team-card__desc">Modelagem do banco, codificação backend, testes automatizados e QA.</p>
+                </div>
+                <div class="team-card team-card--advisor">
+                    <div class="team-card__avatar team-card__avatar--gold">FH</div>
+                    <strong class="team-card__name">Fabrício Herpich</strong>
+                    <span class="team-card__role">Orientador / Docente</span>
+                    <p class="team-card__desc">Responsável por avaliar e orientar o desenvolvimento da plataforma.</p>
+                </div>
+            </div>
+            <div class="institution-badge">
+                <span>UFFS — Universidade Federal da Fronteira Sul · Chapecó, SC</span>
+            </div>
+        </div>
+    </section>
+
+    {# ── Slide 7: Considerações Finais ────────────────────────── #}
+    <section class="slide slide--final" id="slide-7">
+        <div class="slide__glow slide__glow--blue" aria-hidden="true"></div>
+        <div class="slide__content slide__content--center">
+            <div class="slide-label">07 · Considerações Finais</div>
+            <h2 class="cover-title" style="font-size: clamp(2rem, 5vw, 3.5rem);">Spotter</h2>
+            <p class="slide-lead" style="max-width: 680px; margin: 0 auto 2rem;">
+                A plataforma cumpre seu papel ao digitalizar a interação aluno–personal e as rotinas de treino,
+                provando sua viabilidade técnica. Como perspectivas futuras, o Spotter possui potencial
+                para receber integrações financeiras e aplicativos mobile.
+            </p>
+            <div class="final-stats">
+                <div class="final-stat">
+                    <div class="final-stat__val">8</div>
+                    <div class="final-stat__label">Requisitos Funcionais</div>
+                </div>
+                <div class="final-stat">
+                    <div class="final-stat__val">5</div>
+                    <div class="final-stat__label">Regras de Negócio</div>
+                </div>
+                <div class="final-stat">
+                    <div class="final-stat__val">4</div>
+                    <div class="final-stat__label">Meses de Desenvolvimento</div>
+                </div>
+                <div class="final-stat">
+                    <div class="final-stat__val">R$ 0</div>
+                    <div class="final-stat__label">Custo de Infraestrutura</div>
+                </div>
+            </div>
+            <div class="cover-actions mt-4">
+                <a href="{% url 'core:login' %}" class="btn-outline-color btn-outline-blue">Acessar a plataforma</a>
+                <a href="{% url 'core:registro' %}" class="btn-outline-color btn-outline-white">Criar conta</a>
+            </div>
+        </div>
+    </section>
+
+</div>{# /slides-wrap #}
+
+{# ── Controles de navegação ──────────────────────────────────── #}
+<nav class="slide-nav" aria-label="Navegação entre slides">
+    <button class="slide-nav__btn" id="btnPrev" aria-label="Slide anterior" disabled>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
+
+    <div class="slide-nav__dots" id="slideDots" role="tablist">
+        {% for i in slide_range %}
+        <button class="slide-dot{% if forloop.first %} active{% endif %}"
+                role="tab"
+                aria-label="Ir para slide {{ forloop.counter }}"
+                data-slide="{{ forloop.counter0 }}"></button>
+        {% endfor %}
+    </div>
+
+    <button class="slide-nav__btn" id="btnNext" aria-label="Próximo slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+    </button>
+</nav>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slide-dot');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    let current = 0;
+    const total = slides.length;
+
+    function goTo(n) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + total) % total;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+        btnPrev.disabled = current === 0;
+        btnNext.disabled = current === total - 1;
+    }
+
+    btnPrev.addEventListener('click', () => goTo(current - 1));
+    btnNext.addEventListener('click', () => goTo(current + 1));
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => goTo(parseInt(dot.dataset.slide)));
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+    });
+
+    // Swipe touch
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+    });
+})();
+</script>
+{% endblock %}
+
+{% block footer %}{% endblock %}
